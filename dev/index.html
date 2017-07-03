@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>test</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <script src="p5.min.js"></script>
+  <script src="p5.dom.min.js"></script>
+  <!-- <script language="javascript" type="text/javascript" src=".purview_helper.js"></script> -->
+  <!-- <script src="toLint.js"></script> -->
+</head>
+
+<body style="background-color:white">
+  <div id="sketch"></div>
+</body>
+<script language="javascript" type="text/javascript">
+  //variables  for the sketch input interface.
+  var last_time; // for keeping track of drawing speed
+  var screen_width, screen_height, temperature_slider;
+
+
+  var sketch = function(p) {
+    "use strict"
+
+    function clear_screen() {
+      // console.log("CLEAR")
+      p.fill(255);
+      p.noStroke();
+      // p.rect(0, 0, screen_width, screen_height-41);
+      p.rect(0, 0, screen_width, screen_height);
+      p.stroke(0);
+    };
+
+    function get_window_width() {
+      // return p.windowWidth;
+      return window.innerWidth;
+    }
+
+    function get_window_height() {
+      // return p.windowHeight;
+      return window.innerHeight;
+    }
+
+    p.setup() = function() {
+      canvas = p.createCanvas(screen_width, screen_height);
+      p.frameRate(30);
+      clear_screen();
+      last_time = +new Date()
+    }
+
+    p.draw() = function(){
+      screen_width = get_window_width();
+      screen_height = get_window_height();
+      console.log(screen_width,screen_height)
+    }
+  }
+  var custom_p5 = new p5(sketch, 'sketch');
+</script>
+
+</html>
