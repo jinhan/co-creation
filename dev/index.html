@@ -528,6 +528,7 @@
     var line_color, predict_line_color;
     var line_color_alpha = 64;
     var final_color_alpha = 255;
+    var colors = []; //save all colors of each line
     // demo strokes
     var startingStrokeIndex;
     var demo_finished = false;
@@ -581,6 +582,9 @@
       // document.getElementById("loading_text").innerText = title_text;
     };
     var draw_example = function(example, start_x, start_y, line_color, prev_pen_override) {
+        console.log('draw_examlple called!');
+        console.log(strokes);
+        
       var i, j;
       var x = start_x,
         y = start_y;
@@ -594,8 +598,8 @@
 
       p.curveTightness(0.5);
 
-      var lines = [];
-      var line = [];
+      var lines = []; //save all line points
+      var line = []; //save a point array of each line 
       var pt;
 
       line.push([x, y]);
@@ -614,8 +618,9 @@
         // only draw on the paper if the pen is touching the paper
         if (prev_pen[0] == 1) {
           line.push([x, y]);
-        } else {
+        } else { //pen_up state
           lines.push(line);
+          if(lines.length>colors.length) colors.push([p.random(0,255), p.random(0,255), p.random(0,255)]);
           line = [];
           line.push([x, y]);
         }
@@ -625,17 +630,19 @@
       }
       if (line.length > 0) {
         lines.push(line);
+        if(lines.length>colors.length) colors.push([p.random(0,255), p.random(0,255), p.random(0,255)]);
         line = [];
       }
 
       p.stroke(line_color);
       p.strokeWeight(line_width);
-      p.noFill();
-
+        console.log(lines.length, colors.length);
+//      p.noFill();
       for (i = 0; i < lines.length; i++) {
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
+            p.fill(colors[i]);
           p.beginShape();
           p.curveVertex(pt[0], pt[1]);
           for (j = 0; j < line.length; j++) {
@@ -646,7 +653,6 @@
           p.endShape();
         }
       }
-
     };
 
     var init = function(cb) {
