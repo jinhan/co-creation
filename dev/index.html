@@ -582,8 +582,8 @@
       // document.getElementById("loading_text").innerText = title_text;
     };
     var draw_example = function(example, start_x, start_y, line_color, prev_pen_override) {
-        console.log('draw_examlple called!');
-        console.log(strokes);
+//        console.log('draw_examlple called!');
+//        console.log(strokes);
         
       var i, j;
       var x = start_x,
@@ -636,7 +636,7 @@
 
       p.stroke(line_color);
       p.strokeWeight(line_width);
-        console.log(lines.length, colors.length);
+//        console.log(lines.length, colors.length);
 //      p.noFill();
       for (i = 0; i < lines.length; i++) {
         line = lines[i];
@@ -1004,6 +1004,67 @@
       }
       // console.log(tracking.down, tracking.x, tracking.y)
     };
+      
+    function checkArea(){ 
+      //계산 너무 많으면 mul*mul 픽셀당 계산
+      var occupied = 0;
+      var mul = 30; //한 격자당 가로세로 픽셀 개수 셋팅
+      p.noStroke();
+      for(var i=0; i<screen_width; i+=mul){
+        for(var j=0; j<screen_height; j+=mul){
+          console.log('i= ',i,' j= ',j);
+          var k = p.get(i+mul/2, j+mul/2);
+          if(k[0]!=255 || k[1]!=255 || k[2]!=255){
+            occupied++;
+            p.fill(255,0,0,100); //alpha 0~255 (255 is exactly solid color)
+            p.rect(i,j,mul,mul);
+          }
+          else{
+            p.fill(0,0,0,100);
+            p.rect(i,j,mul,mul);
+          }
+        }
+      }
+      var pct = occupied*mul*mul/(screen_width*screen_height)*100;
+      pct = Math.floor(pct, 1);
+      console.log('all', screen_width*screen_height, 'px, occupied', occupied*mul*mul, 'px, percent', pct,'%');
+    }
+    
+    function checkAreaByArray(){ 
+      p.loadPixels();
+      //console.log(pixels); // debug 
+      var d = p.pixelDensity(); // maybe 1~2, 레티나 디스플레이 보정
+      var idx=0;
+      var mul = 1;
+      var occupied = 0;
+
+      for(var i=0; i<screen_height; i++){
+        for(var j=0; j<screen_width; j++){
+          idx = j*4*d + i*screen_width*4*d*d;
+          var r = p.pixels[idx];
+          var g = p.pixels[idx+1];
+          var b = p.pixels[idx+2];
+          //console.log(idx);
+          if(r!=255 || g!=255 || b!=255){
+            occupied++;
+          }
+        }
+      }
+      var pct = occupied/(screen_width*screen_height)*100; 
+      pct = Math.round(pct);
+      console.log('pixel density is ',d);
+      console.log('all', screen_width*screen_height, 'px, occupied', occupied, 'px, percent', pct,'%');
+    }
+ 
+    
+    p.keyPressed = function(){
+      if(p.keyCode===32){ //space
+          checkAreaByArray();
+      }
+      else if(p.keyCode===p.ENTER){
+          console.log('ENTER PRESSED...');
+      }
+    }
   }
   var custom_p5 = new p5(sketch, 'sketch');
 </script>
