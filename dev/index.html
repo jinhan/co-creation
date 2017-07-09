@@ -38,8 +38,6 @@
   <script language="javascript" type="text/javascript" src="p5.dom.min.js"></script>
   <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/lib/numjs.js"></script>
   <script language="javascript" type="text/javascript" src="sketch_rnn.js"></script>
-  <!-- <script language="javascript" type="text/javascript" src=".purview_helper.js"></script> -->
-  <!-- <script src="toLint.js"></script> -->
 </head>
 
 <body style="background-color:white">
@@ -1081,14 +1079,13 @@
       console.log('pixel density is ',d);
       console.log('all', screen_width*screen_height, 'px, occupied', occupied, 'px, percent', pct,'%');
     }
-
-
     p.keyPressed = function(){
       if(p.keyCode===32){ //space
           checkAreaByArray();
       }
       else if(p.keyCode===p.ENTER){
           console.log('ENTER PRESSED...');
+          p.saveCanvas(p.canvas,"canvasImage","png"); //save image
       }
     }
   }
