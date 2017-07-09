@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>test</title>
+  <title>index</title>
   <meta charset="UTF-8">
   <style>
     #sketch canvas {}
@@ -610,7 +610,7 @@
     var draw_example = function(example, start_x, start_y, line_color, prev_pen_override) {
 //        console.log('draw_examlple called!');
 //        console.log(strokes);
-        
+
       var i, j;
       var x = start_x,
         y = start_y;
@@ -625,7 +625,7 @@
       p.curveTightness(0.5);
 
       var lines = []; //save all line points
-      var line = []; //save a point array of each line 
+      var line = []; //save a point array of each line
       var pt;
 
       line.push([x, y]);
@@ -1030,8 +1030,8 @@
       }
       // console.log(tracking.down, tracking.x, tracking.y)
     };
-      
-    function checkArea(){ 
+
+    function checkArea(){
       //계산 너무 많으면 mul*mul 픽셀당 계산
       var occupied = 0;
       var mul = 30; //한 격자당 가로세로 픽셀 개수 셋팅
@@ -1055,10 +1055,10 @@
       pct = Math.floor(pct, 1);
       console.log('all', screen_width*screen_height, 'px, occupied', occupied*mul*mul, 'px, percent', pct,'%');
     }
-    
-    function checkAreaByArray(){ 
+
+    function checkAreaByArray(){
       p.loadPixels();
-      //console.log(pixels); // debug 
+      //console.log(pixels); // debug
       var d = p.pixelDensity(); // maybe 1~2, 레티나 디스플레이 보정
       var idx=0;
       var mul = 1;
@@ -1076,13 +1076,13 @@
           }
         }
       }
-      var pct = occupied/(screen_width*screen_height)*100; 
+      var pct = occupied/(screen_width*screen_height)*100;
       pct = Math.round(pct);
       console.log('pixel density is ',d);
       console.log('all', screen_width*screen_height, 'px, occupied', occupied, 'px, percent', pct,'%');
     }
- 
-    
+
+
     p.keyPressed = function(){
       if(p.keyCode===32){ //space
           checkAreaByArray();
@@ -1093,7 +1093,7 @@
     }
   }
   var custom_p5 = new p5(sketch, 'sketch');
-  
+
   //---------------------팔레트 아이콘
   var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
   var palVal = document.getElementById('palVal'); //팔레트 확장영역 돔
@@ -1121,7 +1121,7 @@
     palVal.appendChild(colVal);
     colVal.setAttribute('class', 'colorVal'); // 공통 css적용
     colVal.style.backgroundColor = item;
-    //컬러 선택시 변하는 부분 이벤트 
+    //컬러 선택시 변하는 부분 이벤트
     colVal.addEventListener('click', function(e){
       curCol = e.target.style.backgroundColor;
       console.log(curCol);
