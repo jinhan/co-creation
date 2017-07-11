@@ -34,6 +34,7 @@
       height: 30px;
     }
   </style>
+  <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script>
   <script language="javascript" type="text/javascript" src="p5.min.js"></script>
   <script language="javascript" type="text/javascript" src="p5.dom.min.js"></script>
   <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/lib/numjs.js"></script>
@@ -680,6 +681,26 @@
     };
 
     var init = function(cb) {
+      ModelImporter.set_init_model(model_raw_data);
+      if (use_large_models) {
+        ModelImporter.set_model_url("https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/");
+      }
+      model_data = ModelImporter.get_model_data();
+      model = new SketchRNN(model_data);
+
+      var initial_model = 'bird';
+
+      ModelImporter.change_model({}, initial_model, "gen", function(new_model) {
+        console.log("changing")
+        model = new_model
+        model.set_pixel_factor(screen_scale_factor);
+        //set_title_text(format_title_text(model.info.name));
+        cb();
+        changing_model_lock = false;
+        set_title_text('draw a shape, any shape.');
+        model_loaded = true;
+      }, true);
+
       screen_width = get_window_width(); //window.innerWidth
       screen_height = get_window_height(); //window.innerHeight
 
@@ -729,6 +750,21 @@
         set_title_text('')
         console.log("finished encoding");
       }
+    }
+
+    function restart_model(sequence) {
+      model_state = model.copy_state(model_state_orig); // bounded
+      modelStrokes = []
+
+      var idx = raw_lines.length-1;
+      var last_point = raw_lines[idx][raw_lines[idx].length-1];
+      var last_x = last_point[0];
+      var last_y = last_point[1];
+      var s = sequence[sequence.length-1];
+
+      modelPen.x = last_x;
+      modelPen.y = last_y;
+      modelPen.updatePrev(s)
     }
 
     function init_model_coordinates() {
@@ -815,7 +851,7 @@
       //console.log(screen_width,screen_height)
       if (run_encode_strokes) {
         run_encode_strokes = false;
-        // encode_strokes(current_strokes);
+        encode_strokes(current_strokes);
         current_strokes = [];
         if (strokes && strokes.length > 0) {
           var ts = strokes[strokes.length - 1];
@@ -829,8 +865,8 @@
       random_text_color = "rgba(0,0,0,0.5)"; // #3393d1
       clear_text_background = false;
       random_text_background = false;
-      if (tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
-        // if (model_loaded && tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
+      // if (tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
+        if (model_loaded && tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
         if (userPen.prevState == 1) {
           clear_screen();
           draw_example(strokes, start_x, start_y, line_color);
@@ -880,8 +916,8 @@
             // update_rnn_state();
           }
         }
-      } else if (!has_started && !demo_finished) {
-        // } else if (model_loaded && !has_started && !demo_finished) {
+      // } else if (!has_started && !demo_finished) {
+        } else if (model_loaded && !has_started && !demo_finished) {
         // console.log("drawin!")
         // we draw the existing strokes
         if (smallPause) return;
@@ -963,7 +999,7 @@
           current_raw_line = [];
           just_finished_line = false;
         }
-        /*
+
         if(restarting_model_lock) {
           restarting_model_lock_count -= 1;
           if (restarting_model_lock_count >= 0) {
@@ -989,7 +1025,7 @@
           if (modelPen.end === 1) {
             // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224), line_color_alpha);
             clear_screen();
-            final_strokes = strokes.concat(<m></m>odelStrokes);
+            final_strokes = strokes.concat(modelStrokes);
             draw_example(strokes.concat(modelStrokes), start_x, start_y, p.color(0,0,0,line_color_alpha));
             restart_model(strokes);
             restarting_model_lock = true;
@@ -1009,7 +1045,7 @@
             modelPen.y += modelPen.dy;
           }
         }
-  */
+
       }
 
       userPen.prevState = userPen.currentState;
