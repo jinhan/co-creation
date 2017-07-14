@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
+
 
 # Create your views here.
 class Settings:
@@ -68,5 +70,8 @@ def draw(request):
     html = render_to_string('app/draw.html', {'settings': settings.getSettings()})
     return HttpResponse(html)
 
+@csrf_exempt
 def goBack(request):
     settings.deleteSettings()
+    url = "{0}/{1}".format(request.META.get('HTTP_REFERER', '/'), "http://localhost:8000")
+    return HttpResponseRedirect(url)
