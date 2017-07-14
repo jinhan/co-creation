@@ -1,0 +1,80 @@
+{% load staticfiles %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>selection1</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/selection.css' %}">
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<body>
+  <div id="container">
+    <div id="title">Co-Creation!</div>
+    <div id="description">어떤 역할을 하고 싶으신가요?</div>
+    <div class="myButton" id="drawButton" value="draw" onclick="page_transition(this)">Draw with AI assistant!</div>
+    <div class="myButton" id="helpButton" value="help" onclick="page_transition(this)">Help AI painter!</div>
+    <button class="w3-button w3-xlarge w3-circle w3-black" id="backButton" onclick="goBack()"><-</button>
+  </div>
+</body>
+<script language="javascript" type="text/javascript">
+  var screen_width = get_window_width();
+  var screen_height = get_window_height();
+
+  var container = document.getElementById('container'); //container DOM
+  var title = document.getElementById('title'); //title DOM
+  var description = document.getElementById('description'); //description DOM
+  var drawButton = document.getElementById('drawButton'); //myButton1 DOM
+  var helpButton = document.getElementById('helpButton'); //myButton2 DOM
+  var backButton = document.getElementById('backButton'); //backButton DOM
+  container.style.width = screen_width + 'px';
+  container.style.height = screen_height + 'px';
+  title.style.top = screen_height / 5 + 'px';
+  description.style.top = screen_height / 3.5 + 'px';
+  drawButton.style.top = (screen_height / 2) * 1 + 'px';
+  helpButton.style.top = (screen_height / 2) * 1 + 'px';
+  backButton.style.top = (screen_height / 2) + 'px';
+  backButton.style.left = (screen_width - 200) + 'px';
+
+  function get_window_width() {
+    // return p.windowWidth;
+    return window.innerWidth;
+  }
+
+  function get_window_height() {
+    // return p.windowHeight;
+    return window.innerHeight;
+  }
+
+  function page_transition(event) {
+    var pk = $(event).attr('value');
+    console.log(pk);
+    $.ajax({
+      type : "POST",
+      url : "{% url 'selection2' %}",
+      data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+      error : function() {
+        alert("fail");
+      },
+      success : function(data) {
+        window.location.href = "{% url 'selection2' %}"
+      }
+    });
+  }
+
+  function goBack() {
+    $.ajax({
+      type : "GET",
+      url : "{% url 'goBack' %}",
+      success : function() {
+        window.history.back();
+      }
+    });
+  }
+</script>
+
+</html>
