@@ -41,7 +41,7 @@
       border-radius: 100%;
       border: 5px solid gray;
       background-color: gray;
-      cursor: pointer;      
+      cursor: pointer;
       z-index: 1;
     }
     .icons:hover{
@@ -73,7 +73,7 @@
   <div id="sketch"></div>
   <div id='penWeight' class="icons">펜모드</div>
   <div id='brushWeight' class="icons">붓모드</div>
-  <div id='cancle' class="icons">취소</div> 
+  <div id='cancle' class="icons">취소</div>
   <div id='p_cntr'>
     <div id='pallet' class="icons"></div>
     <div id='palVal'></div>
@@ -660,7 +660,7 @@
       var pt;
 
       line.push([x, y]);
-        
+
       for (i = 0; i < example.length; i++) {
         // sample the next pen's states from our probability distribution
         [dx, dy, pen_down, pen_up, pen_end] = example[i];
@@ -704,7 +704,7 @@
 //      p.strokeWeight(line_width);
 //      console.log(lines.length, colors.length);
 //      p.noFill();
-      //프레임마다 strokes[]안의 옵젝들 그려주는 부분 
+      //프레임마다 strokes[]안의 옵젝들 그려주는 부분
       for (i = 0; i < lines.length; i++){
         line = lines[i];
         if (line.length > 1) {
@@ -796,7 +796,7 @@
         console.log("finished encoding");
       }
     }
-    
+
     function restart_model(sequence) {
       model_state = model.copy_state(model_state_orig); // bounded
       modelStrokes = []
@@ -967,7 +967,7 @@
 //      } else if (!has_started && !demo_finished) {
       }
       /*
-      //사용자가 최초로 그림그리기 전에 실행하는 부분      
+      //사용자가 최초로 그림그리기 전에 실행하는 부분
       else if (model_loaded && !has_started && !demo_finished) {
         // console.log("drawin!")
         // we draw the existing strokes
@@ -995,7 +995,7 @@
           startingStrokeIndex++;
 
           // if(startingStrokeIndex >= startingStrokes.length) {
-        } 
+        }
         else {
           //smallPause = true
           //setTimeout(function() {
@@ -1056,7 +1056,7 @@
           current_raw_line = [];
           just_finished_line = false;
         }
-        
+
         if(restarting_model_lock) {
           restarting_model_lock_count -= 1;
           if (restarting_model_lock_count >= 0) {
@@ -1064,7 +1064,7 @@
           }
           clear_screen();
           // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224),line_color_alpha);
-          predict_line_color = curCol;          
+          predict_line_color = curCol;
           //sketch rnn이 그림 그리는동안 이전에 내가 그리 오브젝트 표시
           draw_example(strokes, start_x, start_y, line_color);
           restarting_model_lock = false;
@@ -1094,7 +1094,7 @@
             var curStrokesLength = strokes.length;
             console.log('curStrokesLength - prevStrokesLength',curStrokesLength , prevStrokesLength);
             extStrokesLength = curStrokesLength - prevStrokesLength;
-            //모델 스트로크 추가 후 마지막으로 완성본 그려주는 부분 
+            //모델 스트로크 추가 후 마지막으로 완성본 그려주는 부분
             draw_example(strokes, start_x, start_y, curCol);
             restart_model(strokes);
             restarting_model_lock = true;
@@ -1115,7 +1115,7 @@
             modelPen.y += modelPen.dy;
           }
         }
-  
+
       }
 
       userPen.prevState = userPen.currentState;
@@ -1187,7 +1187,7 @@
       console.log('pixel density is ',d);
       console.log('all', screen_width*screen_height, 'px, occupied', occupied, 'px, percent', pct,'%');
     }
-    
+
     function checkWhiteSpace(){
       //안보이는 외곽선 만들기
       p.stroke(254,254,254,255);
@@ -1199,7 +1199,7 @@
       var x=0, y=0; //중심좌표
       var x2, y2_p, y2_n //검색할 좌표
       var r=1 //거리, 원의 반지름
-      var del_r = 10; //몇픽셀 단위로 측정할지 
+      var del_r = 10; //몇픽셀 단위로 측정할지
       var del_x = 1; //몇픽셀 단위로 x좌표 이동할지, 증가시 캔버스 외곽선 통가할 가능성있음
       var del_xy = 50; //몇픽셀 단위로 측정점 설정할지
       var isStopped = false;
@@ -1211,7 +1211,7 @@
       var d = p.pixelDensity(); // maybe 1~2, 레티나 디스플레이 보정
       var search_limit;
       var res=[]; //결과저장 list
-      
+
       search_limit = Math.sqrt(screen_width*screen_width + screen_height*screen_height);
       for(var i=1; i<screen_height/del_xy; i++){
       for(var j=1; j<screen_width/del_xy; j++){
@@ -1222,23 +1222,23 @@
 //        p.noStroke();
 //        p.fill(254,0,0,100); //alpha 0~255 (255 is exactly solid color)
 //        p.rect(x,y,5,5);
-        
+
         //최대거리용 원 셋업
         p.noFill();
         p.stroke(0,0,255,100);
         p.strokeWeight(1);
-      
+
         for(r=0; r<search_limit; r+=del_r){ //계산부하 줄이려면 del_r 높임
           if(isStopped) break;
           isTouched = false;
-          
+
           for(x2=x+r; x2>=x-r; x2-=del_x){ //계산부하 줄이려면 x2증분 높임
             if(isTouched) break;
             y2_p = y + Math.round(Math.sqrt(r*r-(x2-x)*(x2-x)));
             y2_n = y - Math.round(Math.sqrt(r*r-(x2-x)*(x2-x)));
             //캔버스 바깥범위는 탐색 안하도록. 최적화
-            //p5 메소드 콜시에 시간오래 걸림. 중복반복문에선 안쓰는게 좋음 
-            
+            //p5 메소드 콜시에 시간오래 걸림. 중복반복문에선 안쓰는게 좋음
+
             if(x2<0 || x2>screen_width) continue;
             else if(y2_p>screen_height) checkCoordinate(x2, y2_n);
             else if(y2_n<0) checkCoordinate(x2, y2_p);
@@ -1250,7 +1250,7 @@
         }
       }
       }
-      
+
       res.sort(function(a,b){return a.r<b.r ? 1 : a.r>b.r ? -1 : 0;});
       for(var i=0; i<1; i++){
 //        p.noFill();
@@ -1262,7 +1262,7 @@
 //        console.log(res[i].i,res[i].j, res[i].r);
         makeSpaceAlert(res[i].x,res[i].y,res[i].r);
       }
-      
+
       //y2_n, y2_p 구분해서 입력하면 최소 접촉좌표 x2, y2 및 거리 r 계산하는 내부함수
       function checkCoordinate(x2, y2){
         //체크점 표시
@@ -1291,7 +1291,7 @@
         }
       }
     }
- 
+
     p.keyPressed = function(){
       if(p.keyCode===32){ //space
         checkWhiteSpace();
@@ -1313,14 +1313,14 @@
         draw_example(strokes, start_x , start_y, line_color);
       }
     }
-    
+
     p.mousePressed = function(){
       new_start_x = p.mouseX;
       new_start_y = p.mouseY;
       var px = p.get(new_start_x, new_start_y);
       console.log(new_start_x, new_start_y, px);
     }
-    
+
     //아이콘클릭 효과
     document.getElementById('penWeight').addEventListener('click', function(e){
       //e.target.style.backgroundColor = 'gray';
@@ -1333,7 +1333,7 @@
       console.log('curPenWeight', curPenWeight);
     });
     document.getElementById('cancle').addEventListener('click', cancleClick);
-    
+
     function cancleClick(){
       colors.pop();
       penWeights.pop();
@@ -1361,7 +1361,7 @@
   var strokes;
   var raw_lines;
   var extStrokesLength;
-  
+
   //---------------------팔레트 아이콘
   var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
   var palVal = document.getElementById('palVal'); //팔레트 확장영역 돔
@@ -1405,7 +1405,7 @@
   p_cntr.addEventListener('mouseout', function(){
     palVal.style.display ='none';
   });
-  
+
   //빈공간 알려주는 돔 생성
   function makeSpaceAlert(x,y,r){
     var mapVal = .6; //r의 몇배크기 원 만들지
@@ -1421,7 +1421,7 @@
     setTimeout(function(){
       circle.style.border = '5px dotted transparent';
       circle.style.width = wdt+'px';
-      circle.style.height = hgt+'px'; 
+      circle.style.height = hgt+'px';
       circle.style.left = x-wdt/2+'px';
       circle.style.top = y-hgt/2+'px';
     }, 10);
