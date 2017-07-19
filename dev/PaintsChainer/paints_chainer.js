@@ -39,7 +39,7 @@ $(function () {
       colorize();
     }
   });
-
+  
   $('#load_line_file').on('change', function (e) {
     var file = e.target.files[0];
 
@@ -74,6 +74,7 @@ $(function () {
   }
 
   function post(data) {
+    console.log(data);
 
     $.ajax({
       type: 'POST',
