@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>help_noAI_Old</title>
+  <title>help_noAI</title>
   <meta charset="UTF-8">
   <style>
     #sketch canvas {}
@@ -240,7 +240,14 @@
     var tickerTimer;
     var penTouched = -1;
     var changeTicker;
-
+    var firstIndexPut = 0;
+    var lastIndexPut = 0;
+    var firstColorIndexPut = 0;
+    var lastColorIndexPut = 0;
+    var colorsBackup
+    var drew = 0;
+    var endPos;
+    var endPosRecorded = 0;
     // dom
     var reset_button, model_sel, random_model_button;
     var text_title, text_temperature;
@@ -314,7 +321,7 @@
       document.getElementById("ticker").innerText = new_text;
     };
 
-    var draw_example = function(example, start_x, start_y, line_color, prev_pen_override) {
+    var draw_example = function(example, start_x, start_y, line_color, prev_pen_override, objColors) {
       console.log('draw_examlple called!');
 
       var i, j;
@@ -359,6 +366,11 @@
         // update the previous pen's state to the current one we just sampled
         prev_pen = [pen_down, pen_up, pen_end];
       }
+      if (endPosRecorded === 0){
+        endPos = [x, y];
+        endPosRecorded = 1;
+        console.log("endPos: ", endPos);
+      }
       if (line.length > 0) {
         lines.push(line);
         //colors, penWeight 와 lines 길이 맞추기
@@ -378,7 +390,10 @@
           line = [];
         }
       }
-
+      if(Array.isArray(objColors)){
+        colorsBackup = colors;
+        colors = objColors;
+      }
       for (i = 0; i < lines.length; i++){
         line = lines[i];
         if (line.length > 1) {
@@ -398,6 +413,10 @@
           p.endShape();
         }
       }
+      if(Array.isArray(objColors)){
+        colors = colorsBackup;
+      }
+
     };
 
     var init = function(cb) {
@@ -455,6 +474,9 @@
             }
           }
           if(changeTicker){
+            saveDrewIndexes(task);
+            saveColorIndexes(task);
+            console.log(strokes);
             task += 1;
             console.log("prev task num:", task-1,"updated task num: ", task);
             changeTicker = false;
@@ -488,6 +510,7 @@
       current_raw_line = [];
       strokes = [];
       current_strokes = [];
+      scenarioStrokes = [];
     };
 
     function clear_screen() {
@@ -528,6 +551,7 @@
     function drawScenarioWhilePenDown(){
       if(task === 1){ // 1번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        draw_example(strokes, start_x, start_y);
         if(timerOn === 1){
           clearTimeout(tickerTimer);
           timerOn = 0;
@@ -536,6 +560,8 @@
       }
       else if(task === 2){ // 2번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        endPosRecorded = 0;
+        draw_example(strokes, start_x, start_y);
         if(timerOn === 1){
           clearTimeout(tickerTimer);
           timerOn = 0;
@@ -544,6 +570,7 @@
       }
       else if(task === 3){ // 3번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        draw_example(strokes, start_x, start_y);
         if(timerOn === 1){
           clearTimeout(tickerTimer);
           timerOn = 0;
@@ -553,7 +580,33 @@
       else if(task === 4){ // 4번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
         if (tick === 7){
+          console.log("settings[0]['userDrewFirstIndex']: ", settings[0]['userDrewFirstIndex']);
+          console.log("settings[0]['userColorFirstIndex']: ", settings[0]['userColorFirstIndex']);
+          console.log("settings[0]['userColorLastIndex']: ", settings[0]['userColorLastIndex']);
+          var obj1 = strokes.slice(settings[0]['userDrewFirstIndex'][1], settings[0]['userDrewLastIndex'][1]+1);
+          var obj2 = strokes.slice(settings[0]['userDrewFirstIndex'][2], settings[0]['userDrewLastIndex'][2]+1);
+          var obj3 = strokes.slice(settings[0]['userDrewFirstIndex'][3], settings[0]['userDrewLastIndex'][3]+1);
+          var obj1C = colors.slice(settings[0]['userColorFirstIndex'][1], settings[0]['userColorLastIndex'][1]+1)
+          var obj2C = colors.slice(settings[0]['userColorFirstIndex'][2], settings[0]['userColorLastIndex'][2]+1)
+          var obj3C = colors.slice(settings[0]['userColorFirstIndex'][3], settings[0]['userColorLastIndex'][3]+1)
+          scenarioStrokes = obj1.concat(obj2);
+          scenarioStrokesColors = obj1C.concat(obj2C);
+          // draw_example(scenarioStrokes, start_x, start_y,null,null,scenarioStrokesColors);
+          draw_example(scenarioStrokes, start_x, start_y);
           p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+          console.log("endPos: ", endPos);
+          // draw_example(obj3, endPos[0], endPos[1], null, null, obj3C);
+          draw_example(obj3, endPos[0], endPos[1]);
+          // drew = 1;
+          // endPosRecorded = 0;
+          console.log("obj1: ", obj1);
+          console.log("obj2: ", obj2);
+          console.log("obj3: ", obj3);
+          console.log("scenarioStrokes: ", scenarioStrokes);
+          console.log("obj1C: ", obj1C);
+          console.log("obj2C: ", obj2C);
+          console.log("obj3C: ", obj3C);
+          console.log("scenarioStrokesColors: ", scenarioStrokesColors);
         }
       }
     }
@@ -561,6 +614,7 @@
     function drawScenarioWhilePenUp(){
       if(task === 1){ // 1번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        draw_example(strokes, start_x, start_y);
         if (tick === 0){
           button_yes.style.visibility = "hidden";
           button_no.style.visibility = "hidden";
@@ -575,9 +629,11 @@
           timerOn = 1;
           penTouched = 0;
         }
+        // drew = 1;
       }
       else if(task === 2){ // 2번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        draw_example(strokes, start_x, start_y);
         if (tick === 2){
           button_yes.style.visibility = "hidden";
           button_no.style.visibility = "hidden";
@@ -592,9 +648,12 @@
           timerOn = 1;
           penTouched = 0;
         }
+        // drew = 1;
       }
       else if(task === 3){ // 3번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        draw_example(strokes, start_x, start_y);
+        // endPosRecorded = 1;
         if (tick === 4){
           button_yes.style.visibility = "hidden";
           button_no.style.visibility = "hidden";
@@ -613,6 +672,7 @@
       else if(task === 4){ // 4번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
         if (tick === 6){
+          draw_example(strokes, start_x, start_y);
           button_yes.style.visibility = "visible";
           button_no.style.visibility = "hidden";
           button_yes.innerText = "Ok";
@@ -621,16 +681,37 @@
           button_yes.style.visibility = "visible";
           button_no.style.visibility = "hidden";
           button_yes.innerText = "Ok";
+          var obj1 = strokes.slice(settings[0]['userDrewFirstIndex'][1], settings[0]['userDrewLastIndex'][1]+1);
+          var obj2 = strokes.slice(settings[0]['userDrewFirstIndex'][2], settings[0]['userDrewLastIndex'][2]+1);
+          var obj3 = strokes.slice(settings[0]['userDrewFirstIndex'][3], settings[0]['userDrewLastIndex'][3]+1);
+          var obj1C = colors.slice(settings[0]['userColorFirstIndex'][0], settings[0]['userColorLastIndex'][1]+1)
+          var obj2C = colors.slice(settings[0]['userColorFirstIndex'][1], settings[0]['userColorLastIndex'][2]+1)
+          var obj3C = colors.slice(settings[0]['userColorFirstIndex'][2], settings[0]['userColorLastIndex'][3]+1)
+          scenarioStrokes = obj1.concat(obj2);
+          scenarioStrokesColors = obj1C.concat(obj2C);
+          // draw_example(scenarioStrokes, start_x, start_y,null,null,scenarioStrokesColors);
+          draw_example(scenarioStrokes, start_x, start_y);
           p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+          console.log("endPos: ", endPos);
+          // draw_example(obj3, endPos[0], endPos[1],null,null,obj3C);
+          draw_example(obj3, endPos[0], endPos[1]);
+          // endPosRecorded = 0;
         }
       }
     }
 
     p.draw = function() {
-      if(tick>=0 && tick<settings[0]['tickerText'].length && ticker_showed === 0 && mode === "talkative"&& timerOn != 1){
+      if(tick>=0 && tick<settings[0]['tickerText'].length && ticker_showed === 0 && mode === "talkative" && timerOn != 1){
+        console.log("set ticker!")
         set_ticker_text(settings[0]['tickerText'][tick]);
         ticker_showed = 1;
       }
+      // else{
+      //   console.log(tick);
+      //   console.log(settings[0]['tickerText'].length);
+      //   console.log(ticker_showed);
+      //   console.log(mode);
+      // }
       screen_width = get_window_width();
       screen_height = (get_window_height()-(headerHeight+footerHeight));
 
@@ -642,11 +723,12 @@
       if (tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
       // if (model_loaded && tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
       penTouched = 1;
+      drew = 0;
         if (userPen.prevState == 1) {
           clear_screen();
           //내가 마우스 누르는동안 이전 오브젝트 그리기
+          // draw_example(strokes, start_x, start_y, line_color);
           drawScenarioWhilePenDown()
-          draw_example(strokes, start_x, start_y, line_color);
         }
         if (has_started == false) { // first time anything is written
           restarting_model_lock = false;
@@ -668,11 +750,24 @@
           start_y = y;
           userPen.currentState = 0;
           current_raw_line.push([x, y]);
+          if(task === 1){ // 1번 task
+            p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+            if(timerOn === 1){
+              clearTimeout(tickerTimer);
+              timerOn = 0;
+              console.log("timer cleared");
+            }
+          }
         } else {
-          drawScenarioWhilePenDown();
           //사용자가 그림 그리는 부분 설정
           var dx0 = tracking.x - x; // candidate for dx
           var dy0 = tracking.y - y; // candidate for dy
+          // if (task === 4 && endIndexRecorded === 0){
+          // if (endPosRecorded === 0){
+          //   endPos = [tracking.x, tracking.y];
+          //   endPosRecorded = 1;
+          //   console.log("endPos: ", endPos);
+          // }
           if (dx0 * dx0 + dy0 * dy0 > epsilon * epsilon) { // only if pen is not in same area
             var dx = dx0;
             var dy = dy0;
@@ -691,15 +786,15 @@
             // update raw_lines
             current_raw_line.push([x, y]);
             just_finished_line = true;
-
+            // drawScenarioWhilePenDown()
             // using the previous pen states, and hidden state, get next hidden state
             // update_rnn_state();
           }
         }
       }
       else { // pen is above the paper
+        // drawScenarioWhilePenUp();
         userPen.currentState = 1;
-        drawScenarioWhilePenUp()
         if (just_finished_line) {
           //라인좌표를 curveVertex곡선으로 변환
           var current_raw_line_simple = DataTool.simplify_line(current_raw_line);
@@ -720,23 +815,25 @@
             var stroke = DataTool.line_to_stroke(current_raw_line_simple, [last_x, last_y]);
             raw_lines.push(current_raw_line_simple);
             strokes = strokes.concat(stroke);
-            current_strokes = current_strokes.concat(stroke);
+            // current_strokes = current_strokes.concat(stroke);
 
             // redraw simplified strokes
             clear_screen();
-            // drawScenarioWhilePenUp()
-            if(strokes.length) draw_example(strokes, start_x, start_y, line_color);
-
+            // if(strokes.length) draw_example(strokes, start_x, start_y, line_color);
+            if(strokes.length) drawScenarioWhilePenUp();
             old_title_text = title_text;
           } else {
             if (raw_lines.length === 0) {
               has_started = false;
             }
           }
-
           current_raw_line = [];
           just_finished_line = false;
         }
+        // task별 실행
+
+
+
         // if(restarting_model_lock) {
         //   restarting_model_lock_count -= 1;
         //   if (restarting_model_lock_count >= 0) {
@@ -752,16 +849,57 @@
       }
       userPen.prevState = userPen.currentState;
     };
-    var timerStart = function() {
-      console.log("timer start")
-      // ticker_showed = 0;
-      tickerTimer = setTimeout(function(){
-        tick += 1;
-        timerOn = 0;
-        ticker_showed = 0;
-        console.log("tickerTimer");
-      }, 3000); //3초 후 이동
-    }
+      var timerStart = function() {
+        console.log("timer start")
+        // ticker_showed = 0;
+        tickerTimer = setTimeout(function(){
+          tick += 1;
+          timerOn = 0;
+          ticker_showed = 0;
+          firstIndexPut = 0;
+          lastIndexPut = 0;
+          firstColorIndexPut = 0;
+          lastColorIndexPut = 0;
+          console.log("tickerTimer");
+        }, 3000); //3초 후 이동
+      }
+
+      function saveDrewIndexes(t){
+        if(firstIndexPut === 0){
+          if(t === 1){
+            settings[0]['userDrewFirstIndex'][t] = 0;
+          }
+          else{
+            settings[0]['userDrewFirstIndex'][t] = settings[0]['userDrewLastIndex'][t-1]+1;
+          }
+          console.log("userDrewFirstIndex: ", settings[0]['userDrewFirstIndex'][t]);
+          firstIndexPut = 1;
+        }
+        if(lastIndexPut === 0){
+          settings[0]['userDrewLastIndex'][t] = strokes.length-1;
+          console.log("userDrewLastIndex: ",settings[0]['userDrewLastIndex'][t]);
+          lastIndexPut = 1;
+        }
+      }
+
+      function saveColorIndexes(t){
+        if(firstColorIndexPut === 0){
+          if(t === 1){
+            settings[0]['userColorFirstIndex'][t] = 0;
+          }
+          else{
+            settings[0]['userColorFirstIndex'][t] = settings[0]['userColorLastIndex'][t-1]+1;
+          }
+          console.log("userColorFirstIndex: ", settings[0]['userColorFirstIndex'][t]);
+          firstColorIndexPut = 1;
+        }
+        if(lastColorIndexPut === 0){
+          settings[0]['userColorLastIndex'][t] = raw_lines.length-1;
+          console.log("userColorLastIndex: ",settings[0]['userColorLastIndex'][t]);
+          lastColorIndexPut = 1;
+        }
+      }
+
 
     var deviceReleased = function() {
       tracking.down = false;
@@ -1019,6 +1157,8 @@
   var penWeights = [];
   var isModelDrawn = false;
   var strokes;
+  var scenarioStrokes;
+  var scenarioStrokesColors;
   var raw_lines;
   var extStrokesLength;
 
