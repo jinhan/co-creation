@@ -1,6 +1,5 @@
 from django.conf.urls import url
 from . import views
-# from django.views.generic import TemplateView
 
 urlpatterns = [
 	url(r'^$', views.intro, name='intro'),
@@ -9,4 +8,7 @@ urlpatterns = [
 	url(r'^settings/3', views.selection3, name='selection3'),
 	url(r'^draw/', views.draw, name='draw'),
 	url(r'^settings/d', views.goBack, name='goBack'),
+	url(r'^colorize/', views.colorize, name='colorize'),
+	url(r'^colorize_post/', views.colorize_post, name='colorize_post'),
+	url(r'^colorize_paint/', views.colorize_paint, name='colorize_paint'),
 ]
