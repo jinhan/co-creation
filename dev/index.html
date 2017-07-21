@@ -4,6 +4,7 @@
 <head>
   <title>index</title>
   <meta charset="UTF-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <style>
     #sketch canvas {}
 
@@ -12,21 +13,27 @@
       margin: 0;
     }
     #penWeight{
-      top: 50px;
-      left: 50px;
+      top: 80px;
+      left: 25px;
+      background: url("imgsrc/Penicon.png") center center no-repeat;
+      background-size: 50px 7px;
     }
     #brushWeight{
-      top: 150px;
-      left: 50px;
+      top: 175px;
+      left: 25px;
+      background: url("imgsrc/Brushicon.png") center center no-repeat;
+      background-size: 25px 50px;
     }
     #cancel{
-      top: 250px;
-      left: 50px;
+      top: 270px;
+      left: 25px;
+      background: url("imgsrc/Cancelicon.png") center center no-repeat;
+      background-size: 50px 34px;
     }
     #p_cntr{
-      position: fixed;
-      top: 350px;
-      left: 50px;
+      position: absolute;
+      top: 365px;
+      left: 25px;
     }
     #pallet{
       background-color: black;
@@ -40,13 +47,13 @@
       position: absolute;
       border-radius: 100%;
       border: 5px solid gray;
-      background-color: gray;
+      background-color: rgb(100,100,100);
       cursor: pointer;      
       z-index: 1;
     }
-    .icons:hover{
-      background-color: rgba(100,100,100,.5);
-    }
+    /*.icons:hover{
+      background-color: rgb(200,200,200);
+    }*/
     .colorVal{
       display: inline-block;
       margin: 5px;
@@ -54,34 +61,72 @@
       width: 30px;
       height: 30px;
     }
-    #footer{
+    #header{
       display: block;
+      background-color: rgba(0,0,0,0.8);
+      /*height: 110px;*/
+      height: 55px;
     }
-    #ticker{
+    #title{
+      position: relative;
       display: inline-block;
       font-family: sans-serif;
-      font-size: 64px;
-      color: black;
+      /*font-size: 80px;*/
+      font-size: 40px;
+      color: white;
+      font-weight: bold;
+      /*left: 50px;*/
+      left: 25px;
     }
-    #button_yes {
+    #footer{
+      display: block;
+      background-color: rgba(0,0,0,0.8);
+      /*height: 110px;*/
+      height: 55px;
+    }
+    #ticker{
       position: relative;
-      box-shadow: inset 0px 1px 3px 0px #91b8b3;
-      background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-      background-color: #768d87;
-      border-radius: 5px;
-      border: 1px solid #566963;
-      display: inline-block;
+      display: block;
+      margin: 11px 0px;
+      font-family: sans-serif;
+      /*font-size: 64px;*/
+      font-size: 25px;
+      color: yellow;
+      text-align: center;
+      width: 100%;
+      /*left: 50px;*/
+      /*left: 25px;*/
+      float: right;
+      overflow: scroll;
+    }
+    #button_cntr{
+      position: relative;
+      float: right;
+      display: none;
+    }
+    .buttons {
+      position: relative;
+      margin: 11px 10px 11px 0px;
+      /*box-shadow: 1px 1px 1px rgb(100,100,100);*/
+      /*background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);*/
+      background-color: rgb(100,100,100);
+      border-radius: 30px;;
+      /*border: 1px solid #566963;*/
+      display: block;
       cursor: pointer;
       color: #ffffff;
       font-family: Arial;
-      font-size: 48px;
+      /*font-size: 48px;*/
+      font-size: 20px;
       font-weight: bold;
-      padding: 16px 30px;
+      /*padding: 16px 30px;*/
+      padding: 5px 15px;
       text-decoration: none;
-      text-shadow: 0px -1px 0px #2b665e;
+      vertical-align: top;
+      float: right;
     }
 
-    #button_yes:hover {
+    /*.buttons:hover {
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
       background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
       background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
@@ -90,44 +135,12 @@
       background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
       background-color: rgb(54, 53, 53);
-    }
+    }*/
 
-    #button_yes:active {
+    .buttons:active {
       position: relative;
       top: 1px;
-    }
-    #button_no {
-      position: relative;
-      box-shadow: inset 0px 1px 3px 0px #91b8b3;
-      background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-      background-color: #768d87;
-      border-radius: 5px;
-      border: 1px solid #566963;
-      display: inline-block;
-      cursor: pointer;
-      color: #ffffff;
-      font-family: Arial;
-      font-size: 48px;
-      font-weight: bold;
-      padding: 16px 30px;
-      text-decoration: none;
-      text-shadow: 0px -1px 0px #2b665e;
-    }
-
-    #button_no:hover {
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-      background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
-      background-color: rgb(54, 53, 53);
-    }
-
-    #button_no:active {
-      position: relative;
-      top: 1px;
+      background-color: gray;
     }
 
     #spaceAlert{
@@ -137,32 +150,54 @@
       border: 5px dotted red;
       transition: border 2s, width 2s, height 2s, left 2s, top 2s;
     }
+
+    #cover{
+      position: fixed;
+      display: none;
+      top: 0px;
+      left: 0px;
+      width: 980px;
+      height: 689px;
+      z-index: 999;
+      background: url('imgsrc/AIicon.png') center center no-repeat;
+      background-color: rgba(0,0,0,.5);
+      background-size: 300px 300px; 
+    }
   </style>
-  <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script>
-  <!-- <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.vae.js"></script> --> 
+  <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script> 
   <script language="javascript" type="text/javascript" src="p5.min.js"></script>
   <script language="javascript" type="text/javascript" src="p5.dom.min.js"></script>
   <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/lib/numjs.js"></script>
-  <script language="javascript" type="text/javascript" src="sketch_rnn.js"></script>
-  <!-- <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/lib/sketch_rnn.js"></script> --> 
+  <script language="javascript" type="text/javascript" src="sketch_rnn.js"></script> 
 </head>
 
 <body style="background-color:white">
+  <div id="header">
+    <div id ="title">Co-Creation!</div>
+    <div id ="button_sel3" class = "buttons">Talkative</div>
+    <div id ="button_sel2" class = "buttons">Landscape</div>
+    <div id ="button_sel1" class = "buttons">Help</div>
+  </div>
   <div id="sketch"></div>
-  <div id='penWeight' class="icons">펜모드</div>
-  <div id='brushWeight' class="icons">붓모드</div>
-  <div id='cancel' class="icons">취소</div> 
+  <div id="penWeight" class="icons"></div>
+  <div id='brushWeight' class="icons"></div>
+  <div id='cancel' class="icons"></div>
   <div id='p_cntr'>
     <div id='pallet' class="icons"></div>
-    <div id='palVal'></div>
+    <div id='palVal' style='display:none'></div>
   </div>
   <div id="footer">
+    <div id="button_cntr">
+      <div id ="button_no" class = "buttons">no</div>
+      <div id ="button_yes" class = "buttons">yes</div>
+    </div>
     <div id ="ticker">그림을 그려주세요!</div>
-    <div id ="button_yes">yes</div>
-    <div id ="button_no">no</div>
   </div>
   <div id='spaceAlert' style='display:none'></div>
+  <div id='cover' style='display:none'></div>
 </body>
+
+<script type="text/javascript" src="drawMode.js"></script>
 <script language="javascript" type="text/javascript">
 
   function shuffle(array) {
@@ -202,7 +237,11 @@
     var model_state, model_state_orig;
     var modelStrokes = []; // keep track of the strokes the model drew
     var modelPen = Pen();
-    var modelNames = "palm_tree"
+    var modelNames;
+    if(drawMode==0) modelNames = 'palm_tree';
+    else if(drawMode==1) modelNames = 'strawberry';
+    else if(drawMode==2) modelNames = 'eye';
+
     //simModel variables
     var min_sequence_length = 5;
     var modelSim_z;
@@ -293,12 +332,9 @@
     var prevImageStrokes;     
 
     //UI
-    var screen_width, screen_height, temperature_slider;
+    // var screen_width, screen_height, temperature_slider;
     var line_width = 3;
     var screen_scale_factor = 3.0;
-    var task = 0; 
-    var taskText = new Array() 
-    
 
     // dom
     var reset_button, model_sel, random_model_button;
@@ -314,8 +350,11 @@
     var old_title_text = "sketch-rnn";
     var run_encode_strokes;
     var ticker;
-    var button_yes;
-
+    var title;
+    var header;
+    var footer;
+    var headerHeight=55;
+    var footerHeight=55;
     var select_dom;
     // tracking mouse  touchpad
     var tracking = {
@@ -344,7 +383,13 @@
       // document.getElementById("loading_text").innerText = title_text;
     };
     function set_ticker_text(new_text) {
-      document.getElementById("ticker").innerText = new_text;
+      var ticker = document.getElementById("ticker")
+      ticker.innerText = new_text;
+      var btn_width;
+      if(document.getElementById('button_cntr')) btn_width = document.getElementById('button_cntr').clientWidth;
+      else btn_width = 0; 
+      ticker.style.width = screen_width - btn_width + 'px';
+
     };
 
     var draw_example = function(example, start_x, start_y, line_color, prev_pen_override) {
@@ -356,6 +401,9 @@
       var dx, dy;
       var pen_down, pen_up, pen_end;
       var prev_pen = [1, 0, 0];
+
+      //draw ClipArt dish
+      if(drawClipArt && drawMode == 1) p.image(img, clip_x, clip_y, clip_w, clip_h);      
 
       if (Array.isArray(prev_pen_override)) {
         penState = prev_pen_override;
@@ -416,8 +464,9 @@
 //      p.strokeWeight(line_width);
 //      console.log(lines.length, colors.length);
 //      p.noFill();
+
       //프레임마다 strokes[]안의 옵젝들 그려주는 부분 
-      for (i = 0; i < lines.length; i++){
+      for (i = 0; i < (length_obj2?length_obj2:lines.length); i++){
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
@@ -435,6 +484,30 @@
           p.endShape();
         }
       }
+
+      //draw ClipArt coconut || nose
+      if(drawClipArt && (drawMode == 0 || drawMode ==2)) p.image(img, clip_x, clip_y, clip_w, clip_h);
+
+      //clip이후 나머지 stroke 그리기
+      for (i = length_obj2; i < lines.length; i++){
+        line = lines[i];
+        if (line.length > 1) {
+          pt = line[0];
+          drawMode==2? p.noFill() : p.fill(254);
+          // p.stroke('black');
+          p.stroke(colors[i]);
+          p.strokeWeight(penWeights[i]);
+          p.beginShape();
+          p.curveVertex(pt[0], pt[1]);
+          for (j = 0; j < line.length; j++) {
+            pt = line[j];
+            p.curveVertex(pt[0], pt[1]);
+          }
+          p.curveVertex(pt[0], pt[1]);
+          p.endShape();
+        }
+      }
+
     };
 
     var init = function(cb) {
@@ -445,7 +518,10 @@
       model_data = ModelImporter.get_model_data();
       model = new SketchRNN(model_data);
 
-      var initial_model = 'palm_tree';
+      var initial_model;
+      if(drawMode==0) initial_model = 'palm_tree';
+      else if(drawMode==1) initial_model = 'strawberry';
+      else if(drawMode==2) initial_model = 'eye';
 
       ModelImporter.change_model({}, initial_model, "gen", function(new_model) {
         console.log("changing")
@@ -458,12 +534,17 @@
         model_loaded = true;
       }, true);
 
+      header = document.getElementById("header");
+      header.style.height = headerHeight;
+      footer = document.getElementById("footer");
+      footer.style.height = footerHeight;
       screen_width = get_window_width(); //window.innerWidth
-      screen_height = (get_window_height()-110); //window.innerHeight
-      ticker = document.getElementById("ticker"); 
-      ticker.style.width = screen_width * 0.7 + 'px'; 
-      button_yes = document.getElementById("button_yes"); 
-      taskText = ["그림을 그려주세요","완성하셨나요","돌았냐?"] 
+      screen_height = (get_window_height()-(headerHeight+footerHeight)); //window.innerHeight -110 -> -220
+      document.getElementById('title').innerHTML = get_window_width() +" "+ get_window_height(); //llllll
+      title = document.getElementById("title");
+      title.style.width = screen_width * 0.4 + 'px';
+      // ticker = document.getElementById("ticker");
+      // ticker.style.width = screen_width * 0.75 + 'px';
 
       var canvas = document.getElementsByTagName("canvas")[0];
       canvas.addEventListener("mousedown", function(e) {
@@ -490,14 +571,6 @@
       canvas.addEventListener("touchend", function(e) {
         e.preventDefault();
         deviceReleased();
-      })
-      button_yes.addEventListener("click", function(e){
-        if(task>=0 && task<taskText.length){
-          e.preventDefault();
-          task += 1;
-          console.log(task);
-          console.log(taskText.length)
-          }
       })
 
       // cb();
@@ -559,7 +632,7 @@
 
       // make sure we enforce some minimum size of our demo
       screen_width = Math.max(window.innerWidth, 400);
-      screen_height = (Math.max(window.innerHeight, 320)-110);
+      screen_height = (Math.max(window.innerHeight, 320)-(headerHeight+footerHeight));
 
       // variables for the sketch input interface.
       userPen.currentState = 0
@@ -616,11 +689,48 @@
     }
 
     p.draw = function() {
-      if(task>=0 && task<taskText.length){
-        set_ticker_text(taskText[task]);
+      //ticker show here
+      if(task>=0 && task<taskText[drawMode].length){
+        set_ticker_text(taskText[drawMode][task]);
+        //gen 시작전 raw_lines의 인덱스 저장
+        if(task == 5) length_obj1 = raw_lines.length;
+        //vae 시작전 raw_lines의 인덱스 저장
+        if(task == 7) length_obj2 = raw_lines.length;
+        
       }
+      if(task == 11 && !isTimeCntStart){
+        isTimeCntStart = true;
+        console.log('------settimeout start------');
+        mySetTime = setTimeout(function() {
+          console.log('------settimeout operate------');
+          task++; //task12
+          setTimeout(function() {
+            task++; //task13
+            button_cntr.style.display = 'inline-block';
+            button_no.style.display = 'inline-block';
+            button_yes.innerText = 'yes'; 
+            checkWhiteSpace();
+            checkAreaByArray();
+          }, 2000);
+        }, 5000);
+      }
+      if(task==13 && !isTimeCntStart){
+        isTimeCntStart = true;
+        console.log('------settimeout2 start------');
+        mySetTime = setTimeout(function() {
+          console.log('------settimeout2 operate------');          
+          task++; //task14
+          setTimeout(function() {
+            task++; //task15
+            button_cntr.style.display = 'inline-block';
+            button_no.style.display = 'none';
+            button_yes.innerText = 'OK'; 
+          }, 2000);
+        }, 5000);
+      }
+
       screen_width = get_window_width();
-      screen_height = (get_window_height()-110);
+      screen_height = (get_window_height()-(headerHeight+footerHeight));
       //console.log(screen_width,screen_height)
       if (run_encode_strokes) {
         run_encode_strokes = false;
@@ -654,10 +764,11 @@
           has_started = true;
           demo_finished = true;
 
-          line_color_alpha = final_color_alpha;
-          line_color = p.color(0, 0, 0, line_color_alpha);
+          // line_color_alpha = final_color_alpha;
+          // line_color = p.color(0, 0, 0, line_color_alpha);
           // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224), line_color_alpha);
           predict_line_color = curCol;
+          if(task===0) task++; //task0에서만 작동
 
           x = tracking.x;
           y = tracking.y;
@@ -678,6 +789,12 @@
               p.stroke(curCol);
               p.strokeWeight(curPenWeight); // nice thick line
               p.line(x, y, x + dx, y + dy); // draw line connecting prev point to current point.
+              //task12 시간설정부분
+              if(isTimeCntStart){
+                console.log('------settimeout clear------');
+                clearTimeout(mySetTime);
+                isTimeCntStart = false;
+              }
             }
 
             // update the absolute coordinates from the offsets
@@ -693,9 +810,16 @@
           }
         }
       }
+
       else { // pen is above the paper
         userPen.currentState = 1;
         if (just_finished_line) {
+          //
+          if(task==1){
+            task++;
+            button_cntr.style.display = 'inline-block';
+          }
+
           //라인좌표를 curveVertex곡선으로 변환
           var current_raw_line_simple = DataTool.simplify_line(current_raw_line);
           var idx, last_point, last_x, last_y;
@@ -728,12 +852,6 @@
             console.log('initialize rnn');
             run_encode_strokes = true;
 
-            /*
-            p.stroke(line_color);
-            p.strokeWeight(2.0);
-            p.ellipse(x, y, 5, 5); // draw line connecting prev point to current point.
-            */
-
           } else {
             if (raw_lines.length === 0) {
               has_started = false;
@@ -752,10 +870,25 @@
           clear_screen();
           // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224),line_color_alpha);
           predict_line_color = curCol;          
-          //sketch rnn이 그림 그리는동안 이전에 내가 그리 오브젝트 표시
+          //sketch rnn이 그림 그리는동안 이전 strokes 오브젝트 캔버스에 표시
           draw_example(strokes, start_x, start_y, line_color);
           restarting_model_lock = false;
         }
+
+        //vae 모델 그리기
+        if(simModelChanged==true){
+          if(!isSimDrawn){
+            //gen location control
+            var w = max_xy[0] - min_xy[0];
+            var h = max_xy[1] - min_xy[1];
+            if(drawMode == 0) initSimilarStrokes(max_xy[0]+w*0.2, min_xy[1]+h*0.15, strokes); //palm_tree;
+            else if(drawMode == 1) initSimilarStrokes(max_xy[0]+w*0.4, min_xy[1]+h*0, strokes); //strawberry;
+            else if(drawMode == 2) initSimilarStrokes(max_xy[0]+w*1, min_xy[1]+h*0, strokes); //eye;
+            // initSimilarStrokes(300, 300, prevImageStrokes);
+            isSimDrawn = true;
+          }
+          drawSimilarStrokes(0, 0);
+        }    
 
         // have machine take over the drawing here:
         if (modelPen.active && !run_encode_strokes && !isModelDrawn) {
@@ -766,7 +899,7 @@
           modelPdf = model.get_pdf(model_state);
           var s =  model.sample(modelPdf, temperature);
           modelPen.updateCurrent(s);
-          modelStrokes.push(s);
+          modelStrokes.push(s);0
 
           if (modelPen.end === 1) {
             // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224), line_color_alpha);
@@ -791,6 +924,8 @@
             restarting_model_lock = true;
             restarting_model_lock_count = restarting_model_lock_frames;
             isModelDrawn = true;
+
+            task = 3;
           } else {
 
             if (modelPen.prevDown === 1) {
@@ -819,7 +954,7 @@
 
     var devicePressed = function(x, y) {
       tracking.x = x;
-      tracking.y = y;
+      tracking.y = y - headerHeight;
       if (!tracking.down) {
         tracking.down = true;
       }
@@ -853,7 +988,7 @@
     var firstTimeSim=true; //drawSimilarStrokes 첫실행 감지함수
     var drawSimilarStrokes = function(origin_x, origin_y){  //jungwoo added this function
       //origin_x, origin_y - drawing starting point
-      console.log("drawSimilarStrokes called")
+      //console.log("drawSimilarStrokes called")
       var pdf; // store all the parameters of a mixture-density distribution
       var m_dx, m_dy, m_x, m_y;
       var m_pen_down, m_pen_up, m_pen_end;
@@ -865,7 +1000,7 @@
       // var fudge = 0;
 
       if (modelSim_is_active) {
-          console.log("modelSim_is_active: ",modelSim_is_active)
+          //console.log("modelSim_is_active: ",modelSim_is_active)
           // o_x = origin_x+fudge;
           // o_y = origin_y+fudge;
           o_x = origin_x;
@@ -926,9 +1061,28 @@
             strokes[strokes.length-1][4] = 0;
             StrokeToRaw();
             draw_example(strokes, start_x , start_y, curCol);
+
+            // 다시 'gen'으로 모델 체인지
+            toggleCover();
+            ModelImporter.change_model({}, modelNames, "gen", function(new_model) {
+              console.log("changing")
+              model = new_model
+              model.set_pixel_factor(screen_scale_factor);
+              //set_title_text(format_title_text(model.info.name));
+              // cb();
+              changing_model_lock = false;
+              set_title_text('draw a shape, any shape.');
+              model_loaded = true;
+              // simModelChanged = true;
+              toggleCover();
+              //task control
+              task++;
+              button_no.style.display = 'none';
+              button_yes.innerText = 'OK';
+            }, true);  
           }
         }
-        console.log("drawSimilarStrokes done")
+        //console.log("drawSimilarStrokes done")
     }
 
 
@@ -1119,7 +1273,7 @@
     p.keyPressed = function(){
       if(p.keyCode===32){ //space
         checkWhiteSpace();
-            checkAreaByArray();
+        checkAreaByArray();
   //          checkArea();
       }
       else if(p.keyCode===p.ENTER){
@@ -1127,17 +1281,18 @@
         p.saveCanvas(p.canvas,"canvasImage","png"); //save image
       }
       else if(p.keyCode===48){ //'0'
-        console.log('previouse isModelDrawn is',isModelDrawn);
-        console.log('previouse strokesLength is',strokes.length);
-        strokes = strokes.slice(0,-1*extStrokesLength);
-        clear_screen();
-        draw_example(strokes, start_x , start_y, line_color);
-        restart_model(strokes);
-        isModelDrawn = false;
-        console.log('isModelDrawn changed to',isModelDrawn);
-        console.log('strokesLength changed to',strokes.length);
+          console.log('previouse isModelDrawn is',isModelDrawn);
+          console.log('previouse strokesLength is',strokes.length);
+          strokes = strokes.slice(0,-1*extStrokesLength);
+          clear_screen();
+          draw_example(strokes, start_x , start_y, line_color);
+          restart_model(strokes);
+          isModelDrawn = false;
+          console.log('isModelDrawn changed to',isModelDrawn);
+          console.log('strokesLength changed to',strokes.length);
       }
       else if(p.keyCode===57){ //'9'
+        toggleCover();
         ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
           console.log("changing")
           model = new_model
@@ -1148,6 +1303,7 @@
           set_title_text('draw a shape, any shape.');
           model_loaded = true;
           simModelChanged = true;
+          toggleCover();
         }, true);
       }
       else if(p.keyCode===56){//'8'
@@ -1155,26 +1311,23 @@
         console.log("simModelChanged: ",simModelChanged);
         console.log("start_x: ",start_x);
         console.log("start_y: ",start_y);
-        if(simModelChanged==true) {
-          // initSimilarStrokes(start_x, start_y, prevImageStrokes);
-          initSimilarStrokes(300, 300, prevImageStrokes);
-          while(simModelChanged==true) {
-            drawSimilarStrokes(0, 0)
-          }
-          // 다시 'gen'으로 모델 체인지
-          ModelImporter.change_model({}, modelNames, "gen", function(new_model) {
-          console.log("changing")
-          model = new_model
-          model.set_pixel_factor(screen_scale_factor);
-          //set_title_text(format_title_text(model.info.name));
-          // cb();
-          changing_model_lock = false;
-          set_title_text('draw a shape, any shape.');
-          model_loaded = true;
-          // simModelChanged = true;
-        }, true);          
-        }
       }
+
+      else if(p.keyCode===49){//'1' for test
+        findObjCoordinate(0,length_obj1);
+        console.log('max_xy', max_xy, 'min_xy', min_xy);
+      }
+    }
+
+    //로딩창 띄우고 없애기
+    function toggleCover(){
+      //모델체인지할때 브라우저 자체가 멈추는듯... gif 안돌아감...
+      var cover = document.getElementById('cover');
+      cover.addEventListener('click', function(e){
+        e.preventDefault();
+      });
+      if(cover.style.display == 'none') cover.style.display = 'initial';
+      else cover.style.display ='none';
     }
     
     p.mousePressed = function(){
@@ -1182,20 +1335,34 @@
       new_start_y = p.mouseY;
       var px = p.get(new_start_x, new_start_y);
       console.log(new_start_x, new_start_y, px);
+      document.getElementById('title').innerHTML = new_start_x+" "+ new_start_y; //llllllllllllll
     }
     
     //아이콘클릭 효과
     document.getElementById('penWeight').addEventListener('click', function(e){
-      //e.target.style.backgroundColor = 'gray';
+      e.target.style.backgroundColor = 'gray';
       curPenWeight = 3;
       console.log('curPenWeight', curPenWeight);
+      setTimeout(function() {
+        e.target.style.backgroundColor = 'rgb(200,200,200)';
+      }, 40);
     });
     document.getElementById('brushWeight').addEventListener('click', function(e){
-      //e.target.style.backgroundColor = 'gray';
+      e.target.style.backgroundColor = 'gray';
       curPenWeight = 15;
       console.log('curPenWeight', curPenWeight);
+      setTimeout(function() {
+        e.target.style.backgroundColor = 'rgb(200,200,200)';
+      }, 40);
     });
-    document.getElementById('cancel').addEventListener('click', cancelClick);
+    document.getElementById('cancel').addEventListener('click', function(e){
+      e.target.style.backgroundColor = 'gray';
+      cancelClick();
+      console.log('previous line erased...');
+      setTimeout(function() {
+        e.target.style.backgroundColor = 'rgb(200,200,200)';
+      }, 40);
+    });
     
     function cancelClick(){
       colors.pop();
@@ -1214,17 +1381,206 @@
       }
       draw_example(strokes, start_x , start_y, line_color);
     }
+
+    //raw_lines에서 length1부터 length2 - 1 까지의 max/min x,y값 찾아줌
+    function findObjCoordinate(length1, length2){
+      var temp_x = [];
+      var temp_y = [];
+      for(var i=length1; i<length2; i++){
+        for(var j=0; j<raw_lines[i].length; j++){
+          temp_x.push(raw_lines[i][j][0]);
+          temp_y.push(raw_lines[i][j][1]);
+        }
+      }
+      max_xy[0] = Math.max.apply(0, temp_x);
+      max_xy[1] = Math.max.apply(0, temp_y);
+      min_xy[0] = Math.min.apply(0, temp_x);
+      min_xy[1] = Math.min.apply(0, temp_y);
+    }
+
+    //---------------------task event--------------------------
+    //dom
+    var button_cntr = document.getElementById('button_cntr');
+    var button_yes = document.getElementById("button_yes");
+    var button_no = document.getElementById("button_no");
+
+    // task event control
+    button_yes.addEventListener("click", function(e){
+      if(task>=0 && task<taskText[drawMode].length){
+        e.preventDefault();
+        console.log('button_YES just clicked, task:',task);
+
+        if(task==2){ //나머지는 내가 그려볼게요
+          run_encode_strokes = false;
+          isModelDrawn = false;
+        }
+
+        else if(task==3){ //헤헤, 맘에 드시나요?
+          task = 5;
+        }
+
+        else if(task==5){ //또 다른 야자나무를 하나 더 그려볼게요!
+          findObjCoordinate(0, length_obj1);
+          toggleCover();
+          ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
+            console.log("changing")
+            model = new_model
+            model.set_pixel_factor(screen_scale_factor);
+            changing_model_lock = false;
+            set_title_text('draw a shape, any shape.');
+            model_loaded = true;
+            simModelChanged = true;
+            toggleCover();
+          }, true);
+        }
+
+        else if(task==6){ //헤헤, 맘에 드시나요?
+          task++;
+          button_no.style.display = 'inline-block';
+          button_yes.innerText = 'yes';
+        }
+
+        else if(task==7){ //야자나무와 어울리는 코코넛을 그려볼게요!
+          drawClipArt = true;
+          findObjCoordinate(0, length_obj2);
+          var w = max_xy[0] - min_xy[0];
+          var h = max_xy[1] - min_xy[1];
+          img = p.loadImage("imgsrc/"+clipImg[drawMode]+"1.png", function(img) {
+            for(var i=0; i<1; i++){ //coconut
+              if(drawMode == 0){
+                clip_x = min_xy[0] + w*Math.random()*0.2;
+                clip_y = min_xy[1] + h*(0.6 + Math.random()*0.2);
+                clip_w = w*0.4;
+                clip_h = clip_w*0.5;
+              }
+              else if(drawMode == 1){ //dish
+                clip_w = w*1.5;
+                clip_h = clip_w*0.35;
+                clip_x = min_xy[0] - (clip_w - w)/2;
+                clip_y = min_xy[1] + h*0.8;                
+              }
+              else if(drawMode == 2){ //nose
+                clip_w = w*1/3;
+                clip_h = clip_w*1.33;
+                clip_x = min_xy[0] + clip_w*1;
+                clip_y = min_xy[1] + h*1.2;
+              }
+              p.image(img, clip_x, clip_y, clip_w, clip_h);
+            }
+            task++;
+            //이미지 서서히 스와잎하게 효과넣기            
+          });
+          
+        }
+
+        else if(task==8){
+          task += 3;  //task 11
+          button_cntr.style.display = 'none';    
+        }
+
+        else if(task==9){
+          drawClipArt = true;
+          img = p.loadImage("imgsrc/"+clipImg[drawMode]+"2.png", function(img) {
+            p.image(img, clip_x, clip_y, clip_w, clip_h);
+            task--; //task 8
+            //이미지 서서히 스와잎하게 효과넣기
+            button_no.style.display = 'inline-block';
+            button_yes.innerText = 'yes';   
+          });
+        }
+
+        else if(task==10){
+          drawClipArt = true;
+          img = p.loadImage("imgsrc/"+clipImg[drawMode]+"3.png", function(img) {
+            p.image(img, clip_x, clip_y, clip_w, clip_h);
+            task++; //task 11
+            button_cntr.style.display = 'none';
+          });
+        }
+
+        else if(task==13){ //여기 빈 공간이 큰 것 같아요. 뭘 좀 그리는게 어떨까요?
+          isTimeCntStart = false;   
+          button_cntr.style.display = 'none';     
+        }
+
+        else if(task==15){
+          console.log('ENTER PRESSED...save canvas to jpg file');
+          p.saveCanvas(p.canvas,"canvasImage","png"); //save image
+        }
+
+      }
+    });
+
+    button_no.addEventListener("click", function(e){
+      e.preventDefault();
+      console.log('button_NO just clicked, task:',task);
+      if(task==2){ //나머지 부분은 제가 그려볼게요!
+        task = 5; // vae 모두 건너뜀
+      }
+
+      else if(task==3){ //헤헤, 맘에 드시나요? //sketchRNN
+        task++;
+        console.log('previouse isModelDrawn is',isModelDrawn);
+        console.log('previouse strokesLength is',strokes.length);
+        strokes = strokes.slice(0,-1*extStrokesLength);
+        clear_screen();
+        draw_example(strokes, start_x , start_y, line_color);
+        restart_model(strokes);
+        isModelDrawn = false;
+        console.log('isModelDrawn changed to',isModelDrawn);
+        console.log('strokesLength changed to',strokes.length);
+      }
+
+      else if(task==5){
+        task += 2; //task 7
+      }
+
+      else if(task==7 || task==9){ //야자나무와 어울리는 코코넛을 그려볼게요!
+        task = 11;
+        button_cntr.style.display = 'none';
+      }   
+
+      else if(task==8){ //헤헤, 맘에 드시나요? //ClipArt
+        if(isFinalImg) task+=2; //task10
+        else{
+          task++; //task9
+          isFinalImg = true;
+        }
+        drawClipArt = false;
+        button_no.style.display = 'none';
+        button_yes.innerText = 'OK';        
+        clear_screen();
+        draw_example(strokes, start_x, start_y, curCol);
+      }
+
+      else if(task==13){
+        task+=2; //task15
+        button_no.style.display = 'none';
+        button_yes.innerText = 'OK'; 
+      }
+    
+    });
+
   }
-    var custom_p5 = new p5(sketch, 'sketch');
+  var custom_p5 = new p5(sketch, 'sketch');
 
   var new_start_x, new_start_y;
   var curPenWeight = 3;
   var colors = []; //save all colors of each line
   var penWeights = [];
-  var isModelDrawn = false;
+  var isModelDrawn = true;
+  var isSimDrawn = false;
   var strokes;
   var raw_lines;
   var extStrokesLength;
+  var drawClipArt = false;
+  var img;
+  var isFinalImg = false;
+  var isTimeCntStart = false;
+  var mySetTime;
+  var length_obj1, length_obj2; //raw_lines 로부터 야자수 오브젝트 인덱스 저장
+  var min_xy = new Array(2);
+  var max_xy = new Array(2); //야자수 오브젝트 위치저장
 
   //---------------------팔레트 아이콘
   var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
@@ -1259,15 +1615,27 @@
       curCol = e.target.style.backgroundColor;
       console.log(curCol);
       pallet.style.backgroundColor = curCol;
+      if(palVal.style.display == 'none'){
+        palVal.style.display ='initial';
+      }
+      else palVal.style.display ='none';
     });
   });
 
-  var p_cntr = document.getElementById('p_cntr');
-  p_cntr.addEventListener('mouseover', function(){
-    palVal.style.display ='initial';
-  });
-  p_cntr.addEventListener('mouseout', function(){
-    palVal.style.display ='none';
+  // var p_cntr = document.getElementById('p_cntr');
+  // pc버전 인터페이스
+  // p_cntr.addEventListener('mouseover', function(){
+  //   palVal.style.display ='initial';
+  // });
+  // p_cntr.addEventListener('mouseout', function(){
+  //   palVal.style.display ='none';
+  // });
+  //아이패드 버전 인터페이스
+  pallet.addEventListener('click', function(){
+    if(palVal.style.display == 'none'){
+      palVal.style.display ='initial';
+    }
+    else palVal.style.display ='none';
   });
   
   //빈공간 알려주는 돔 생성
@@ -1292,6 +1660,15 @@
     setTimeout(function(){
       circle.style.display = 'none';
     }, 2000);
+  }
+
+  var screen_width, screen_height, temperature_slider;
+  //for css setting
+  document.body.onload = function(){
+    var iconEle = document.getElementsByClassName('icons');
+    for(var i=0; i<iconEle.length-1; i++){
+      iconEle[i].style.backgroundColor = 'rgb(200,200,200)';
+    }
   }
 
 </script>
