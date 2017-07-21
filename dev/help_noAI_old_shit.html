@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>help_noAI</title>
+  <title>help_noAI_old_shit</title>
   <meta charset="UTF-8">
   <style>
     #sketch canvas {}
@@ -248,6 +248,14 @@
     var drew = 0;
     var endPos;
     var endPosRecorded = 0;
+    var imageDrew = 0;
+    var obj1;
+    var obj2;
+    var obj3;
+    var obj1C;
+    var obj2C;
+    var obj3C;
+    var executeJustOne = 0;
     // dom
     var reset_button, model_sel, random_model_button;
     var text_title, text_temperature;
@@ -321,7 +329,7 @@
       document.getElementById("ticker").innerText = new_text;
     };
 
-    var draw_example = function(example, start_x, start_y, line_color, prev_pen_override, objColors) {
+    var draw_example = function(example, start_x, start_y, line_color, prev_pen_override, objColors, callBack) {
       console.log('draw_examlple called!');
 
       var i, j;
@@ -342,7 +350,7 @@
       var pt;
 
       line.push([x, y]);
-
+      if(task == 4) line.pop([x, y]); // 하나 빼줘야 함 안 그럼 선 찍!
       for (i = 0; i < example.length; i++) {
         // sample the next pen's states from our probability distribution
         [dx, dy, pen_down, pen_up, pen_end] = example[i];
@@ -366,11 +374,11 @@
         // update the previous pen's state to the current one we just sampled
         prev_pen = [pen_down, pen_up, pen_end];
       }
-      if (endPosRecorded === 0){
-        endPos = [x, y];
-        endPosRecorded = 1;
-        console.log("endPos: ", endPos);
-      }
+      // if (endPosRecorded === 0){
+      //   endPos = [x, y];
+      //   endPosRecorded = 1;
+      //   console.log("endPos: ", endPos);
+      // }
       if (line.length > 0) {
         lines.push(line);
         //colors, penWeight 와 lines 길이 맞추기
@@ -416,7 +424,11 @@
       if(Array.isArray(objColors)){
         colors = colorsBackup;
       }
-
+      if(tick===7 && imageDrew === 0){
+        p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+        // draw_example(obj3, endPos[0], endPos[1]);
+        imageDrew = 1;
+      }
     };
 
     var init = function(cb) {
@@ -570,6 +582,7 @@
       }
       else if(task === 3){ // 3번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        // endPosRecorded = 0;
         draw_example(strokes, start_x, start_y);
         if(timerOn === 1){
           clearTimeout(tickerTimer);
@@ -583,17 +596,18 @@
           console.log("settings[0]['userDrewFirstIndex']: ", settings[0]['userDrewFirstIndex']);
           console.log("settings[0]['userColorFirstIndex']: ", settings[0]['userColorFirstIndex']);
           console.log("settings[0]['userColorLastIndex']: ", settings[0]['userColorLastIndex']);
-          var obj1 = strokes.slice(settings[0]['userDrewFirstIndex'][1], settings[0]['userDrewLastIndex'][1]+1);
-          var obj2 = strokes.slice(settings[0]['userDrewFirstIndex'][2], settings[0]['userDrewLastIndex'][2]+1);
-          var obj3 = strokes.slice(settings[0]['userDrewFirstIndex'][3], settings[0]['userDrewLastIndex'][3]+1);
-          var obj1C = colors.slice(settings[0]['userColorFirstIndex'][1], settings[0]['userColorLastIndex'][1]+1)
-          var obj2C = colors.slice(settings[0]['userColorFirstIndex'][2], settings[0]['userColorLastIndex'][2]+1)
-          var obj3C = colors.slice(settings[0]['userColorFirstIndex'][3], settings[0]['userColorLastIndex'][3]+1)
+          obj1 = strokes.slice(settings[0]['userDrewFirstIndex'][1], settings[0]['userDrewLastIndex'][1]+1);
+          obj2 = strokes.slice(settings[0]['userDrewFirstIndex'][2], settings[0]['userDrewLastIndex'][2]+1);
+          obj3 = strokes.slice(settings[0]['userDrewFirstIndex'][3], settings[0]['userDrewLastIndex'][3]+1);
+          obj1C = colors.slice(settings[0]['userColorFirstIndex'][1], settings[0]['userColorLastIndex'][1]+1)
+          obj2C = colors.slice(settings[0]['userColorFirstIndex'][2], settings[0]['userColorLastIndex'][2]+1)
+          obj3C = colors.slice(settings[0]['userColorFirstIndex'][3], settings[0]['userColorLastIndex'][3]+1)
           scenarioStrokes = obj1.concat(obj2);
           scenarioStrokesColors = obj1C.concat(obj2C);
           // draw_example(scenarioStrokes, start_x, start_y,null,null,scenarioStrokesColors);
+          imageDrew = 0;
           draw_example(scenarioStrokes, start_x, start_y);
-          p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+          // p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
           console.log("endPos: ", endPos);
           // draw_example(obj3, endPos[0], endPos[1], null, null, obj3C);
           draw_example(obj3, endPos[0], endPos[1]);
@@ -681,17 +695,18 @@
           button_yes.style.visibility = "visible";
           button_no.style.visibility = "hidden";
           button_yes.innerText = "Ok";
-          var obj1 = strokes.slice(settings[0]['userDrewFirstIndex'][1], settings[0]['userDrewLastIndex'][1]+1);
-          var obj2 = strokes.slice(settings[0]['userDrewFirstIndex'][2], settings[0]['userDrewLastIndex'][2]+1);
-          var obj3 = strokes.slice(settings[0]['userDrewFirstIndex'][3], settings[0]['userDrewLastIndex'][3]+1);
-          var obj1C = colors.slice(settings[0]['userColorFirstIndex'][0], settings[0]['userColorLastIndex'][1]+1)
-          var obj2C = colors.slice(settings[0]['userColorFirstIndex'][1], settings[0]['userColorLastIndex'][2]+1)
-          var obj3C = colors.slice(settings[0]['userColorFirstIndex'][2], settings[0]['userColorLastIndex'][3]+1)
+          obj1 = strokes.slice(settings[0]['userDrewFirstIndex'][1], settings[0]['userDrewLastIndex'][1]+1);
+          obj2 = strokes.slice(settings[0]['userDrewFirstIndex'][2], settings[0]['userDrewLastIndex'][2]+1);
+          obj3 = strokes.slice(settings[0]['userDrewFirstIndex'][3], settings[0]['userDrewLastIndex'][3]+1);
+          obj1C = colors.slice(settings[0]['userColorFirstIndex'][0], settings[0]['userColorLastIndex'][1]+1)
+          obj2C = colors.slice(settings[0]['userColorFirstIndex'][1], settings[0]['userColorLastIndex'][2]+1)
+          obj3C = colors.slice(settings[0]['userColorFirstIndex'][2], settings[0]['userColorLastIndex'][3]+1)
           scenarioStrokes = obj1.concat(obj2);
           scenarioStrokesColors = obj1C.concat(obj2C);
           // draw_example(scenarioStrokes, start_x, start_y,null,null,scenarioStrokesColors);
+          imageDrew = 0;
           draw_example(scenarioStrokes, start_x, start_y);
-          p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+          // p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
           console.log("endPos: ", endPos);
           // draw_example(obj3, endPos[0], endPos[1],null,null,obj3C);
           draw_example(obj3, endPos[0], endPos[1]);
@@ -786,14 +801,18 @@
             // update raw_lines
             current_raw_line.push([x, y]);
             just_finished_line = true;
-            // drawScenarioWhilePenDown()
+            drawScenarioWhilePenDown()
             // using the previous pen states, and hidden state, get next hidden state
             // update_rnn_state();
           }
+          executeJustOne = 0;
         }
       }
       else { // pen is above the paper
-        // drawScenarioWhilePenUp();
+        if(executeJustOne===0){
+          drawScenarioWhilePenUp();
+          executeJustOne = 1;
+          }
         userPen.currentState = 1;
         if (just_finished_line) {
           //라인좌표를 curveVertex곡선으로 변환
@@ -810,6 +829,11 @@
               last_point = raw_lines[idx][raw_lines[idx].length - 1];
               last_x = last_point[0];
               last_y = last_point[1];
+            }
+            if (endPosRecorded === 0){
+              endPos = [last_x, last_y];
+              endPosRecorded = 1;
+              console.log("endPos: ", endPos);
             }
             //raw_lines -> strokes 절대좌표를 상대좌표로 변환
             var stroke = DataTool.line_to_stroke(current_raw_line_simple, [last_x, last_y]);
@@ -860,6 +884,7 @@
           lastIndexPut = 0;
           firstColorIndexPut = 0;
           lastColorIndexPut = 0;
+          executeJustOne = 0;
           console.log("tickerTimer");
         }, 3000); //3초 후 이동
       }
