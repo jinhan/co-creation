@@ -470,7 +470,7 @@
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
-          p.fill(254);
+          drawMode==2? p.noFill() : p.fill(254);
           // p.stroke('black');
           p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
