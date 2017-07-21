@@ -1,5 +1,5 @@
 
-var drawMode = 0; // [0] = landscape, [1] = still_life, [2] = portrait
+var drawMode = 2; // [0] = landscape, [1] = still_life, [2] = portrait
 var isTalktive = true; // false = silent mode
 var task = 0;
 var taskText = new Array(3); // [0] = landscape, [1] = still_life, [2] = portrait
