@@ -13,7 +13,7 @@ from cgi import parse_header, parse_multipart
 from urllib.parse import parse_qs
 
 
-# sys.path.append('./cgi-bin/wnet')
+sys.path.append('./cgi-bin/wnet')
 sys.path.append('./cgi-bin/paint_x2_unet')
 import cgi_exe
 sys.path.append('./cgi-bin/helpers')
@@ -141,7 +141,7 @@ class MyHandler(http.server.CGIHTTPRequestHandler):
         self.wfile.write(content)
         self.log_t()
 
-# set args 
+# set args
 
 parser = argparse.ArgumentParser(
     description='chainer line drawing colorization server')
