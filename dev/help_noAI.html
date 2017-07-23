@@ -247,6 +247,9 @@
     var taskSixHasStarted = false;
     var img;
     var imgSrc;
+    var mode = "silent";
+    // var mode = "talkative";
+    var pictureType = 1;
     // var taskSixLineDrew = 0;
 
     // dom
@@ -310,16 +313,16 @@
     settings[0]['presetSrc'][0] = 'imgsrc/building_half.png';
     settings[0]['presetSrc'][1] = 'imgsrc/landscape_background_t.png';
     settings[0]['presetSrc'][2] = 'imgsrc/car_t.png';
-    settings[0]['presetImg'] = new Array(4);
+    settings[0]['presetImg'] = new Array(3);
     settings[0]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
-    settings[0]['alertImg'] = new Array(4);
-    settings[0]['userDrewFirstIndex'] = new Array(4);
-    settings[0]['userDrewLastIndex'] = new Array(4);
-    settings[0]['userColorFirstIndex'] = new Array(4);
-    settings[0]['userColorLastIndex'] = new Array(4);
+    settings[0]['alertImg'] = new Array(2);
+    // settings[0]['userDrewFirstIndex'] = new Array(4);
+    // settings[0]['userDrewLastIndex'] = new Array(4);
+    // settings[0]['userColorFirstIndex'] = new Array(4);
+    // settings[0]['userColorLastIndex'] = new Array(4);
     settings[0]['taskChangerTicker'] = [1, 3, 5, 7, 10];
     settings[0]['tickerText'] = new Array(13);
-    settings[0]['tickerText'][0] = '건물을 그리고 있는데 나머지 부분을 좀 그려주실래요?';
+    settings[0]['tickerText'][0] = '건물을 그리고 있는데 나머지 부분을 좀 그려 주실래요?';
     settings[0]['tickerText'][1] = '감사합니다. 멋진 건물이 완성되었네요 :)';
     settings[0]['tickerText'][2] = '건물 오른쪽에 비슷한 건물 하나를 그려주실래요?';
     settings[0]['tickerText'][3] = '감사합니다. 멋진 건물이 하나 더 완성되었네요 :)';
@@ -337,13 +340,128 @@
     settings[0]['silentAlertNums'] = [0, 2, 4, 8];
 
     //settings 1
+    settings[1] = {}; //landscape
+    settings[1]['presetNum'] = 4; //쿠션, (강아지, 청소기), 액자, 추천색
+    settings[1]['presetPos'] = new Array(4);
+    settings[1]['presetPos'][0] = [370, 300]; //쿠션
+    settings[1]['presetPos'][1] = [200, 265]; //(강아지, 청소기)
+    settings[1]['presetPos'][2] = new Array(2); //액자
+    settings[1]['presetPos'][3] =  //색  //[sx,sy,dx,dy,dycol]
+      [
+        [239,109,392,109,"blue"],
+        [219,328,219,369,"blue"],
+        [270,214,270,277,"blue"],
+        [321,347,321,375,"blue"],
+        [350,318,350,341,"blue"],
+        [395,356,395,377,"red"],
+        [455,360,455,379,"red"],
+        [475,364,475,379,"red"],
+        [507,345,513,374,"green"],
+        [276,507,433,507,"green"]
+      ];
+    settings[1]['silentAlertPosSize'] =
+      [
+        [415,340,70,70],
+        [500,340,70,70],
+        [455,365,500,200],
+        [771,170,35,60]
+      ];
 
+    settings[1]['presetSize'] = new Array(4);
+    settings[1]['presetSize'][0] = [430/5, 409/5]; //쿠션
+    settings[1]['presetSize'][1] = [2662/5, 1391/5]; //(강아지, 청소기)
+    settings[1]['presetSize'][2] = [1458/5, 777/5];//액자
+    settings[1]['presetSrc'] = new Array(3);
+    settings[1]['presetSrc'][0] = 'imgsrc/cushion_half.png';
+    settings[1]['presetSrc'][1] = 'imgsrc/stilllife_background_t.png';
+    settings[1]['presetSrc'][2] = 'imgsrc/frame.png';
+    settings[1]['presetImg'] = new Array(3);
+    settings[1]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
+    settings[1]['alertImg'] = new Array(2);
+    // settings[1]['userDrewFirstIndex'] = new Array(4);
+    // settings[1]['userDrewLastIndex'] = new Array(4);
+    // settings[1]['userColorFirstIndex'] = new Array(4);
+    // settings[1]['userColorLastIndex'] = new Array(4);
+    settings[1]['taskChangerTicker'] = [1, 3, 5, 7, 10];
+    settings[1]['tickerText'] = new Array(13);
+    settings[1]['tickerText'][0] = '쿠션을 그리고 있는데 나머지 부분을 좀 그려 주실래요?';
+    settings[1]['tickerText'][1] = '감사합니다. 멋진 쿠션이 완성되었네요 :)';
+    settings[1]['tickerText'][2] = '건물 오른쪽에 비슷한 쿠션 하나를 그려주실래요?';
+    settings[1]['tickerText'][3] = '감사합니다. 멋진 쿠션이 하나 더 완성되었네요 :)';
+    settings[1]['tickerText'][4] = '쿠션과 어울릴만한 소파를 쿠션 뒤에 그려 주실래요?';
+    settings[1]['tickerText'][5] = '감사합니다. 멋진 소파네요 :)';
+    settings[1]['tickerText'][6] = '쿠션과 소파에 어울리도록 그림을 좀 더 그려볼게요.';
+    settings[1]['tickerText'][7] = '짜잔! 마음에 드시나요?';
+    settings[1]['tickerText'][8] = '빈 공간이 있는 곳을 알려 주실래요?';
+    settings[1]['tickerText'][9] = '감사합니다. :)';
+    settings[1]['tickerText'][10] = '알려주신 빈 공간에 액자를 그려 보았어요! 마음에 드시나요?';
+    settings[1]['tickerText'][11] = '표시된 색으로 그림을 색칠 해 주시겠어요?';
+    settings[1]['tickerText'][12] = '도와주셔서 감사합니다! 멋진 그림이 완성 되었어요 :)';
+    settings[1]['timerTickerNums'] = [0, 2, 4, 8, 11];
+    settings[1]['buttonHiddenNums'] = [0, 2, 4, 8, 11];
+    settings[1]['silentAlertNums'] = [0, 2, 4, 8];
     //settings 2
 
+    settings[2] = {}; //landscape
+    settings[2]['presetNum'] = 4; //(로봇 눈, 얼굴 윤곽), 로봇 몸통, 로봇 다리, 추천색
+    settings[2]['presetPos'] = new Array(4);
+    settings[2]['presetPos'][0] = [400, 140]; //(로봇 눈, 얼굴 윤곽)
+    settings[2]['presetPos'][1] = [220, 110]; //로봇 몸통
+    settings[2]['presetPos'][2] = new Array(2); //로봇 다리
+    settings[2]['presetPos'][3] =  //색  //[sx,sy,dx,dy,dycol]
+      [
+        [239,109,392,109,"blue"],
+        [219,328,219,369,"blue"],
+        [270,214,270,277,"blue"],
+        [321,347,321,375,"blue"],
+        [350,318,350,341,"blue"],
+        [395,356,395,377,"red"],
+        [455,360,455,379,"red"],
+        [475,364,475,379,"red"],
+        [507,345,513,374,"green"],
+        [276,507,433,507,"green"]
+      ];
+    settings[2]['silentAlertPosSize'] =
+      [
+        [420,160,40,40],
+        [490,160,40,40],
+        [455,200,40,40],
+        [770,170,35,60]
+      ];
 
-    // var mode = "silent";
-    var mode = "talkative";
-
+    settings[2]['presetSize'] = new Array(4);
+    settings[2]['presetSize'][0] = [90/3, 90/3]; //(로봇 눈, 얼굴 윤곽)
+    settings[2]['presetSize'][1] = [1637/4, 1216/4]; //로봇 몸통
+    settings[2]['presetSize'][2] = [833/3, 423/3];//로봇 다리
+    settings[2]['presetSrc'] = new Array(3);
+    settings[2]['presetSrc'][0] = 'imgsrc/eye_half.png';
+    settings[2]['presetSrc'][1] = 'imgsrc/portrait_background.png';
+    settings[2]['presetSrc'][2] = 'imgsrc/legs.png';
+    settings[2]['presetImg'] = new Array(3);
+    settings[2]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
+    settings[2]['alertImg'] = new Array(2);
+    // settings[2]['userDrewFirstIndex'] = new Array(4);
+    // settings[2]['userDrewLastIndex'] = new Array(4);
+    // settings[2]['userColorFirstIndex'] = new Array(4);
+    // settings[2]['userColorLastIndex'] = new Array(4);
+    settings[2]['taskChangerTicker'] = [1, 3, 5, 7, 10];
+    settings[2]['tickerText'] = new Array(13);
+    settings[2]['tickerText'][0] = '로봇의 눈을 그리고 있는데 나머지 부분을 좀 그려 주실래요?';
+    settings[2]['tickerText'][1] = '감사합니다. 멋진 로봇 눈이 완성되었네요 :)';
+    settings[2]['tickerText'][2] = '눈 오른쪽에 비슷한 눈 하나를 그려주실래요?';
+    settings[2]['tickerText'][3] = '감사합니다. 멋진 로봇 눈이 하나 더 완성되었네요 :)';
+    settings[2]['tickerText'][4] = '로봇 눈에 어울릴만한 입을 눈 밑에 그려 주실래요?';
+    settings[2]['tickerText'][5] = '감사합니다. 멋진 입이네요 :)';
+    settings[2]['tickerText'][6] = '눈과 입에 어울리도록 그림을 좀 더 그려볼게요.';
+    settings[2]['tickerText'][7] = '짜잔! 마음에 드시나요?';
+    settings[2]['tickerText'][8] = '빈 공간이 있는 곳을 알려 주실래요?';
+    settings[2]['tickerText'][9] = '감사합니다. :)';
+    settings[2]['tickerText'][10] = '알려주신 빈 공간에 다리를 그려 보았어요! 마음에 드시나요?';
+    settings[2]['tickerText'][11] = '표시된 색으로 그림을 색칠 해 주시겠어요?';
+    settings[2]['tickerText'][12] = '도와주셔서 감사합니다! 멋진 그림이 완성 되었어요 :)';
+    settings[2]['timerTickerNums'] = [0, 2, 4, 8, 11];
+    settings[2]['buttonHiddenNums'] = [0, 2, 4, 8, 11];
+    settings[2]['silentAlertNums'] = [0, 2, 4, 8];
     // tracking mouse  touchpad
     var tracking = {
       down: false,
@@ -465,7 +583,14 @@
       screen_height = (get_window_height()-(headerHeight+footerHeight)); //window.innerHeight -110 -> -220
       title.style.width = screen_width * 0.4 + 'px';
       ticker.style.width = screen_width * 0.6 + 'px';
-
+      // pictureType = "landscape"
+      if(pictureType === "landscape"){
+        pictureType = 0
+      }else if(pictureType === "stillLife"){
+        pictureType = 1
+      }else if(pictureType === "portrait"){
+        pictureType = 2
+      }
       // var canvas = document.getElementsByTagName("canvas")[0];
       canvas = document.getElementsByTagName("canvas")[0];
       canvas.addEventListener("mousedown", function(e) {
@@ -494,10 +619,10 @@
         deviceReleased();
       })
       button_yes.addEventListener("click", function(e){
-        if(tick>=0 && tick<settings[0]['tickerText'].length){
+        if(tick>=0 && tick<settings[pictureType]['tickerText'].length){
           e.preventDefault();
-          for(var i=0;i<settings[0]['taskChangerTicker'].length;i++){
-            if(tick == settings[0]['taskChangerTicker'][i]){
+          for(var i=0;i<settings[pictureType]['taskChangerTicker'].length;i++){
+            if(tick == settings[pictureType]['taskChangerTicker'][i]){
               changeTicker = true;
             }
           }
@@ -511,7 +636,7 @@
           ticker_showed = 0;
           console.log("tick: ", tick);
           // console.log("task: ", task);
-          console.log("tickerText length: ", settings[0]['tickerText'].length);
+          console.log("tickerText length: ", settings[pictureType]['tickerText'].length);
           }
       })
       cb();
@@ -552,10 +677,10 @@
     };
 
     p.preload = function(){
-      settings[0]['presetImg'][0] = p.loadImage(settings[0]['presetSrc'][0]);
-      settings[0]['presetImg'][1] = p.loadImage(settings[0]['presetSrc'][1]);
-      settings[0]['presetImg'][2] = p.loadImage(settings[0]['presetSrc'][2]);
-      settings[0]['alertImg'][0] = p.loadImage(settings[0]['alertSrc']);
+      settings[pictureType]['presetImg'][0] = p.loadImage(settings[pictureType]['presetSrc'][0]);
+      settings[pictureType]['presetImg'][1] = p.loadImage(settings[pictureType]['presetSrc'][1]);
+      settings[pictureType]['presetImg'][2] = p.loadImage(settings[pictureType]['presetSrc'][2]);
+      settings[pictureType]['alertImg'][0] = p.loadImage(settings[pictureType]['alertSrc']);
     }
 
     p.setup = function() {
@@ -583,7 +708,7 @@
     function drawScenarioWhilePenDown(){
       var timerExist = 0;
       for(var i=0;i<13;i++){
-        if(tick === settings[0]['timerTickerNums'][i]){
+        if(tick === settings[pictureType]['timerTickerNums'][i]){
           timerExist = 1;
         }
       }
@@ -596,7 +721,7 @@
         }
       }
       if(task === 1 || task === 2 || task === 3){ // 1번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
         // if(mode === "silent"){
         //   if(tick === 0){
         //     p.noFill();
@@ -607,27 +732,27 @@
         // }
       }
       else if(task === 4 || task === 5){ // 4,5번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
         if(tick === 7 || tick === 8 || tick === 9 || tick === 10){
-          p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+          p.image(settings[pictureType]['presetImg'][1], settings[pictureType]['presetPos'][1][0], settings[pictureType]['presetPos'][1][1], settings[pictureType]['presetSize'][1][0], settings[pictureType]['presetSize'][1][1]);
         }
         if(tick === 8){
           whiteSpacePos = [tracking.x, tracking.y];
           // console.log(whiteSpacePos);
         }
         if(tick === 10){
-          p.image(settings[0]['presetImg'][2], settings[0]['presetPos'][2][0], settings[0]['presetPos'][2][1], settings[0]['presetSize'][2][0], settings[0]['presetSize'][2][1]);
+          p.image(settings[pictureType]['presetImg'][2], settings[pictureType]['presetPos'][2][0], settings[pictureType]['presetPos'][2][1], settings[pictureType]['presetSize'][2][0], settings[pictureType]['presetSize'][2][1]);
         }
       }
       else if(task === 6){
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
-        p.image(settings[0]['presetImg'][2], settings[0]['presetPos'][2][0], settings[0]['presetPos'][2][1], settings[0]['presetSize'][2][0], settings[0]['presetSize'][2][1]);
+        p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
+        p.image(settings[pictureType]['presetImg'][1], settings[pictureType]['presetPos'][1][0], settings[pictureType]['presetPos'][1][1], settings[pictureType]['presetSize'][1][0], settings[pictureType]['presetSize'][1][1]);
+        p.image(settings[pictureType]['presetImg'][2], settings[pictureType]['presetPos'][2][0], settings[pictureType]['presetPos'][2][1], settings[pictureType]['presetSize'][2][0], settings[pictureType]['presetSize'][2][1]);
         // // if(tick===11){
-          for(var i=0;i<settings[0]['presetPos'][3].length;i++){
-            p.stroke(settings[0]['presetPos'][3][i][4]);
+          for(var i=0;i<settings[pictureType]['presetPos'][3].length;i++){
+            p.stroke(settings[pictureType]['presetPos'][3][i][4]);
             p.strokeWeight(3); // nice thick line
-            p.line(settings[0]['presetPos'][3][i][0], settings[0]['presetPos'][3][i][1], settings[0]['presetPos'][3][i][2], settings[0]['presetPos'][3][i][3]);
+            p.line(settings[pictureType]['presetPos'][3][i][0], settings[pictureType]['presetPos'][3][i][1], settings[pictureType]['presetPos'][3][i][2], settings[pictureType]['presetPos'][3][i][3]);
           }
         }
       // }
@@ -646,27 +771,27 @@
         tick = 11;
         task = 6;
       }
-      for(var i=0;i<settings[0]['timerTickerNums'].length;i++){
-        if(tick === settings[0]['timerTickerNums'][i]){
+      for(var i=0;i<settings[pictureType]['timerTickerNums'].length;i++){
+        if(tick === settings[pictureType]['timerTickerNums'][i]){
           timerExist = 1;
         }
       }
-      for(var i=0;i<settings[0]['buttonHiddenNums'].length;i++){
-        if(tick === settings[0]['buttonHiddenNums'][i]){
+      for(var i=0;i<settings[pictureType]['buttonHiddenNums'].length;i++){
+        if(tick === settings[pictureType]['buttonHiddenNums'][i]){
           buttonHidden = 1;
         }
       }
-      for(var i=0;i<settings[0]['silentAlertNums'].length;i++){
-        if(tick === settings[0]['silentAlertNums'][i] && mode === "silent" && silentAlert === 0){
+      for(var i=0;i<settings[pictureType]['silentAlertNums'].length;i++){
+        if(tick === settings[pictureType]['silentAlertNums'][i] && mode === "silent" && silentAlert === 0){
           // silentAlertExist = 1;
           if(tick!=8){
             p.noFill();
             p.stroke(235,23,0,100);
             p.strokeWeight(3);
-            p.ellipse(settings[0]['silentAlertPosSize'][i][0],settings[0]['silentAlertPosSize'][i][1],settings[0]['silentAlertPosSize'][i][2],settings[0]['silentAlertPosSize'][i][3]);
+            p.ellipse(settings[pictureType]['silentAlertPosSize'][i][0],settings[pictureType]['silentAlertPosSize'][i][1],settings[pictureType]['silentAlertPosSize'][i][2],settings[pictureType]['silentAlertPosSize'][i][3]);
           }
           else if(tick===8){
-            p.image(settings[0]['alertImg'][0], settings[0]['silentAlertPosSize'][i][0], settings[0]['silentAlertPosSize'][i][1], settings[0]['silentAlertPosSize'][i][2], settings[0]['silentAlertPosSize'][i][3]);
+            p.image(settings[pictureType]['alertImg'][0], settings[pictureType]['silentAlertPosSize'][i][0], settings[pictureType]['silentAlertPosSize'][i][1], settings[pictureType]['silentAlertPosSize'][i][2], settings[pictureType]['silentAlertPosSize'][i][3]);
           }
           silentAlert = 1;
         }
@@ -676,7 +801,7 @@
         timerStart();
         timerOn = 1;
         penTouched = 0;
-        if(mode==="silent"){
+        if(mode==="silent" && tick!=11 && tick!=12 && tick!=13){
           silentTimerStart();
         }
       }
@@ -695,7 +820,7 @@
         ticker.style.visibility = "hidden";
       }
       // if(silentAlertExist){
-      //   p.ellipse(settings[0]['silentAlertPos'][tick][0],settings[0]['silentAlertPos'][tick][1],settings[0]['silentAlertPos'][tick][2],settings[0]['silentAlertPos'][tick][3]);
+      //   p.ellipse(settings[pictureType]['silentAlertPos'][tick][0],settings[pictureType]['silentAlertPos'][tick][1],settings[pictureType]['silentAlertPos'][tick][2],settings[pictureType]['silentAlertPos'][tick][3]);
       //   silentAlert = 1;
       // }
       // if(mode === "silent" && silentAlert === 0){
@@ -709,27 +834,27 @@
       //   }
       // }
       if(task === 1 || task === 2 || task === 3){ // 1, 2, 3번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
       }
       else if(task === 4 || task === 5){ // 4번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
         if(tick === 7 || tick === 8 || tick === 9 || tick === 10){
-          p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+          p.image(settings[pictureType]['presetImg'][1], settings[pictureType]['presetPos'][1][0], settings[pictureType]['presetPos'][1][1], settings[pictureType]['presetSize'][1][0], settings[pictureType]['presetSize'][1][1]);
         }
         if(tick === 10){
-          p.image(settings[0]['presetImg'][2], settings[0]['presetPos'][2][0], settings[0]['presetPos'][2][1], settings[0]['presetSize'][2][0], settings[0]['presetSize'][2][1]);
+          p.image(settings[pictureType]['presetImg'][2], settings[pictureType]['presetPos'][2][0], settings[pictureType]['presetPos'][2][1], settings[pictureType]['presetSize'][2][0], settings[pictureType]['presetSize'][2][1]);
         }
       }
       else if(task === 6){
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
-        p.image(settings[0]['presetImg'][2], settings[0]['presetPos'][2][0], settings[0]['presetPos'][2][1], settings[0]['presetSize'][2][0], settings[0]['presetSize'][2][1]);
+        p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
+        p.image(settings[pictureType]['presetImg'][1], settings[pictureType]['presetPos'][1][0], settings[pictureType]['presetPos'][1][1], settings[pictureType]['presetSize'][1][0], settings[pictureType]['presetSize'][1][1]);
+        p.image(settings[pictureType]['presetImg'][2], settings[pictureType]['presetPos'][2][0], settings[pictureType]['presetPos'][2][1], settings[pictureType]['presetSize'][2][0], settings[pictureType]['presetSize'][2][1]);
         // if(tick===11 ){
           // if(taskSixLineDrew === 0){
-        for(var i=0;i<settings[0]['presetPos'][3].length;i++){
-          p.stroke(settings[0]['presetPos'][3][i][4]);
+        for(var i=0;i<settings[pictureType]['presetPos'][3].length;i++){
+          p.stroke(settings[pictureType]['presetPos'][3][i][4]);
           p.strokeWeight(3); // nice thick line
-          p.line(settings[0]['presetPos'][3][i][0], settings[0]['presetPos'][3][i][1], settings[0]['presetPos'][3][i][2], settings[0]['presetPos'][3][i][3]);
+          p.line(settings[pictureType]['presetPos'][3][i][0], settings[pictureType]['presetPos'][3][i][1], settings[pictureType]['presetPos'][3][i][2], settings[pictureType]['presetPos'][3][i][3]);
           // taskSixLineDrew = 1;
         }
       }
@@ -742,8 +867,8 @@
         else if(tick === 9){
           if(spaceAlert === 0){
             makeSpaceAlert(whiteSpacePos[0], whiteSpacePos[1]+55, 100);
-            settings[0]['presetPos'][2][0] = (whiteSpacePos[0] - ((settings[0]['presetSize'][2][0])/2));
-            settings[0]['presetPos'][2][1] = (whiteSpacePos[1] - ((settings[0]['presetSize'][2][1])/2));
+            settings[pictureType]['presetPos'][2][0] = (whiteSpacePos[0] - ((settings[pictureType]['presetSize'][2][0])/2));
+            settings[pictureType]['presetPos'][2][1] = (whiteSpacePos[1] - ((settings[pictureType]['presetSize'][2][1])/2));
             spaceAlert = 1;
             console.log("whiteSpacePos: "+whiteSpacePos);
             console.log("spaceAlert: "+spaceAlert);
@@ -754,8 +879,8 @@
 
 
     p.draw = function() {
-      if(tick>=0 && tick<settings[0]['tickerText'].length && ticker_showed === 0 && mode === "talkative"&& timerOn != 1){
-        set_ticker_text(settings[0]['tickerText'][tick]);
+      if(tick>=0 && tick<settings[pictureType]['tickerText'].length && ticker_showed === 0 && mode === "talkative"&& timerOn != 1){
+        set_ticker_text(settings[pictureType]['tickerText'][tick]);
         ticker_showed = 1;
       }
       screen_width = get_window_width();
