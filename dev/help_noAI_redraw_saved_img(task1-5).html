@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>help_noAI_old_shit</title>
+  <title>help_noAI</title>
   <meta charset="UTF-8">
   <style>
     #sketch canvas {}
@@ -240,22 +240,13 @@
     var tickerTimer;
     var penTouched = -1;
     var changeTicker;
-    var firstIndexPut = 0;
-    var lastIndexPut = 0;
-    var firstColorIndexPut = 0;
-    var lastColorIndexPut = 0;
-    var colorsBackup
-    var drew = 0;
-    var endPos;
-    var endPosRecorded = 0;
-    var imageDrew = 0;
-    var obj1;
-    var obj2;
-    var obj3;
-    var obj1C;
-    var obj2C;
-    var obj3C;
-    var executeJustOne = 0;
+    var whiteSpacePos;
+    var spaceAlert = 0;
+    var taskSixHasStarted = false;
+    var img;
+    var imgSrc;
+    // var taskSixLineDrew = 0;
+
     // dom
     var reset_button, model_sel, random_model_button;
     var text_title, text_temperature;
@@ -284,17 +275,30 @@
     settings[0] = {}; //landscape
     settings[0]['presetNum'] = 4; //건물, 건물배경, 구름, 추천색
     settings[0]['presetPos'] = new Array(4);
-    settings[0]['presetPos'][0] = [357, 200] //건물
-    settings[0]['presetPos'][1] = [157, 400] //건물배경
-    settings[0]['presetPos'][2] = [2,2] //구름
-    settings[0]['presetPos'][3] = new Array(9); //색
+    settings[0]['presetPos'][0] = [252, 164]; //건물
+    settings[0]['presetPos'][1] = [182, 259]; //건물배경
+    settings[0]['presetPos'][2] = new Array(2) //자동차
+    settings[0]['presetPos'][3] =  //색  //[sx,sy,dx,dy,dycol]
+      [
+        [239,109,392,109,"blue"],
+        [219,328,219,369,"blue"],
+        [270,214,270,277,"blue"],
+        [321,347,321,375,"blue"],
+        [350,318,350,341,"blue"],
+        [395,356,395,377,"red"],
+        [455,360,455,379,"red"],
+        [475,364,475,379,"red"],
+        [507,345,513,374,"green"],
+        [276,507,433,507,"green"]
+      ]
     settings[0]['presetSize'] = new Array(4);
-    settings[0]['presetSize'][0] = [138, 475] //건물
-    settings[0]['presetSize'][1] = [880, 293] //건물배경
-    settings[0]['presetSize'][2] = [2,2] //구름
-    settings[0]['presetSrc'] = new Array(4);
-    settings[0]['presetSrc'][0] = 'imgsrc/building_half.png'
-    settings[0]['presetSrc'][1] = 'imgsrc/landscape_background.png'
+    settings[0]['presetSize'][0] = [69, 238]; //건물
+    settings[0]['presetSize'][1] = [440, 146]; //건물배경
+    settings[0]['presetSize'][2] = [282,120];//자동차
+    settings[0]['presetSrc'] = new Array(3);
+    settings[0]['presetSrc'][0] = 'imgsrc/building_half.png';
+    settings[0]['presetSrc'][1] = 'imgsrc/landscape_background.png';
+    settings[0]['presetSrc'][2] = 'imgsrc/car.png';
     settings[0]['presetImg'] = new Array(4);
     settings[0]['userDrewFirstIndex'] = new Array(4);
     settings[0]['userDrewLastIndex'] = new Array(4);
@@ -306,15 +310,17 @@
     settings[0]['tickerText'][1] = '감사합니다. 멋진 건물이 완성되었네요 :)';
     settings[0]['tickerText'][2] = '건물 오른쪽에 비슷한 건물 하나를 그려주실래요?';
     settings[0]['tickerText'][3] = '감사합니다. 멋진 건물이 하나 더 완성되었네요 :)';
-    settings[0]['tickerText'][4] = '건물과 어울릴만한 자동차 하나를 그려 주실래요?';
-    settings[0]['tickerText'][5] = '감사합니다. 멋진 자동차네요 :)';
-    settings[0]['tickerText'][6] = '건물과 자동차에 어울리도록 그림을 좀 더 그려볼게요.';
+    settings[0]['tickerText'][4] = '건물과 어울릴만한 구름 하나를 그려 주실래요?';
+    settings[0]['tickerText'][5] = '감사합니다. 멋진 구름이네요 :)';
+    settings[0]['tickerText'][6] = '건물과 구름에 어울리도록 그림을 좀 더 그려볼게요.';
     settings[0]['tickerText'][7] = '짜잔! 마음에 드시나요?';
     settings[0]['tickerText'][8] = '빈 공간이 있는 곳을 알려 주실래요?';
     settings[0]['tickerText'][9] = '감사합니다. :)';
-    settings[0]['tickerText'][10] = '알려주신 빈 공간에 구름을 그려 보았어요! 마음에 드시나요?';
+    settings[0]['tickerText'][10] = '알려주신 빈 공간에 자동차를 그려 보았어요! 마음에 드시나요?';
     settings[0]['tickerText'][11] = '표시된 색으로 그림을 색칠 해 주시겠어요?';
     settings[0]['tickerText'][12] = '도와주셔서 감사합니다! 멋진 그림이 완성 되었어요 :)';
+    settings[0]['timerTickerNums'] = [0, 2, 4, 8, 11];
+    settings[0]['buttonHiddenNums'] = [0, 2, 4, 8, 11];
     // var mode = "silent";
     var mode = "talkative";
 
@@ -329,7 +335,7 @@
       document.getElementById("ticker").innerText = new_text;
     };
 
-    var draw_example = function(example, start_x, start_y, line_color, prev_pen_override, objColors, callBack) {
+    var draw_example = function(example, start_x, start_y, line_color, prev_pen_override) {
       console.log('draw_examlple called!');
 
       var i, j;
@@ -350,7 +356,7 @@
       var pt;
 
       line.push([x, y]);
-      if(task == 4) line.pop([x, y]); // 하나 빼줘야 함 안 그럼 선 찍!
+
       for (i = 0; i < example.length; i++) {
         // sample the next pen's states from our probability distribution
         [dx, dy, pen_down, pen_up, pen_end] = example[i];
@@ -374,11 +380,6 @@
         // update the previous pen's state to the current one we just sampled
         prev_pen = [pen_down, pen_up, pen_end];
       }
-      // if (endPosRecorded === 0){
-      //   endPos = [x, y];
-      //   endPosRecorded = 1;
-      //   console.log("endPos: ", endPos);
-      // }
       if (line.length > 0) {
         lines.push(line);
         //colors, penWeight 와 lines 길이 맞추기
@@ -386,22 +387,21 @@
           //console.log('lines.length',lines.length,'colors.length',colors.length);
           colors.push(curCol);
           penWeights.push(curPenWeight);
+          penAlphas.push(curPenAlpha);
         }
         while(lines.length<colors.length){
           //console.log('lines.length',lines.length,'colors.length',colors.length);
           colors.pop(curCol);
           penWeights.pop(curPenWeight);
+          penAlphas.pop(curPenAlpha);
         }
         if(lines.length===colors.length){
           raw_lines = raw_lines.slice(0,lines.length);
-          console.log('lines.length',lines.length,'colors.length',colors.length,'penWeights.length',penWeights.length,'strokes.length',strokes.length,'raw_lines.length',raw_lines.length);
+          console.log('lines.length',lines.length,'colors.length',colors.length,'penWeights.length',penWeights.length,'strokes.length',strokes.length,'raw_lines.length',raw_lines.length,'penAlphas.length',penAlphas.length);
           line = [];
         }
       }
-      if(Array.isArray(objColors)){
-        colorsBackup = colors;
-        colors = objColors;
-      }
+
       for (i = 0; i < lines.length; i++){
         line = lines[i];
         if (line.length > 1) {
@@ -409,7 +409,10 @@
           // p.fill(254);
           p.noFill();
           // p.stroke('black');
-          p.stroke(colors[i]);
+          var rgba = colorToRGBA(colors[i]);
+          rgba[3] = penAlphas[i];
+          p.stroke(rgba[0],rgba[1],rgba[2],rgba[3]);
+          // p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
           p.beginShape();
           p.curveVertex(pt[0], pt[1]);
@@ -420,14 +423,6 @@
           p.curveVertex(pt[0], pt[1]);
           p.endShape();
         }
-      }
-      if(Array.isArray(objColors)){
-        colors = colorsBackup;
-      }
-      if(tick===7 && imageDrew === 0){
-        p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
-        // draw_example(obj3, endPos[0], endPos[1]);
-        imageDrew = 1;
       }
     };
 
@@ -451,7 +446,8 @@
       title.style.width = screen_width * 0.4 + 'px';
       ticker.style.width = screen_width * 0.6 + 'px';
 
-      var canvas = document.getElementsByTagName("canvas")[0];
+      // var canvas = document.getElementsByTagName("canvas")[0];
+      canvas = document.getElementsByTagName("canvas")[0];
       canvas.addEventListener("mousedown", function(e) {
         devicePressed(e.clientX, e.clientY);
       })
@@ -486,10 +482,8 @@
             }
           }
           if(changeTicker){
-            saveDrewIndexes(task);
-            saveColorIndexes(task);
-            console.log(strokes);
             task += 1;
+            if(task === 6) taskSixHasStarted = true;
             console.log("prev task num:", task-1,"updated task num: ", task);
             changeTicker = false;
           }
@@ -500,6 +494,7 @@
           console.log("tickerText length: ", settings[0]['tickerText'].length);
           }
       })
+      cb();
     }
 
     function restart() {
@@ -521,8 +516,10 @@
       raw_lines = [];
       current_raw_line = [];
       strokes = [];
+      colors = [];
+      penWeights = [];
+      penAlphas = [];
       current_strokes = [];
-      scenarioStrokes = [];
     };
 
     function clear_screen() {
@@ -537,6 +534,7 @@
     p.preload = function(){
       settings[0]['presetImg'][0] = p.loadImage(settings[0]['presetSrc'][0]);
       settings[0]['presetImg'][1] = p.loadImage(settings[0]['presetSrc'][1]);
+      settings[0]['presetImg'][2] = p.loadImage(settings[0]['presetSrc'][2]);
     }
 
     p.setup = function() {
@@ -547,6 +545,7 @@
       restart();
       canvas = p.createCanvas(screen_width, screen_height);
       p.frameRate(30);
+      // p.frameRate(10);
       clear_screen();
       last_time = +new Date()
     }
@@ -561,172 +560,171 @@
       return window.innerHeight;
     }
     function drawScenarioWhilePenDown(){
-      if(task === 1){ // 1번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        draw_example(strokes, start_x, start_y);
-        if(timerOn === 1){
-          clearTimeout(tickerTimer);
-          timerOn = 0;
-          console.log("timer cleared");
+      var timerExist = 0;
+      for(var i=0;i<13;i++){
+        if(tick === settings[0]['timerTickerNums'][i]){
+          timerExist = 1;
         }
       }
-      else if(task === 2){ // 2번 task
+      if(timerExist === 1 && timerOn === 1){
+        clearTimeout(tickerTimer);
+        timerOn = 0;
+        console.log("timer cleared");
+      }
+      if(task === 1 || task === 2 || task === 3){ // 1번 task
         p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        endPosRecorded = 0;
-        draw_example(strokes, start_x, start_y);
-        if(timerOn === 1){
-          clearTimeout(tickerTimer);
-          timerOn = 0;
-          console.log("timer cleared");
+      }
+      else if(task === 4 || task === 5){ // 4,5번 task
+        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        if(tick === 7 || tick === 8 || tick === 9 || tick === 10){
+          p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+        }
+        if(tick === 8){
+          whiteSpacePos = [tracking.x, tracking.y];
+          // console.log(whiteSpacePos);
+        }
+        if(tick === 10){
+          p.image(settings[0]['presetImg'][2], settings[0]['presetPos'][2][0], settings[0]['presetPos'][2][1], settings[0]['presetSize'][2][0], settings[0]['presetSize'][2][1]);
         }
       }
-      else if(task === 3){ // 3번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        // endPosRecorded = 0;
-        draw_example(strokes, start_x, start_y);
-        if(timerOn === 1){
-          clearTimeout(tickerTimer);
-          timerOn = 0;
-          console.log("timer cleared");
+      else if(task === 6){
+        // var canva = document.getElementsByTagName("canvas")[0];
+        // console.log(canva)
+        // img = convertCanvasToImage(canva);
+          // var canvas = document.getElementsByTagName("canvas")[0];
+          // canvas = convertImageToCanvas(img);
+          // init(function() {
+          //   console.log('ready.');
+          //   has_started = true;
+          //   // draw_random_example();
+          // });
+            // console.log(canvas);
+            // // var myCanvas = document.getElementById('my_canvas_id');
+            // var ctx = canvas.getContext('2d');
+            // var img = new Image;
+            // img.onload = function(){
+            //   ctx.drawImage(img,0,0,screen_width,screen_height); // Or at whatever offset you like
+            // };
+            // img.src = imgSrc;
+          // var imgp5 = new p5.Image().get(img);
+          // p.image(imgp5);
+        // p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        // p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+        // p.image(settings[0]['presetImg'][2], settings[0]['presetPos'][2][0], settings[0]['presetPos'][2][1], settings[0]['presetSize'][2][0], settings[0]['presetSize'][2][1]);
+        // // if(tick===11){
+        //   for(var i=0;i<settings[0]['presetPos'][3].length;i++){
+        //     p.stroke(settings[0]['presetPos'][3][i][4]);
+        //     p.strokeWeight(3); // nice thick line
+        //     p.line(settings[0]['presetPos'][3][i][0], settings[0]['presetPos'][3][i][1], settings[0]['presetPos'][3][i][2], settings[0]['presetPos'][3][i][3]);
+        //   }
         }
-      }
-      else if(task === 4){ // 4번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        if (tick === 7){
-          console.log("settings[0]['userDrewFirstIndex']: ", settings[0]['userDrewFirstIndex']);
-          console.log("settings[0]['userColorFirstIndex']: ", settings[0]['userColorFirstIndex']);
-          console.log("settings[0]['userColorLastIndex']: ", settings[0]['userColorLastIndex']);
-          obj1 = strokes.slice(settings[0]['userDrewFirstIndex'][1], settings[0]['userDrewLastIndex'][1]+1);
-          obj2 = strokes.slice(settings[0]['userDrewFirstIndex'][2], settings[0]['userDrewLastIndex'][2]+1);
-          obj3 = strokes.slice(settings[0]['userDrewFirstIndex'][3], settings[0]['userDrewLastIndex'][3]+1);
-          obj1C = colors.slice(settings[0]['userColorFirstIndex'][1], settings[0]['userColorLastIndex'][1]+1)
-          obj2C = colors.slice(settings[0]['userColorFirstIndex'][2], settings[0]['userColorLastIndex'][2]+1)
-          obj3C = colors.slice(settings[0]['userColorFirstIndex'][3], settings[0]['userColorLastIndex'][3]+1)
-          scenarioStrokes = obj1.concat(obj2);
-          scenarioStrokesColors = obj1C.concat(obj2C);
-          // draw_example(scenarioStrokes, start_x, start_y,null,null,scenarioStrokesColors);
-          imageDrew = 0;
-          draw_example(scenarioStrokes, start_x, start_y);
-          // p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
-          console.log("endPos: ", endPos);
-          // draw_example(obj3, endPos[0], endPos[1], null, null, obj3C);
-          draw_example(obj3, endPos[0], endPos[1]);
-          // drew = 1;
-          // endPosRecorded = 0;
-          console.log("obj1: ", obj1);
-          console.log("obj2: ", obj2);
-          console.log("obj3: ", obj3);
-          console.log("scenarioStrokes: ", scenarioStrokes);
-          console.log("obj1C: ", obj1C);
-          console.log("obj2C: ", obj2C);
-          console.log("obj3C: ", obj3C);
-          console.log("scenarioStrokesColors: ", scenarioStrokesColors);
-        }
-      }
+      // }
     }
+
 
     function drawScenarioWhilePenUp(){
-      if(task === 1){ // 1번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        draw_example(strokes, start_x, start_y);
-        if (tick === 0){
-          button_yes.style.visibility = "hidden";
-          button_no.style.visibility = "hidden";
-        }
-        else if (tick === 1){
-          button_yes.style.visibility = "visible";
-          button_no.style.visibility = "hidden";
-          button_yes.innerText = "Ok";
-        }
-        if(tick === 0 && timerOn === 0 && penTouched === 1){
-          timerStart();
-          timerOn = 1;
-          penTouched = 0;
-        }
-        // drew = 1;
-      }
-      else if(task === 2){ // 2번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        draw_example(strokes, start_x, start_y);
-        if (tick === 2){
-          button_yes.style.visibility = "hidden";
-          button_no.style.visibility = "hidden";
-        }
-        if (tick === 3){
-          button_yes.style.visibility = "visible";
-          button_no.style.visibility = "hidden";
-          button_yes.innerText = "Ok";
-        }
-        if(tick === 2 && timerOn === 0 && penTouched === 1){
-          timerStart();
-          timerOn = 1;
-          penTouched = 0;
-        }
-        // drew = 1;
-      }
-      else if(task === 3){ // 3번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        draw_example(strokes, start_x, start_y);
-        // endPosRecorded = 1;
-        if (tick === 4){
-          button_yes.style.visibility = "hidden";
-          button_no.style.visibility = "hidden";
-        }
-        if (tick === 5){
-          button_yes.style.visibility = "visible";
-          button_no.style.visibility = "hidden";
-          button_yes.innerText = "Ok";
-        }
-        if(tick === 4 && timerOn === 0 && penTouched === 1){
-          timerStart();
-          timerOn = 1;
-          penTouched = 0;
+      var timerExist = 0;
+      var buttonHidden = 0;
+      for(var i=0;i<settings[0]['timerTickerNums'].length;i++){
+        if(tick === settings[0]['timerTickerNums'][i]){
+          timerExist = 1;
         }
       }
-      else if(task === 4){ // 4번 task
-        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-        if (tick === 6){
-          draw_example(strokes, start_x, start_y);
-          button_yes.style.visibility = "visible";
-          button_no.style.visibility = "hidden";
-          button_yes.innerText = "Ok";
+      for(var i=0;i<settings[0]['buttonHiddenNums'].length;i++){
+        if(tick === settings[0]['buttonHiddenNums'][i]){
+          buttonHidden = 1;
         }
-        if (tick === 7){
-          button_yes.style.visibility = "visible";
-          button_no.style.visibility = "hidden";
-          button_yes.innerText = "Ok";
-          obj1 = strokes.slice(settings[0]['userDrewFirstIndex'][1], settings[0]['userDrewLastIndex'][1]+1);
-          obj2 = strokes.slice(settings[0]['userDrewFirstIndex'][2], settings[0]['userDrewLastIndex'][2]+1);
-          obj3 = strokes.slice(settings[0]['userDrewFirstIndex'][3], settings[0]['userDrewLastIndex'][3]+1);
-          obj1C = colors.slice(settings[0]['userColorFirstIndex'][0], settings[0]['userColorLastIndex'][1]+1)
-          obj2C = colors.slice(settings[0]['userColorFirstIndex'][1], settings[0]['userColorLastIndex'][2]+1)
-          obj3C = colors.slice(settings[0]['userColorFirstIndex'][2], settings[0]['userColorLastIndex'][3]+1)
-          scenarioStrokes = obj1.concat(obj2);
-          scenarioStrokesColors = obj1C.concat(obj2C);
-          // draw_example(scenarioStrokes, start_x, start_y,null,null,scenarioStrokesColors);
-          imageDrew = 0;
-          draw_example(scenarioStrokes, start_x, start_y);
-          // p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
-          console.log("endPos: ", endPos);
-          // draw_example(obj3, endPos[0], endPos[1],null,null,obj3C);
-          draw_example(obj3, endPos[0], endPos[1]);
-          // endPosRecorded = 0;
+      }
+
+      if(timerExist === 1 && timerOn === 0 && penTouched === 1){
+        timerStart();
+        timerOn = 1;
+        penTouched = 0;
+      }
+      if(buttonHidden === 1){
+        button_yes.style.visibility = "hidden";
+        button_no.style.visibility = "hidden";
+      }
+      else{
+        button_yes.style.visibility = "visible";
+        button_no.style.visibility = "hidden";
+        button_yes.innerText = "Ok";
+      }
+
+      if(task === 1 || task === 2 || task === 3){ // 1, 2, 3번 task
+        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+      }
+      else if(task === 4 || task === 5){ // 4번 task
+        p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        if(tick === 7 || tick === 8 || tick === 9 || tick === 10){
+          p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+        }
+        if(tick === 10){
+          p.image(settings[0]['presetImg'][2], settings[0]['presetPos'][2][0], settings[0]['presetPos'][2][1], settings[0]['presetSize'][2][0], settings[0]['presetSize'][2][1]);
+        }
+      }
+      else if(task === 6){
+        // var canva = document.getElementsByTagName("canvas")[0];
+        // console.log(canva)
+        // img = convertCanvasToImage(canva);
+          // var canvas = document.getElementsByTagName("canvas")[0];
+          // canvas = convertImageToCanvas(img);
+          // init(function() {
+          //   console.log('ready.');
+          //   has_started = true;
+          //   // draw_random_example();
+          // });
+        // console.log(canvas);
+        // var myCanvas = document.getElementById('my_canvas_id');
+          // var ctx = canvas.getContext('2d');
+          // var img = new Image;
+          // img.onload = function(){
+          //   ctx.drawImage(img,0,0,screen_width,screen_height); // Or at whatever offset you like
+          // };
+          // img.src = imgSrc;
+        // var imgp5 = new p5.Image().get(img);
+        // p.image(imgp5);
+        // // loadImage(img, function(img) {
+        // p.image(canvas, 0, 0);
+        // });
+        // p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
+        // p.image(settings[0]['presetImg'][1], settings[0]['presetPos'][1][0], settings[0]['presetPos'][1][1], settings[0]['presetSize'][1][0], settings[0]['presetSize'][1][1]);
+        // p.image(settings[0]['presetImg'][2], settings[0]['presetPos'][2][0], settings[0]['presetPos'][2][1], settings[0]['presetSize'][2][0], settings[0]['presetSize'][2][1]);
+        // // if(tick===11 ){
+        //   // if(taskSixLineDrew === 0){
+        // for(var i=0;i<settings[0]['presetPos'][3].length;i++){
+        //   p.stroke(settings[0]['presetPos'][3][i][4]);
+        //   p.strokeWeight(3); // nice thick line
+        //   p.line(settings[0]['presetPos'][3][i][0], settings[0]['presetPos'][3][i][1], settings[0]['presetPos'][3][i][2], settings[0]['presetPos'][3][i][3]);
+        //   // taskSixLineDrew = 1;
+        // }
+        // // }
+      }
+      if(task === 5){
+        if(tick === 8){
+          whiteSpacePos = [tracking.x, tracking.y]; // why +55?
+          // console.log("trackings: "+tracking.x, tracking.y);
+          // console.log("whiteSpacePos: "+whiteSpacePos);
+        }
+        else if(tick === 9){
+          if(spaceAlert === 0){
+            makeSpaceAlert(whiteSpacePos[0], whiteSpacePos[1]+55, 100);
+            settings[0]['presetPos'][2][0] = (whiteSpacePos[0] - ((settings[0]['presetSize'][2][0])/2));
+            settings[0]['presetPos'][2][1] = (whiteSpacePos[1] - ((settings[0]['presetSize'][2][1])/2));
+            spaceAlert = 1;
+            console.log("whiteSpacePos: "+whiteSpacePos);
+            console.log("spaceAlert: "+spaceAlert);
+          }
         }
       }
     }
 
+
     p.draw = function() {
-      if(tick>=0 && tick<settings[0]['tickerText'].length && ticker_showed === 0 && mode === "talkative" && timerOn != 1){
-        console.log("set ticker!")
+      if(tick>=0 && tick<settings[0]['tickerText'].length && ticker_showed === 0 && mode === "talkative"&& timerOn != 1){
         set_ticker_text(settings[0]['tickerText'][tick]);
         ticker_showed = 1;
       }
-      // else{
-      //   console.log(tick);
-      //   console.log(settings[0]['tickerText'].length);
-      //   console.log(ticker_showed);
-      //   console.log(mode);
-      // }
       screen_width = get_window_width();
       screen_height = (get_window_height()-(headerHeight+footerHeight));
 
@@ -738,19 +736,19 @@
       if (tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
       // if (model_loaded && tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
       penTouched = 1;
-      drew = 0;
         if (userPen.prevState == 1) {
-          clear_screen();
+          if (task!=6) clear_screen();
+          // clear_screen();
           //내가 마우스 누르는동안 이전 오브젝트 그리기
-          // draw_example(strokes, start_x, start_y, line_color);
-          drawScenarioWhilePenDown()
+          drawScenarioWhilePenDown();
+          if(strokes.length) draw_example(strokes, start_x, start_y, line_color);
         }
         if (has_started == false) { // first time anything is written
           restarting_model_lock = false;
-
           restart();
           strokes = [];
-          clear_screen();
+          // if (task!=6) clear_screen();
+          if (task!=6) clear_screen();
           has_started = true;
           // demo_finished = true;
 
@@ -765,33 +763,28 @@
           start_y = y;
           userPen.currentState = 0;
           current_raw_line.push([x, y]);
-          if(task === 1){ // 1번 task
-            p.image(settings[0]['presetImg'][0], settings[0]['presetPos'][0][0], settings[0]['presetPos'][0][1], settings[0]['presetSize'][0][0], settings[0]['presetSize'][0][1]);
-            if(timerOn === 1){
-              clearTimeout(tickerTimer);
-              timerOn = 0;
-              console.log("timer cleared");
-            }
-          }
         } else {
+          drawScenarioWhilePenDown();
           //사용자가 그림 그리는 부분 설정
           var dx0 = tracking.x - x; // candidate for dx
           var dy0 = tracking.y - y; // candidate for dy
-          // if (task === 4 && endIndexRecorded === 0){
-          // if (endPosRecorded === 0){
-          //   endPos = [tracking.x, tracking.y];
-          //   endPosRecorded = 1;
-          //   console.log("endPos: ", endPos);
-          // }
           if (dx0 * dx0 + dy0 * dy0 > epsilon * epsilon) { // only if pen is not in same area
             var dx = dx0;
             var dy = dy0;
             userPen.currentState = 0
 
             if (userPen.prevState == 0) {
-              p.stroke(curCol);
+              var rgba = colorToRGBA(curCol);
+              rgba[3] = curPenAlpha;
+              // console.log(rgba[0],rgba[1],rgba[2],rgba[3]);
+              // var c = p.color(255,0,0,100);
+              // p.stroke(c);//c, alpha값 주는 건 안 됨(alpha값이 추가로 안 들어감)
+              // p.stroke(255,0,0,50);
+              p.stroke(rgba[0],rgba[1],rgba[2],rgba[3]);
               p.strokeWeight(curPenWeight); // nice thick line
               p.line(x, y, x + dx, y + dy); // draw line connecting prev point to current point.
+              // console.log(curCol);
+              // console.log(curPenWeight);
             }
 
             // update the absolute coordinates from the offsets
@@ -801,19 +794,35 @@
             // update raw_lines
             current_raw_line.push([x, y]);
             just_finished_line = true;
-            drawScenarioWhilePenDown()
+
             // using the previous pen states, and hidden state, get next hidden state
             // update_rnn_state();
           }
-          executeJustOne = 0;
         }
       }
       else { // pen is above the paper
-        if(executeJustOne===0){
-          drawScenarioWhilePenUp();
-          executeJustOne = 1;
-          }
+        if (taskSixHasStarted === true) { // first time anything is written
+          // restarting_model_lock = false;
+          var canva = document.getElementsByTagName("canvas")[0];
+          console.log(canva)
+          img = convertCanvasToImage(canva);
+          imgSrc = convertCanvasToImageSrc(canva);
+          var canvas = document.getElementsByTagName("canvas")[0];
+          canvas = convertImageToCanvas(img);
+          init(function() {
+            console.log('ready.');
+            // draw_random_example();
+          });
+          restart();
+          console.log('restarted');
+          // if(task!=6) clear_screen();
+          taskSixHasStarted = false;
+          console.log('taskSixHasStarted'+taskSixHasStarted);
+        }
         userPen.currentState = 1;
+        // clear_screen();
+        drawScenarioWhilePenUp()
+        // if(strokes.length) draw_example(strokes, start_x, start_y, line_color);
         if (just_finished_line) {
           //라인좌표를 curveVertex곡선으로 변환
           var current_raw_line_simple = DataTool.simplify_line(current_raw_line);
@@ -830,101 +839,41 @@
               last_x = last_point[0];
               last_y = last_point[1];
             }
-            if (endPosRecorded === 0){
-              endPos = [last_x, last_y];
-              endPosRecorded = 1;
-              console.log("endPos: ", endPos);
-            }
             //raw_lines -> strokes 절대좌표를 상대좌표로 변환
             var stroke = DataTool.line_to_stroke(current_raw_line_simple, [last_x, last_y]);
             raw_lines.push(current_raw_line_simple);
             strokes = strokes.concat(stroke);
-            // current_strokes = current_strokes.concat(stroke);
+            current_strokes = current_strokes.concat(stroke);
 
             // redraw simplified strokes
-            clear_screen();
-            // if(strokes.length) draw_example(strokes, start_x, start_y, line_color);
-            if(strokes.length) drawScenarioWhilePenUp();
+            if(task!=6) clear_screen();
+            // clear_screen();
+            drawScenarioWhilePenUp()
+            if(strokes.length) draw_example(strokes, start_x, start_y, line_color);
+
             old_title_text = title_text;
           } else {
             if (raw_lines.length === 0) {
-              has_started = false;
+              // has_started = false;
             }
           }
+
           current_raw_line = [];
           just_finished_line = false;
         }
-        // task별 실행
-
-
-
-        // if(restarting_model_lock) {
-        //   restarting_model_lock_count -= 1;
-        //   if (restarting_model_lock_count >= 0) {
-        //     return;
-        //   }
-        //   clear_screen();
-        //   // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224),line_color_alpha);
-        //   predict_line_color = curCol;
-        //   //sketch rnn이 그림 그리는동안 이전에 내가 그리 오브젝트 표시
-        //   draw_example(strokes, start_x, start_y, line_color);
-        //   restarting_model_lock = false;
-        // }
       }
       userPen.prevState = userPen.currentState;
     };
-      var timerStart = function() {
-        console.log("timer start")
-        // ticker_showed = 0;
-        tickerTimer = setTimeout(function(){
-          tick += 1;
-          timerOn = 0;
-          ticker_showed = 0;
-          firstIndexPut = 0;
-          lastIndexPut = 0;
-          firstColorIndexPut = 0;
-          lastColorIndexPut = 0;
-          executeJustOne = 0;
-          console.log("tickerTimer");
-        }, 3000); //3초 후 이동
-      }
-
-      function saveDrewIndexes(t){
-        if(firstIndexPut === 0){
-          if(t === 1){
-            settings[0]['userDrewFirstIndex'][t] = 0;
-          }
-          else{
-            settings[0]['userDrewFirstIndex'][t] = settings[0]['userDrewLastIndex'][t-1]+1;
-          }
-          console.log("userDrewFirstIndex: ", settings[0]['userDrewFirstIndex'][t]);
-          firstIndexPut = 1;
-        }
-        if(lastIndexPut === 0){
-          settings[0]['userDrewLastIndex'][t] = strokes.length-1;
-          console.log("userDrewLastIndex: ",settings[0]['userDrewLastIndex'][t]);
-          lastIndexPut = 1;
-        }
-      }
-
-      function saveColorIndexes(t){
-        if(firstColorIndexPut === 0){
-          if(t === 1){
-            settings[0]['userColorFirstIndex'][t] = 0;
-          }
-          else{
-            settings[0]['userColorFirstIndex'][t] = settings[0]['userColorLastIndex'][t-1]+1;
-          }
-          console.log("userColorFirstIndex: ", settings[0]['userColorFirstIndex'][t]);
-          firstColorIndexPut = 1;
-        }
-        if(lastColorIndexPut === 0){
-          settings[0]['userColorLastIndex'][t] = raw_lines.length-1;
-          console.log("userColorLastIndex: ",settings[0]['userColorLastIndex'][t]);
-          lastColorIndexPut = 1;
-        }
-      }
-
+    var timerStart = function() {
+      console.log("timer start")
+      // ticker_showed = 0;
+      tickerTimer = setTimeout(function(){
+        tick += 1;
+        timerOn = 0;
+        ticker_showed = 0;
+        console.log("tickerTimer");
+      }, 3000); //3초 후 이동
+    }
 
     var deviceReleased = function() {
       tracking.down = false;
@@ -933,7 +882,7 @@
 
     var devicePressed = function(x, y) {
       tracking.x = x;
-      tracking.y = y-headerHeight; //header만큼 빼줌
+      tracking.y = (y-headerHeight); //header만큼 빼줌
       if (!tracking.down) {
         tracking.down = true;
       }
@@ -1147,11 +1096,13 @@
     document.getElementById('penWeight').addEventListener('click', function(e){
       //e.target.style.backgroundColor = 'gray';
       curPenWeight = 3;
+      curPenAlpha = 255;
       console.log('curPenWeight', curPenWeight);
     });
     document.getElementById('brushWeight').addEventListener('click', function(e){
       //e.target.style.backgroundColor = 'gray';
       curPenWeight = 15;
+      curPenAlpha = 100;
       console.log('curPenWeight', curPenWeight);
     });
     document.getElementById('cancel').addEventListener('click', cancelClick);
@@ -1166,6 +1117,7 @@
         if(strokes) strokes.pop();
         if(strokes.length==0 || strokes[strokes.length-1][3]==1) break;
       }
+      // if(task!=6) clear_screen();
       clear_screen();
       if(colors.length==0){ //오브젝트 하나도 없으면 재시작
         has_started = false;
@@ -1173,17 +1125,38 @@
       }
       draw_example(strokes, start_x , start_y, line_color);
     }
+
+    function convertCanvasToImage(canvas) {
+    	var image = new Image();
+    	image.src = canvas.toDataURL("image/png");
+    	return image;
+    }
+
+    function convertCanvasToImageSrc(canvas) {
+    	var src = new Image();
+    	src = canvas.toDataURL("image/png");
+    	return src;
+    }
+
+    // Converts image to canvas; returns new canvas element
+    function convertImageToCanvas(image) {
+    	var canvas = document.createElement("canvas");
+    	canvas.width = image.width;
+    	canvas.height = image.height;
+    	canvas.getContext("2d").drawImage(image, 0, 0);
+  	  return canvas;
+    }
   }
     var custom_p5 = new p5(sketch, 'sketch');
 
   var new_start_x, new_start_y;
   var curPenWeight = 3;
+  var curPenAlpha = 255;
   var colors = []; //save all colors of each line
   var penWeights = [];
+  var penAlphas = [];
   var isModelDrawn = false;
   var strokes;
-  var scenarioStrokes;
-  var scenarioStrokesColors;
   var raw_lines;
   var extStrokesLength;
 
@@ -1254,5 +1227,34 @@
       circle.style.display = 'none';
     }, 2000);
   }
+  // function convertCanvasToImage(canvas) {
+  //   var image = new Image();
+  //   image.src = canvas.toDataURL("image/png");
+  //   return image;
+  // }
+  // // Converts image to canvas; returns new canvas element
+  // function convertImageToCanvas(image) {
+  //   var canvas = document.createElement("canvas");
+  //   canvas.width = image.width;
+  //   canvas.height = image.height;
+  //   canvas.getContext("2d").drawImage(image, 0, 0);
+  //   return canvas;
+  // }
+  function colorToRGBA(color) {
+    // Returns the color as an array of [r, g, b, a] -- all range from 0 - 255
+    // color must be a valid canvas fillStyle. This will cover most anything
+    // you'd want to use.
+    // Examples:
+    // colorToRGBA('red')  # [255, 0, 0, 255]
+    // colorToRGBA('#f00') # [255, 0, 0, 255]
+    var cvs, ctx;
+    cvs = document.createElement('canvas');
+    cvs.height = 1;
+    cvs.width = 1;
+    ctx = cvs.getContext('2d');
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, 1, 1);
+    return ctx.getImageData(0, 0, 1, 1).data;
+}
 </script>
 </html>
