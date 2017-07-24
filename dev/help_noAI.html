@@ -5,123 +5,187 @@
   <title>help_noAI</title>
   <meta charset="UTF-8">
   <style>
-    #sketch canvas {}
-    body {
-      padding: 0;
-      margin: 0;
-    }
-    #penWeight{
-      top: 150px;
-      left: 50px;
-    }
-    #brushWeight{
-      top: 250px;
-      left: 50px;
-    }
-    #cancel{
-      top: 350px;
-      left: 50px;
-    }
-    #p_cntr{
-      position: absolute;
-      top: 450px;
-      left: 50px;
-    }
-    #pallet{
-      background-color: black;
-    }
-    .icons{
-      width: 70px;
-      height: 70px;
-      position: fixed;
-      box-sizing: border-box;
-      display: inline-block;
-      position: absolute;
-      border-radius: 100%;
-      border: 5px solid gray;
-      background-color: gray;
-      cursor: pointer;
-      z-index: 1;
-    }
-    .icons:hover{
-      background-color: rgba(100,100,100,.5);
-    }
-    .colorVal{
-      display: inline-block;
-      margin: 5px;
-      border-radius: 100%;
-      width: 30px;
-      height: 30px;
-    }
-    #header{
-      display: block;
-      background-color: rgba(0,0,0,0.8);
-      /*height: 110px;*/
-    }
-    #title{
-      position: relative;
-      display: inline-block;
-      font-family: sans-serif;
-      font-size: 40px;
-      color: white;
-      font-weight: bold;
-      left: 25px;
-    }
-    #footer{
-      display: block;
-      background-color: rgba(0,0,0,0.8);
-      /*height: 110px;*/
-    }
-    #ticker{
-      position: relative;
-      display: inline-block;
-      font-family: sans-serif;
-      font-size: 16px;
-      color: yellow;
-      text-align: center;
-      left: 25px;
-    }
-    .buttons {
-      position: relative;
-      box-shadow: inset 0px 1px 3px 0px #91b8b3;
-      background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-      background-color: #768d87;
-      border-radius: 5px;
-      border: 1px solid #566963;
-      display: inline-block;
-      cursor: pointer;
-      color: #ffffff;
-      font-family: Arial;
-      font-size: 24px;
-      font-weight: bold;
-      padding: 8px 15px;
-      text-decoration: none;
-      text-shadow: 0px -1px 0px #2b665e;
-    }
+  #sketch canvas {}
 
-    .buttons:hover {
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-      background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
-      background-color: rgb(54, 53, 53);
-    }
+  body {
+    padding: 0;
+    margin: 0;
+  }
+  #penWeight{
+    top: 80px;
+    left: 25px;
+    background: url("imgsrc/Penicon.png") center center no-repeat;
+    background-size: 50px 7px;
+  }
+  #brushWeight{
+    top: 175px;
+    left: 25px;
+    background: url("imgsrc/Brushicon.png") center center no-repeat;
+    background-size: 25px 50px;
+  }
+  #cancel{
+    top: 270px;
+    left: 25px;
+    background: url("imgsrc/Cancelicon.png") center center no-repeat;
+    background-size: 50px 34px;
+  }
+  #p_cntr{
+    position: absolute;
+    top: 365px;
+    left: 25px;
+  }
+  #pallet{
+    background-color: black;
+  }
+  .icons{
+    width: 70px;
+    height: 70px;
+    position: fixed;
+    box-sizing: border-box;
+    display: inline-block;
+    position: absolute;
+    border-radius: 100%;
+    border: 5px solid gray;
+    background-color: rgb(100,100,100);
+    cursor: pointer;
+    z-index: 1;
+  }
+  /*.icons:hover{
+    background-color: rgb(200,200,200);
+  }*/
+  .colorVal{
+    display: inline-block;
+    margin: 5px;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+  }
+  #header{
+    display: block;
+    background-color: rgba(0,0,0,0.8);
+    /*height: 110px;*/
+    height: 55px;
+  }
+  #title{
+    position: relative;
+    display: inline-block;
+    font-family: sans-serif;
+    /*font-size: 80px;*/
+    font-size: 40px;
+    color: white;
+    font-weight: bold;
+    /*left: 50px;*/
+    left: 25px;
+  }
+  #footer{
+    display: block;
+    background-color: rgba(0,0,0,0.8);
+    /*height: 110px;*/
+    height: 55px;
+  }
+  #ticker{
+    position: relative;
+    display: block;
+    margin: 11px 0px;
+    font-family: sans-serif;
+    /*font-size: 64px;*/
+    font-size: 25px;
+    color: yellow;
+    text-align: center;
+    width: 100%;
+    /*left: 50px;*/
+    /*left: 25px;*/
+    float: right;
+    overflow: scroll;
+  }
+  #button_cntr{
+    position: relative;
+    float: right;
+    /*display: none;*/
+  }
+  .buttons {
+    position: relative;
+    margin: 11px 10px 11px 0px;
+    /*box-shadow: 1px 1px 1px rgb(100,100,100);*/
+    /*background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);*/
+    background-color: rgb(100,100,100);
+    border-radius: 30px;;
+    /*border: 1px solid #566963;*/
+    display: block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    /*font-size: 48px;*/
+    font-size: 20px;
+    font-weight: bold;
+    /*padding: 16px 30px;*/
+    padding: 5px 15px;
+    text-decoration: none;
+    vertical-align: top;
+    float: right;
+  }
 
-    .buttons:active {
-      position: relative;
-      top: 1px;
-    }
+  /*.buttons:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
+    background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+    background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+    background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+    background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+    background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
+    background-color: rgb(54, 53, 53);
+  }*/
 
-    #spaceAlert{
-      box-sizing: border-box;
-      position: absolute;
-      border-radius: 100%;
-      border: 5px dotted red;
-      transition: border 2s, width 2s, height 2s, left 2s, top 2s;
-    }
+  .buttons:active {
+    position: relative;
+    top: 1px;
+    background-color: gray;
+  }
+  .hashtag{
+    position: relative;
+    margin: 11px 10px 11px 0px;
+    display: block;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px 15px;
+    text-decoration: none;
+    /*vertical-align: top;*/
+    float: right;
+  }
+  #spaceAlert{
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 100%;
+    border: 5px dotted red;
+    transition: border 2s, width 2s, height 2s, left 2s, top 2s;
+  }
+
+  #cover{
+    position: fixed;
+    display: none;
+    top: 0px;
+    left: 0px;
+    width: 980px;
+    height: 689px;
+    z-index: 999;
+    background: url('imgsrc/AIicon.png') center center no-repeat;
+    background-color: rgba(0,0,0,.5);
+    background-size: 300px 300px;
+  }
+
+  #twinkle{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 980px;
+    height: 689px;
+    z-index: 999;
+    background: url('imgsrc/Penicon_red.png') center center no-repeat;
+    /*background-color: rgba(0,0,0,.5);*/
+    background-size: 144px 240px;
+  }
   </style>
   <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script>
   <script language="javascript" type="text/javascript" src="p5.min.js"></script>
@@ -133,24 +197,27 @@
 <body style="background-color:white">
   <div id="header">
     <div id ="title">Co-Creation!</div>
-    <div id ="button_sel1" class = "buttons">Help</div>
-    <div id ="button_sel2" class = "buttons">Landscape</div>
-    <div id ="button_sel3" class = "buttons">Talkative</div>
+    <div id ="button_sel3" class = "hashtag">#Talkative</div>
+    <div id ="button_sel2" class = "hashtag">#Landscape</div>
+    <div id ="button_sel1" class = "hashtag">#Help</div>
   </div>
   <div id="sketch"></div>
-  <div id="penWeight" class="icons">펜모드</div>
-  <div id='brushWeight' class="icons">붓모드</div>
-  <div id='cancel' class="icons">취소</div>
+  <div id="penWeight" class="icons"></div>
+  <div id='brushWeight' class="icons"></div>
+  <div id='cancel' class="icons"></div>
   <div id='p_cntr'>
     <div id='pallet' class="icons"></div>
     <div id='palVal'></div>
   </div>
   <div id="footer">
+    <div id="button_cntr">
+      <div id ="button_no" class = "buttons">no</div>
+      <div id ="button_yes" class = "buttons">yes</div>
+    </div>
     <div id ="ticker">그림을 그려주세요!</div>
-    <div id ="button_yes" class = "buttons">yes</div>
-    <div id ="button_no" class = "buttons">no</div>
   </div>
   <div id='spaceAlert' style='display:none'></div>
+  <div id='twinkle' style='display:none'></div>
 </body>
 <script language="javascript" type="text/javascript">
   var sketch = function(p) {
@@ -247,10 +314,14 @@
     var taskSixHasStarted = false;
     var img;
     var imgSrc;
-    // var mode = "silent";
-    var mode = "talkative";
-    var pictureType = 2;
+    var mode = "silent";
+    // var mode = "talkative";
+    var pictureType = 0;
     // var taskSixLineDrew = 0;
+    var myInterval;
+    var isIntervalStart = false;
+    var intCnt = 0;
+    var myInterval;
 
     // dom
     var reset_button, model_sel, random_model_button;
@@ -281,41 +352,47 @@
     settings[0] = {}; //landscape
     settings[0]['presetNum'] = 4; //건물, 건물배경, 구름, 추천색
     settings[0]['presetPos'] = new Array(4);
-    settings[0]['presetPos'][0] = [252, 164]; //건물
-    settings[0]['presetPos'][1] = [182, 259]; //건물배경
+    settings[0]['presetPos'][0] = [418, 290]; //건물
+    settings[0]['presetPos'][1] = [24, 37]; //건물배경
     settings[0]['presetPos'][2] = new Array(2); //구름
-    settings[0]['presetPos'][3] =  //색  //[sx,sy,dx,dy,dycol]
-      [
-        [239,109,392,109,"blue"],
-        [219,328,219,369,"blue"],
-        [270,214,270,277,"blue"],
-        [321,347,321,375,"blue"],
-        [350,318,350,341,"blue"],
-        [395,356,395,377,"red"],
-        [455,360,455,379,"red"],
-        [475,364,475,379,"red"],
-        [507,345,513,374,"green"],
-        [276,507,433,507,"green"]
-      ];
+    settings[0]['presetPos'][3] = [45,202] //색  //[sx,sy,dx,dy,dycol]
+      // [
+      //   [239,109,392,109,"blue"],
+      //   [219,328,219,369,"blue"],
+      //   [270,214,270,277,"blue"],
+      //   [321,347,321,375,"blue"],
+      //   [350,318,350,341,"blue"],
+      //   [395,356,395,377,"red"],
+      //   [455,360,455,379,"red"],
+      //   [475,364,475,379,"red"],
+      //   [507,345,513,374,"green"],
+      //   [276,507,433,507,"green"]
+      // ];
     settings[0]['silentAlertPosSize'] =
       [
-        [300,300,50,230],
-        [380,300,50,230],
-        [530,460,100,100],
-        [615,90,35,60]
+        [464,379,150,230],
+        [587,379,150,230],
+        [727,382,100,100]
+        // [715,90,35,60]
       ];
 
     settings[0]['presetSize'] = new Array(4);
-    settings[0]['presetSize'][0] = [69, 238]; //건물
-    settings[0]['presetSize'][1] = [440, 146]; //건물배경
-    settings[0]['presetSize'][2] = [282,120];//구름
-    settings[0]['presetSrc'] = new Array(3);
-    settings[0]['presetSrc'][0] = 'imgsrc/building_half.png';
-    settings[0]['presetSrc'][1] = 'imgsrc/landscape_background_t.png';
-    settings[0]['presetSrc'][2] = 'imgsrc/car_t.png';
-    settings[0]['presetImg'] = new Array(3);
-    settings[0]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
-    settings[0]['alertImg'] = new Array(2);
+    // settings[0]['presetSize'][0] = [398/4, 750/4]; //건물
+    // settings[0]['presetSize'][1] = [3827/4, 2159/4]; //건물배경
+    // settings[0]['presetSize'][2] = [720/4, 386/4];//새
+    settings[0]['presetSize'][0] = [96, 181]; //건물
+    settings[0]['presetSize'][1] = [922, 519]; //건물배경
+    settings[0]['presetSize'][2] = [173, 93];//새
+    settings[0]['presetSize'][3] = [885, 361];//색
+
+    settings[0]['presetSrc'] = new Array(4);
+    settings[0]['presetSrc'][0] = 'imgsrc/building_1_418_290.png';
+    settings[0]['presetSrc'][1] = 'imgsrc/landscape_background_1_24_37.png';
+    settings[0]['presetSrc'][2] = 'imgsrc/birds_1.png';
+    settings[0]['presetSrc'][3] = 'imgsrc/landscape_color_line_45_202.png';
+    settings[0]['presetImg'] = new Array(4);
+    // settings[0]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
+    // settings[0]['alertImg'] = new Array(2);
     // settings[0]['userDrewFirstIndex'] = new Array(4);
     // settings[0]['userDrewLastIndex'] = new Array(4);
     // settings[0]['userColorFirstIndex'] = new Array(4);
@@ -326,13 +403,13 @@
     settings[0]['tickerText'][1] = '감사합니다. 멋진 건물이 완성되었네요 :)';
     settings[0]['tickerText'][2] = '건물 오른쪽에 비슷한 건물 하나를 그려주실래요?';
     settings[0]['tickerText'][3] = '감사합니다. 멋진 건물이 하나 더 완성되었네요 :)';
-    settings[0]['tickerText'][4] = '건물과 어울릴만한 구름 하나를 그려 주실래요?';
-    settings[0]['tickerText'][5] = '감사합니다. 멋진 구름이네요 :)';
-    settings[0]['tickerText'][6] = '건물과 구름에 어울리도록 그림을 좀 더 그려볼게요.';
+    settings[0]['tickerText'][4] = '건물과 어울릴만한 나무 하나를 그려 주실래요?';
+    settings[0]['tickerText'][5] = '감사합니다. 멋진 나무네요 :)';
+    settings[0]['tickerText'][6] = '건물과 나무에 어울리도록 그림을 좀 더 그려볼게요.';
     settings[0]['tickerText'][7] = '짜잔! 마음에 드시나요?';
     settings[0]['tickerText'][8] = '빈 공간이 있는 곳을 알려 주실래요?';
     settings[0]['tickerText'][9] = '감사합니다. :)';
-    settings[0]['tickerText'][10] = '알려주신 빈 공간에 자동차를 그려 보았어요! 마음에 드시나요?';
+    settings[0]['tickerText'][10] = '알려주신 빈 공간에 새를 그려 보았어요! 마음에 드시나요?';
     settings[0]['tickerText'][11] = '표시된 색으로 그림을 색칠 해 주시겠어요?';
     settings[0]['tickerText'][12] = '도와주셔서 감사합니다! 멋진 그림이 완성 되었어요 :)';
     settings[0]['timerTickerNums'] = [0, 2, 4, 8, 11];
@@ -340,44 +417,46 @@
     settings[0]['silentAlertNums'] = [0, 2, 4, 8];
 
     //settings 1
-    settings[1] = {}; //landscape
+    settings[1] = {}; //still life
     settings[1]['presetNum'] = 4; //쿠션, (강아지, 청소기), 액자, 추천색
     settings[1]['presetPos'] = new Array(4);
-    settings[1]['presetPos'][0] = [370, 300]; //쿠션
-    settings[1]['presetPos'][1] = [200, 265]; //(강아지, 청소기)
+    settings[1]['presetPos'][0] = [371, 299]; //쿠션
+    settings[1]['presetPos'][1] = [145, 207]; //(강아지, 청소기)
     settings[1]['presetPos'][2] = new Array(2); //액자
-    settings[1]['presetPos'][3] =  //색  //[sx,sy,dx,dy,dycol]
-      [
-        [239,109,392,109,"blue"],
-        [219,328,219,369,"blue"],
-        [270,214,270,277,"blue"],
-        [321,347,321,375,"blue"],
-        [350,318,350,341,"blue"],
-        [395,356,395,377,"red"],
-        [455,360,455,379,"red"],
-        [475,364,475,379,"red"],
-        [507,345,513,374,"green"],
-        [276,507,433,507,"green"]
-      ];
+    settings[1]['presetPos'][3] = [105, 134]; //색  //[sx,sy,dx,dy,dycol]
+      // [
+      //   [239,109,392,109,"blue"],
+      //   [219,328,219,369,"blue"],
+      //   [270,214,270,277,"blue"],
+      //   [321,347,321,375,"blue"],
+      //   [350,318,350,341,"blue"],
+      //   [395,356,395,377,"red"],
+      //   [455,360,455,379,"red"],
+      //   [475,364,475,379,"red"],
+      //   [507,345,513,374,"green"],
+      //   [276,507,433,507,"green"]
+      // ];
     settings[1]['silentAlertPosSize'] =
       [
-        [415,340,70,70],
-        [500,340,70,70],
-        [455,365,500,200],
-        [771,170,35,60]
+        [421,346,70,70],
+        [531,342,70,70],
+        [475,362,500,200]
+        // [771,170,35,60]
       ];
 
     settings[1]['presetSize'] = new Array(4);
-    settings[1]['presetSize'][0] = [430/5, 409/5]; //쿠션
-    settings[1]['presetSize'][1] = [2662/5, 1391/5]; //(강아지, 청소기)
-    settings[1]['presetSize'][2] = [1458/5, 777/5];//액자
-    settings[1]['presetSrc'] = new Array(3);
-    settings[1]['presetSrc'][0] = 'imgsrc/cushion_half.png';
-    settings[1]['presetSrc'][1] = 'imgsrc/stilllife_background_t.png';
-    settings[1]['presetSrc'][2] = 'imgsrc/frame_t.png';
-    settings[1]['presetImg'] = new Array(3);
-    settings[1]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
-    settings[1]['alertImg'] = new Array(2);
+    settings[1]['presetSize'][0] = [102, 97]; //쿠션
+    settings[1]['presetSize'][1] = [737, 331]; //(강아지, 청소기)
+    settings[1]['presetSize'][2] = [349, 185];//액자
+    settings[1]['presetSize'][3] = [726, 434];//선
+    settings[1]['presetSrc'] = new Array(4);
+    settings[1]['presetSrc'][0] = 'imgsrc/cushion_371_299.png';
+    settings[1]['presetSrc'][1] = 'imgsrc/stilllife_background_145_207.png';
+    settings[1]['presetSrc'][2] = 'imgsrc/frame.png';
+    settings[1]['presetSrc'][3] = 'imgsrc/stilllife_color_line_105_134.png';
+    settings[1]['presetImg'] = new Array(4);
+    // settings[1]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
+    // settings[1]['alertImg'] = new Array(2);
     // settings[1]['userDrewFirstIndex'] = new Array(4);
     // settings[1]['userDrewLastIndex'] = new Array(4);
     // settings[1]['userColorFirstIndex'] = new Array(4);
@@ -386,7 +465,7 @@
     settings[1]['tickerText'] = new Array(13);
     settings[1]['tickerText'][0] = '쿠션을 그리고 있는데 나머지 부분을 좀 그려 주실래요?';
     settings[1]['tickerText'][1] = '감사합니다. 멋진 쿠션이 완성되었네요 :)';
-    settings[1]['tickerText'][2] = '건물 오른쪽에 비슷한 쿠션 하나를 그려주실래요?';
+    settings[1]['tickerText'][2] = '쿠션 오른쪽에 비슷한 쿠션 하나를 그려주실래요?';
     settings[1]['tickerText'][3] = '감사합니다. 멋진 쿠션이 하나 더 완성되었네요 :)';
     settings[1]['tickerText'][4] = '쿠션과 어울릴만한 소파를 쿠션 뒤에 그려 주실래요?';
     settings[1]['tickerText'][5] = '감사합니다. 멋진 소파네요 :)';
@@ -405,41 +484,44 @@
     settings[2] = {}; //landscape
     settings[2]['presetNum'] = 4; //(로봇 눈, 얼굴 윤곽), 로봇 몸통, 로봇 다리, 추천색
     settings[2]['presetPos'] = new Array(4);
-    settings[2]['presetPos'][0] = [400, 140]; //(로봇 눈, 얼굴 윤곽)
-    settings[2]['presetPos'][1] = [220, 110]; //로봇 몸통
-    settings[2]['presetPos'][2] = new Array(2); //로봇 다리
-    settings[2]['presetPos'][3] =  //색  //[sx,sy,dx,dy,dycol]
-      [
-        [239,109,392,109,"blue"],
-        [219,328,219,369,"blue"],
-        [270,214,270,277,"blue"],
-        [321,347,321,375,"blue"],
-        [350,318,350,341,"blue"],
-        [395,356,395,377,"red"],
-        [455,360,455,379,"red"],
-        [475,364,475,379,"red"],
-        [507,345,513,374,"green"],
-        [276,507,433,507,"green"]
-      ];
+    settings[2]['presetPos'][0] = [0, 0]; //(로봇 눈, 얼굴 윤곽)
+    settings[2]['presetPos'][1] = [291, 224]; //로봇 몸통
+    // settings[2]['presetPos'][2] = new Array(2); //로봇 다리
+    settings[2]['presetPos'][2] = [389, 389]; //로봇 다리
+    settings[2]['presetPos'][3] = [308, 108];  //색  //[sx,sy,dx,dy,dycol]
+      // [
+      //   [239,109,392,109,"blue"],
+      //   [219,328,219,369,"blue"],
+      //   [270,214,270,277,"blue"],
+      //   [321,347,321,375,"blue"],
+      //   [350,318,350,341,"blue"],
+      //   [395,356,395,377,"red"],
+      //   [455,360,455,379,"red"],
+      //   [475,364,475,379,"red"],
+      //   [507,345,513,374,"green"],
+      //   [276,507,433,507,"green"]
+      // ];
     settings[2]['silentAlertPosSize'] =
       [
-        [420,160,40,40],
-        [490,160,40,40],
-        [455,200,40,40],
-        [770,170,35,60]
+        [460,147,40,40],
+        [509,147,40,40],
+        [482,197,40,40]
+        // [770,170,35,60]
       ];
 
     settings[2]['presetSize'] = new Array(4);
-    settings[2]['presetSize'][0] = [90/3, 90/3]; //(로봇 눈, 얼굴 윤곽)
-    settings[2]['presetSize'][1] = [1637/4, 1216/4]; //로봇 몸통
-    settings[2]['presetSize'][2] = [833/3, 423/3];//로봇 다리
-    settings[2]['presetSrc'] = new Array(3);
-    settings[2]['presetSrc'][0] = 'imgsrc/eye_transparent.png';
-    settings[2]['presetSrc'][1] = 'imgsrc/portrait_background_transparent.png';
-    settings[2]['presetSrc'][2] = 'imgsrc/legs_transparent.png';
-    settings[2]['presetImg'] = new Array(3);
-    settings[2]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
-    settings[2]['alertImg'] = new Array(2);
+    settings[2]['presetSize'][0] = [980, 579]; //(로봇 눈, 얼굴 윤곽)
+    settings[2]['presetSize'][1] = [393, 168]; //로봇 몸통
+    settings[2]['presetSize'][2] = [200, 101];//로봇 다리
+    settings[2]['presetSize'][3] = [256, 280];//선
+    settings[2]['presetSrc'] = new Array(4);
+    settings[2]['presetSrc'][0] = 'imgsrc/portrait_black_frame_0_0.png';
+    settings[2]['presetSrc'][1] = 'imgsrc/robot_body_291_224.png';
+    settings[2]['presetSrc'][2] = 'imgsrc/legs_389_389.png';
+    settings[2]['presetSrc'][3] = 'imgsrc/portrait_color_line_308_108.png';
+    settings[2]['presetImg'] = new Array(4);
+    // settings[2]['alertSrc'] = 'imgsrc/MagnifyingGlassicon.png';
+    // settings[2]['alertImg'] = new Array(2);
     // settings[2]['userDrewFirstIndex'] = new Array(4);
     // settings[2]['userDrewLastIndex'] = new Array(4);
     // settings[2]['userColorFirstIndex'] = new Array(4);
@@ -471,6 +553,14 @@
 
     function set_ticker_text(new_text) {
       document.getElementById("ticker").innerText = new_text;
+      var btn_width;
+      if(document.getElementById('button_cntr'))
+      {
+        btn_width = document.getElementById('button_cntr').clientWidth;
+        console.log("btn_width: ",btn_width);
+      }
+      else btn_width = 0;
+      ticker.style.width = screen_width - btn_width + 'px';
     };
 
     var draw_example = function(example, start_x, start_y, line_color, prev_pen_override) {
@@ -573,16 +663,18 @@
       ticker = document.getElementById("ticker");
       button_yes = document.getElementById("button_yes");
       button_no = document.getElementById("button_no");
+      sketch = document.getElementById("sketch");
       if (mode === "silent"){
         // console.log(ticker.innerHTML);
         ticker.innerHTML= "";
-        button_yes.style.visibility = "hidden";
-        button_no.style.visibility = "hidden";
+        button_yes.style.display = "hidden";
+        button_no.style.display = "hidden";
       }
       screen_width = get_window_width(); //window.innerWidth
       screen_height = (get_window_height()-(headerHeight+footerHeight)); //window.innerHeight -110 -> -220
       title.style.width = screen_width * 0.4 + 'px';
-      ticker.style.width = screen_width * 0.6 + 'px';
+      sketch.style.height = screen_height + 'px';
+      // ticker.style.width = screen_width * 0.6 + 'px';
       // pictureType = "landscape"
       if(pictureType === "landscape"){
         pictureType = 0
@@ -680,7 +772,8 @@
       settings[pictureType]['presetImg'][0] = p.loadImage(settings[pictureType]['presetSrc'][0]);
       settings[pictureType]['presetImg'][1] = p.loadImage(settings[pictureType]['presetSrc'][1]);
       settings[pictureType]['presetImg'][2] = p.loadImage(settings[pictureType]['presetSrc'][2]);
-      settings[pictureType]['alertImg'][0] = p.loadImage(settings[pictureType]['alertSrc']);
+      settings[pictureType]['presetImg'][3] = p.loadImage(settings[pictureType]['presetSrc'][3]);
+      // settings[pictureType]['alertImg'][0] = p.loadImage(settings[pictureType]['alertSrc']);
     }
 
     p.setup = function() {
@@ -748,12 +841,13 @@
         p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
         p.image(settings[pictureType]['presetImg'][1], settings[pictureType]['presetPos'][1][0], settings[pictureType]['presetPos'][1][1], settings[pictureType]['presetSize'][1][0], settings[pictureType]['presetSize'][1][1]);
         p.image(settings[pictureType]['presetImg'][2], settings[pictureType]['presetPos'][2][0], settings[pictureType]['presetPos'][2][1], settings[pictureType]['presetSize'][2][0], settings[pictureType]['presetSize'][2][1]);
+        p.image(settings[pictureType]['presetImg'][3], settings[pictureType]['presetPos'][3][0], settings[pictureType]['presetPos'][3][1], settings[pictureType]['presetSize'][3][0], settings[pictureType]['presetSize'][3][1]);
         // // if(tick===11){
-          for(var i=0;i<settings[pictureType]['presetPos'][3].length;i++){
-            p.stroke(settings[pictureType]['presetPos'][3][i][4]);
-            p.strokeWeight(3); // nice thick line
-            p.line(settings[pictureType]['presetPos'][3][i][0], settings[pictureType]['presetPos'][3][i][1], settings[pictureType]['presetPos'][3][i][2], settings[pictureType]['presetPos'][3][i][3]);
-          }
+          // for(var i=0;i<settings[pictureType]['presetPos'][3].length;i++){
+          //   p.stroke(settings[pictureType]['presetPos'][3][i][4]);
+          //   p.strokeWeight(3); // nice thick line
+          //   p.line(settings[pictureType]['presetPos'][3][i][0], settings[pictureType]['presetPos'][3][i][1], settings[pictureType]['presetPos'][3][i][2], settings[pictureType]['presetPos'][3][i][3]);
+          // }
         }
       // }
     }
@@ -791,8 +885,22 @@
             p.ellipse(settings[pictureType]['silentAlertPosSize'][i][0],settings[pictureType]['silentAlertPosSize'][i][1],settings[pictureType]['silentAlertPosSize'][i][2],settings[pictureType]['silentAlertPosSize'][i][3]);
           }
           else if(tick===8){
-            p.image(settings[pictureType]['alertImg'][0], settings[pictureType]['silentAlertPosSize'][i][0], settings[pictureType]['silentAlertPosSize'][i][1], settings[pictureType]['silentAlertPosSize'][i][2], settings[pictureType]['silentAlertPosSize'][i][3]);
-          }
+            // p.image(settings[pictureType]['alertImg'][0], settings[pictureType]['silentAlertPosSize'][i][0], settings[pictureType]['silentAlertPosSize'][i][1], settings[pictureType]['silentAlertPosSize'][i][2], settings[pictureType]['silentAlertPosSize'][i][3]);
+              myInterval = setInterval(function(){
+                  console.log('interval');
+                  isIntervalStart = true;
+                  if(intCnt > 4){
+                    clearInterval(myInterval);
+                    // isTimeCntStart = false;
+                    isIntervalStart = false;
+                    intCnt = 0;
+                  }
+                  var twinkle = document.getElementById('twinkle');
+                  if(twinkle.style.display == 'none') twinkle.style.display = 'initial';
+                  else twinkle.style.display = 'none'
+                  intCnt++;
+                }, 500);  //0.5sec 주기로 반짝
+            }
           silentAlert = 1;
         }
       }
@@ -806,18 +914,18 @@
         }
       }
       if(buttonHidden === 1){
-        button_yes.style.visibility = "hidden";
-        button_no.style.visibility = "hidden";
+        button_yes.style.display = "none";
+        button_no.style.display = "none";
       }
       else{
-        button_yes.style.visibility = "visible";
-        button_no.style.visibility = "hidden";
+        button_yes.style.display = "initial";
+        button_no.style.display = "none";
         button_yes.innerText = "Ok";
       }
       if(mode==="silent"){
-        button_yes.style.visibility = "hidden";
-        button_no.style.visibility = "hidden";
-        ticker.style.visibility = "hidden";
+        button_yes.style.display = "none";
+        button_no.style.display = "none";
+        ticker.style.display = "none";
       }
       // if(silentAlertExist){
       //   p.ellipse(settings[pictureType]['silentAlertPos'][tick][0],settings[pictureType]['silentAlertPos'][tick][1],settings[pictureType]['silentAlertPos'][tick][2],settings[pictureType]['silentAlertPos'][tick][3]);
@@ -833,6 +941,10 @@
       //     silentAlert = 1;
       //   }
       // }
+      if(tick>=0 && tick<settings[pictureType]['tickerText'].length && ticker_showed === 0 && mode === "talkative"&& timerOn != 1){
+        set_ticker_text(settings[pictureType]['tickerText'][tick]);
+        ticker_showed = 1;
+      }
       if(task === 1 || task === 2 || task === 3){ // 1, 2, 3번 task
         p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
       }
@@ -849,14 +961,15 @@
         p.image(settings[pictureType]['presetImg'][0], settings[pictureType]['presetPos'][0][0], settings[pictureType]['presetPos'][0][1], settings[pictureType]['presetSize'][0][0], settings[pictureType]['presetSize'][0][1]);
         p.image(settings[pictureType]['presetImg'][1], settings[pictureType]['presetPos'][1][0], settings[pictureType]['presetPos'][1][1], settings[pictureType]['presetSize'][1][0], settings[pictureType]['presetSize'][1][1]);
         p.image(settings[pictureType]['presetImg'][2], settings[pictureType]['presetPos'][2][0], settings[pictureType]['presetPos'][2][1], settings[pictureType]['presetSize'][2][0], settings[pictureType]['presetSize'][2][1]);
+        p.image(settings[pictureType]['presetImg'][3], settings[pictureType]['presetPos'][3][0], settings[pictureType]['presetPos'][3][1], settings[pictureType]['presetSize'][3][0], settings[pictureType]['presetSize'][3][1]);
         // if(tick===11 ){
           // if(taskSixLineDrew === 0){
-        for(var i=0;i<settings[pictureType]['presetPos'][3].length;i++){
-          p.stroke(settings[pictureType]['presetPos'][3][i][4]);
-          p.strokeWeight(3); // nice thick line
-          p.line(settings[pictureType]['presetPos'][3][i][0], settings[pictureType]['presetPos'][3][i][1], settings[pictureType]['presetPos'][3][i][2], settings[pictureType]['presetPos'][3][i][3]);
-          // taskSixLineDrew = 1;
-        }
+        // for(var i=0;i<settings[pictureType]['presetPos'][3].length;i++){
+        //   p.stroke(settings[pictureType]['presetPos'][3][i][4]);
+        //   p.strokeWeight(3); // nice thick line
+        //   p.line(settings[pictureType]['presetPos'][3][i][0], settings[pictureType]['presetPos'][3][i][1], settings[pictureType]['presetPos'][3][i][2], settings[pictureType]['presetPos'][3][i][3]);
+        //   // taskSixLineDrew = 1;
+        // }
       }
       if(task === 5){
         if(tick === 8){
@@ -867,8 +980,10 @@
         else if(tick === 9){
           if(spaceAlert === 0){
             makeSpaceAlert(whiteSpacePos[0], whiteSpacePos[1]+55, 100);
-            settings[pictureType]['presetPos'][2][0] = (whiteSpacePos[0] - ((settings[pictureType]['presetSize'][2][0])/2));
-            settings[pictureType]['presetPos'][2][1] = (whiteSpacePos[1] - ((settings[pictureType]['presetSize'][2][1])/2));
+            if(pictureType != 2){
+              settings[pictureType]['presetPos'][2][0] = (whiteSpacePos[0] - ((settings[pictureType]['presetSize'][2][0])/2));
+              settings[pictureType]['presetPos'][2][1] = (whiteSpacePos[1] - ((settings[pictureType]['presetSize'][2][1])/2));
+              }
             spaceAlert = 1;
             console.log("whiteSpacePos: "+whiteSpacePos);
             console.log("spaceAlert: "+spaceAlert);
@@ -879,10 +994,10 @@
 
 
     p.draw = function() {
-      if(tick>=0 && tick<settings[pictureType]['tickerText'].length && ticker_showed === 0 && mode === "talkative"&& timerOn != 1){
-        set_ticker_text(settings[pictureType]['tickerText'][tick]);
-        ticker_showed = 1;
-      }
+      // if(tick>=0 && tick<settings[pictureType]['tickerText'].length && ticker_showed === 0 && mode === "talkative"&& timerOn != 1){
+      //   set_ticker_text(settings[pictureType]['tickerText'][tick]);
+      //   ticker_showed = 1;
+      // }
       screen_width = get_window_width();
       screen_height = (get_window_height()-(headerHeight+footerHeight));
 
@@ -1276,7 +1391,7 @@
     document.getElementById('brushWeight').addEventListener('click', function(e){
       //e.target.style.backgroundColor = 'gray';
       curPenWeight = 15;
-      curPenAlpha = 100;
+      curPenAlpha = 150;
       console.log('curPenWeight', curPenWeight);
     });
     document.getElementById('cancel').addEventListener('click', cancelClick);
@@ -1414,6 +1529,17 @@
   //   canvas.getContext("2d").drawImage(image, 0, 0);
   //   return canvas;
   // }
+  document.body.onload = function(){
+    var iconEle = document.getElementsByClassName('icons');
+    for(var i=0; i<iconEle.length-1; i++){
+      iconEle[i].style.backgroundColor = 'rgb(200,200,200)';
+    }
+    document.getElementById('twinkle').addEventListener('click', function(e){
+      e.preventDefault();
+      return;
+    });
+  }
+
   function colorToRGBA(color) {
     // Returns the color as an array of [r, g, b, a] -- all range from 0 - 255
     // color must be a valid canvas fillStyle. This will cover most anything
