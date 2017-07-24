@@ -989,7 +989,7 @@
             var w = max_xy[0] - min_xy[0];
             var h = max_xy[1] - min_xy[1];
             if(drawMode == 0) initSimilarStrokes(max_xy[0]+w*0.2, min_xy[1]+h*0.3, strokes); //palm_tree;
-            else if(drawMode == 1) initSimilarStrokes(max_xy[0]+w*0.4, min_xy[1]+h*0, strokes); //strawberry;
+            else if(drawMode == 1) initSimilarStrokes(max_xy[0]+w*0.2, min_xy[1]+h*0.4, strokes); //strawberry;
             else if(drawMode == 2) initSimilarStrokes(max_xy[0]+w*1, min_xy[1]+h*0, strokes); //eye;
             // initSimilarStrokes(300, 300, prevImageStrokes);
             isSimDrawn = true;
@@ -1541,7 +1541,12 @@
             clip_x = min_xy[0] + clip_w*1;
             clip_y = min_xy[1] + h*1.2;
           }
-          p.image(img, clip_x, clip_y, clip_w, clip_h);
+          if(drawMode == 1){// for dish
+            clear_screen();
+            p.image(img, clip_x, clip_y, clip_w, clip_h);
+            draw_example(strokes, start_x , start_y, line_color);
+          }
+          else p.image(img, clip_x, clip_y, clip_w, clip_h);
         }
         isTalktive? task++ : task=13;
         //이미지 서서히 스와잎하게 효과넣기            
