@@ -6,8 +6,7 @@
   <meta charset="UTF-8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <style>
-    #sketch canvas {}
-
+    #sketch{}
     body {
       padding: 0;
       margin: 0;
@@ -16,7 +15,7 @@
       top: 80px;
       left: 25px;
       background: url("imgsrc/Penicon.png") center center no-repeat;
-      background-size: 50px 7px;
+      background-size: 15px 50px;
     }
     #brushWeight{
       top: 175px;
@@ -104,7 +103,7 @@
       float: right;
       display: none;
     }
-    .buttons {
+    .buttons{
       position: relative;
       margin: 11px 10px 11px 0px;
       /*box-shadow: 1px 1px 1px rgb(100,100,100);*/
@@ -126,23 +125,24 @@
       float: right;
     }
 
-    /*.buttons:hover {
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-      background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
-      background-color: rgb(54, 53, 53);
-    }*/
-
     .buttons:active {
       position: relative;
       top: 1px;
       background-color: gray;
     }
-
+    .hashtag{
+      position: relative;
+      margin: 11px 10px 11px 0px;
+      display: block;
+      color: #ffffff;
+      font-family: Arial;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 5px 15px;
+      text-decoration: none;
+      /*vertical-align: top;*/
+      float: right;
+    }
     #spaceAlert{
       box-sizing: border-box;
       position: absolute;
@@ -163,6 +163,17 @@
       background-color: rgba(0,0,0,.5);
       background-size: 300px 300px; 
     }
+    #twinkle{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 980px;
+      height: 689px;
+      z-index: 999;
+      background: url('imgsrc/Penicon_red.png') center center no-repeat;
+      /*background-color: rgba(0,0,0,.5);*/
+      background-size: 45px 150px; 
+    }
   </style>
   <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script> 
   <script language="javascript" type="text/javascript" src="p5.min.js"></script>
@@ -174,9 +185,9 @@
 <body style="background-color:white">
   <div id="header">
     <div id ="title">Co-Creation!</div>
-    <div id ="button_sel3" class = "buttons">Talkative</div>
-    <div id ="button_sel2" class = "buttons">Landscape</div>
-    <div id ="button_sel1" class = "buttons">Help</div>
+    <div id ="button_sel3" class = "hashtag">#Talkative</div>
+    <div id ="button_sel2" class = "hashtag">#Landscape</div>
+    <div id ="button_sel1" class = "hashtag">#Help</div>
   </div>
   <div id="sketch"></div>
   <div id="penWeight" class="icons"></div>
@@ -195,6 +206,7 @@
   </div>
   <div id='spaceAlert' style='display:none'></div>
   <div id='cover' style='display:none'></div>
+  <div id='twinkle' style='display:none'></div>
 </body>
 
 <script type="text/javascript" src="drawMode.js"></script>
@@ -470,7 +482,7 @@
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
-          drawMode==2? p.noFill() : p.fill(254);
+          drawMode<=1? p.fill(254) : p.noFill();
           // p.stroke('black');
           p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
@@ -493,7 +505,7 @@
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
-          drawMode==2? p.noFill() : p.fill(254);
+          drawMode==1? p.fill(254) : p.noFill();
           // p.stroke('black');
           p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
@@ -539,7 +551,7 @@
       footer = document.getElementById("footer");
       footer.style.height = footerHeight;
       screen_width = get_window_width(); //window.innerWidth
-      screen_height = (get_window_height()-(headerHeight+footerHeight)); //window.innerHeight -110 -> -220
+      screen_height = (get_window_height()-(headerHeight+footerHeight)); //window.innerHeight -110 
       document.getElementById('title').innerHTML = get_window_width() +" "+ get_window_height(); //llllll
       title = document.getElementById("title");
       title.style.width = screen_width * 0.4 + 'px';
@@ -689,46 +701,141 @@
     }
 
     p.draw = function() {
-      //ticker show here
+      //ticker show here & silentMode setting init.; 
       if(task>=0 && task<taskText[drawMode].length){
-        set_ticker_text(taskText[drawMode][task]);
+        isTalktive? set_ticker_text(taskText[drawMode][task]) : set_ticker_text('SILENT AI');
         //gen 시작전 raw_lines의 인덱스 저장
         if(task == 5) length_obj1 = raw_lines.length;
         //vae 시작전 raw_lines의 인덱스 저장
         if(task == 7) length_obj2 = raw_lines.length;
-        
       }
-      if(task == 11 && !isTimeCntStart){
-        isTimeCntStart = true;
-        console.log('------settimeout start------');
-        mySetTime = setTimeout(function() {
-          console.log('------settimeout operate------');
-          task++; //task12
-          setTimeout(function() {
-            task++; //task13
-            button_cntr.style.display = 'inline-block';
-            button_no.style.display = 'inline-block';
-            button_yes.innerText = 'yes'; 
+      //-------here for talktiveMode------
+      if(isTalktive){
+        if(task == 11 && !isTimeCntStart){
+          isTimeCntStart = true;
+          console.log('------settimeout start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout operate------');
+            task++; //task12
+            setTimeout(function() {
+              task++; //task13
+              button_cntr.style.display = 'inline-block';
+              button_no.style.display = 'inline-block';
+              button_yes.innerText = 'yes'; 
+              checkWhiteSpace();
+              checkAreaByArray();
+              isTimeCntStart = false;   
+            }, 2000);
+          }, 5000);
+        }
+        if(task == 13 && !isTimeCntStart){
+          isTimeCntStart = true;
+          console.log('------settimeout2 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout2 operate------');          
+            task++; //task14
+            setTimeout(function() {
+              task++; //task15
+              button_cntr.style.display = 'inline-block';
+              button_no.style.display = 'none';
+              button_yes.innerText = 'OK'; 
+            }, 2000);
+          }, 5000);
+        }
+      }
+      //-------here for silentMode-----
+      else{
+        if(task == 2 && !isTimeCntStart){ //나머지는 내가 그려볼게요
+          isTimeCntStart = true;
+          console.log('------settimeout_s1 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s1 operate------');
+            run_encode_strokes = false;
+            isModelDrawn = false; 
+          }, 3000);
+        }
+        if(task == 5 && !isTimeCntStart){ //또 다른 야자나무를 하나 더 그려볼게요!
+          isTimeCntStart = true;
+          console.log('------settimeout_s2 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s2 operate------');
+            findObjCoordinate(0, length_obj1);
+            toggleCover();
+            ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
+              console.log("changing")
+              model = new_model
+              model.set_pixel_factor(screen_scale_factor);
+              changing_model_lock = false;
+              set_title_text('draw a shape, any shape.');
+              model_loaded = true;
+              simModelChanged = true;
+              toggleCover();
+            }, true);
+          }, 3000);
+        }
+        if(task == 7 && !isTimeCntStart){ //야자나무와 어울리는 코코넛을 그려볼게요!
+          isTimeCntStart = true;
+          console.log('------settimeout_s3 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s3 operate------');
+            setClipArtLoc();
+            // pen twinkle 3 times
+            setTimeout(function(){
+              if(!isIntervalStart) myInterval = setInterval(function(){
+                console.log('interval');
+                isIntervalStart = true;
+                if(intCnt > 8){
+                  clearInterval(myInterval);
+                  isTimeCntStart = false;
+                  isIntervalStart = false;
+                  intCnt = 0;
+                }
+                var twinkle = document.getElementById('twinkle');
+                if(twinkle.style.display == 'none') twinkle.style.display = 'initial';
+                else twinkle.style.display = 'none'
+                intCnt++;
+              }, 500);  //0.5sec 주기로 반짝
+            }, 2000); // 2초후 실행 반짝이 실행
+          }, 2000); // 2초후 클립아트 그리기
+        }
+        if(task == 13 && !isTimeCntStart){
+          isTimeCntStart = true;
+          console.log('------settimeout_s4 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s4 operate------');
             checkWhiteSpace();
             checkAreaByArray();
-          }, 2000);
-        }, 5000);
-      }
-      if(task==13 && !isTimeCntStart){
-        isTimeCntStart = true;
-        console.log('------settimeout2 start------');
-        mySetTime = setTimeout(function() {
-          console.log('------settimeout2 operate------');          
-          task++; //task14
-          setTimeout(function() {
-            task++; //task15
-            button_cntr.style.display = 'inline-block';
-            button_no.style.display = 'none';
-            button_yes.innerText = 'OK'; 
-          }, 2000);
-        }, 5000);
+            isTimeCntStart = false; 
+            task+=2; //task15 - toss to paintchainer
+          }, 5000); //5sec후 빈곳 알려줌
+        }
+        if(task == 15 && !isTimeCntStart){
+          isTimeCntStart = true;
+          console.log('------settimeout_s5 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s5 operate------');
+            document.getElementById('twinkle').style.backgroundImage = 'url("imgsrc/Brushicon_red.png")';
+            // brush twinkle 3 times
+            if(!isIntervalStart) myInterval = setInterval(function(){
+                console.log('interval2');
+                isIntervalStart = true;
+                if(intCnt > 9){
+                  clearInterval(myInterval);
+                  isTimeCntStart = false;
+                  // p.saveCanvas 
+                  // p.saveCanvas(p.canvas,"canvasImage","png"); //save image
+                  
+                }
+                var twinkle = document.getElementById('twinkle');
+                if(twinkle.style.display == 'none') twinkle.style.display = 'initial';
+                else twinkle.style.display = 'none'
+                intCnt++;
+              }, 500);  //0.5sec 주기로 반짝
+          }, 5000); //5sec후 붓질 알려줌
+        }
       }
 
+      //------public setting----------
       screen_width = get_window_width();
       screen_height = (get_window_height()-(headerHeight+footerHeight));
       //console.log(screen_width,screen_height)
@@ -817,7 +924,7 @@
           //
           if(task==1){
             task++;
-            button_cntr.style.display = 'inline-block';
+            if(isTalktive) button_cntr.style.display = 'inline-block';
           }
 
           //라인좌표를 curveVertex곡선으로 변환
@@ -881,7 +988,7 @@
             //gen location control
             var w = max_xy[0] - min_xy[0];
             var h = max_xy[1] - min_xy[1];
-            if(drawMode == 0) initSimilarStrokes(max_xy[0]+w*0.2, min_xy[1]+h*0.15, strokes); //palm_tree;
+            if(drawMode == 0) initSimilarStrokes(max_xy[0]+w*0.2, min_xy[1]+h*0.3, strokes); //palm_tree;
             else if(drawMode == 1) initSimilarStrokes(max_xy[0]+w*0.4, min_xy[1]+h*0, strokes); //strawberry;
             else if(drawMode == 2) initSimilarStrokes(max_xy[0]+w*1, min_xy[1]+h*0, strokes); //eye;
             // initSimilarStrokes(300, 300, prevImageStrokes);
@@ -926,6 +1033,10 @@
             isModelDrawn = true;
 
             task = 3;
+            if(!isTalktive){
+              task = 5;
+              isTimeCntStart = false;  
+            }
           } else {
 
             if (modelPen.prevDown === 1) {
@@ -1076,9 +1187,15 @@
               // simModelChanged = true;
               toggleCover();
               //task control
-              task++;
-              button_no.style.display = 'none';
-              button_yes.innerText = 'OK';
+              if(isTalktive){
+                task++;
+                button_no.style.display = 'none';
+                button_yes.innerText = 'OK';
+              }
+              else{
+                task = 7;
+                isTimeCntStart = false;  
+              }              
             }, true);  
           }
         }
@@ -1398,6 +1515,39 @@
       min_xy[1] = Math.min.apply(0, temp_y);
     }
 
+    //clipArt 위치 설정
+    function setClipArtLoc(){
+      drawClipArt = true;
+      findObjCoordinate(0, length_obj2);
+      var w = max_xy[0] - min_xy[0];
+      var h = max_xy[1] - min_xy[1];
+      img = p.loadImage("imgsrc/"+clipImg[drawMode]+"1.png", function(img) {
+        for(var i=0; i<1; i++){ //coconut
+          if(drawMode == 0){
+            clip_w = w*0.4;
+            clip_h = clip_w*0.5;
+            clip_x = min_xy[0] + w*0.1;
+            clip_y = max_xy[1] - clip_h*0.5;
+          }
+          else if(drawMode == 1){ //dish
+            clip_w = w*1.5;
+            clip_h = clip_w*0.35;
+            clip_x = min_xy[0] - (clip_w - w)/2;
+            clip_y = min_xy[1] + h*0.8;                
+          }
+          else if(drawMode == 2){ //nose
+            clip_w = w*1/3;
+            clip_h = clip_w*1.33;
+            clip_x = min_xy[0] + clip_w*1;
+            clip_y = min_xy[1] + h*1.2;
+          }
+          p.image(img, clip_x, clip_y, clip_w, clip_h);
+        }
+        isTalktive? task++ : task=13;
+        //이미지 서서히 스와잎하게 효과넣기            
+      });
+    }
+
     //---------------------task event--------------------------
     //dom
     var button_cntr = document.getElementById('button_cntr');
@@ -1441,36 +1591,7 @@
         }
 
         else if(task==7){ //야자나무와 어울리는 코코넛을 그려볼게요!
-          drawClipArt = true;
-          findObjCoordinate(0, length_obj2);
-          var w = max_xy[0] - min_xy[0];
-          var h = max_xy[1] - min_xy[1];
-          img = p.loadImage("imgsrc/"+clipImg[drawMode]+"1.png", function(img) {
-            for(var i=0; i<1; i++){ //coconut
-              if(drawMode == 0){
-                clip_x = min_xy[0] + w*Math.random()*0.2;
-                clip_y = min_xy[1] + h*(0.6 + Math.random()*0.2);
-                clip_w = w*0.4;
-                clip_h = clip_w*0.5;
-              }
-              else if(drawMode == 1){ //dish
-                clip_w = w*1.5;
-                clip_h = clip_w*0.35;
-                clip_x = min_xy[0] - (clip_w - w)/2;
-                clip_y = min_xy[1] + h*0.8;                
-              }
-              else if(drawMode == 2){ //nose
-                clip_w = w*1/3;
-                clip_h = clip_w*1.33;
-                clip_x = min_xy[0] + clip_w*1;
-                clip_y = min_xy[1] + h*1.2;
-              }
-              p.image(img, clip_x, clip_y, clip_w, clip_h);
-            }
-            task++;
-            //이미지 서서히 스와잎하게 효과넣기            
-          });
-          
+          setClipArtLoc();
         }
 
         else if(task==8){
@@ -1499,7 +1620,7 @@
         }
 
         else if(task==13){ //여기 빈 공간이 큰 것 같아요. 뭘 좀 그리는게 어떨까요?
-          isTimeCntStart = false;   
+          // isTimeCntStart = false;   
           button_cntr.style.display = 'none';     
         }
 
@@ -1577,7 +1698,10 @@
   var img;
   var isFinalImg = false;
   var isTimeCntStart = false;
-  var mySetTime;
+  var mySetTime; //for setTimnout()
+  var myInterval; //for setInterval()
+  var isIntervalStart = false;
+  var intCnt = 0;
   var length_obj1, length_obj2; //raw_lines 로부터 야자수 오브젝트 인덱스 저장
   var min_xy = new Array(2);
   var max_xy = new Array(2); //야자수 오브젝트 위치저장
@@ -1669,6 +1793,17 @@
     for(var i=0; i<iconEle.length-1; i++){
       iconEle[i].style.backgroundColor = 'rgb(200,200,200)';
     }
+    document.getElementById('twinkle').addEventListener('click', function(e){
+      e.preventDefault();
+      return;
+    });
+    //hashtag
+    if(isTalktive) document.getElementById('button_sel3').innerText = '#Talktive';
+    else document.getElementById('button_sel3').innerText = '#Silent';
+
+    if(drawMode == 0) document.getElementById('button_sel2').innerText = '#Landscape';
+    else if(drawMode == 1) document.getElementById('button_sel2').innerText = '#Still life';
+    else if(drawMode == 2) document.getElementById('button_sel2').innerText = '#Portrait';
   }
 
 </script>
