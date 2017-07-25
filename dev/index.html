@@ -274,9 +274,6 @@
     var modelStrokes = []; // keep track of the strokes the model drew
     var modelPen = Pen();
     var modelNames;
-    if(drawMode==0) modelNames = 'palm_tree';
-    else if(drawMode==1) modelNames = 'strawberry';
-    else if(drawMode==2) modelNames = 'eye';
 
     //simModel variables
     var min_sequence_length = 5;
@@ -705,6 +702,8 @@
     };
 
     p.setup = function() {
+      //Mode setting
+      setMode(0,!true);
       init(function() {
         console.log('ready.');
         // draw_random_example();
@@ -822,8 +821,8 @@
                 else twinkle.style.display = 'none'
                 intCnt++;
               }, 500);  //0.5sec 주기로 반짝
-            }, 3000); // 2초후 실행 반짝이 실행
-          }, 1000); // 2초후 클립아트 그리기
+            }, 3000); // 3초후 실행 반짝이 실행
+          }, 1000); // 1초후 클립아트 그리기
         }
         if(task == 13 && !isTimeCntStart){
           isTimeCntStart = true;
@@ -863,17 +862,21 @@
       }
       //클립아트 스윕
       if(drawClipArt){
-        if(sy<(clip_y+clip_h)){
           clear_screen();
-          draw_example(strokes, start_x , start_y, line_color);
-          p.image(img, clip_x, clip_y, clip_w, clip_h, 0, sy-clip_y-clip_h, 0, 0);
-          sy += (clip_y+clip_h)/30; //30frame
-        }
-        else{
-          drawClipArtAfterSweep = true;
-          drawClipArt = false;
-          sy = 0;
-        }
+          if(drawMode == 1){ // for dish
+            p.image(img, clip_x, (clip_y-clip_h)+clip_h/img.height*sy, clip_w, clip_h, 0, sy-img.height);
+            draw_example(strokes, start_x , start_y, line_color);
+            sy += img.height/30; //30frame
+          }
+          else{
+            draw_example(strokes, start_x , start_y, line_color);
+            p.image(img, clip_x, (clip_y-clip_h)+clip_h/img.height*sy, clip_w, clip_h, 0, sy-img.height);
+            sy += img.height/30; //30frame
+          }
+          if(sy>=img.height){
+            drawClipArtAfterSweep = true;
+            drawClipArt = false;
+          }
       }
       //------public setting----------
       screen_width = get_window_width();
@@ -1557,7 +1560,6 @@
 
     //clipArt 위치 설정
     function setClipArtLoc(){
-      drawClipArt = true;
       findObjCoordinate(0, length_obj2);
       var w = max_xy[0] - min_xy[0];
       var h = max_xy[1] - min_xy[1];
@@ -1589,6 +1591,7 @@
           // else p.image(img, clip_x, clip_y, clip_w, clip_h);
         }
         isTalktive? task++ : task=13;
+        drawClipArt = true;
         //이미지 서서히 스와잎하게 효과넣기            
       });
     }
@@ -1646,6 +1649,7 @@
 
         else if(task==9){
           drawClipArt = true;
+          sy = 0;
           img = p.loadImage("imgsrc/"+clipImg[drawMode]+"2.png", function(img) {
             // p.image(img, clip_x, clip_y, clip_w, clip_h);
             drawClipArtAfterSweep = false;
@@ -1657,6 +1661,7 @@
 
         else if(task==10){
           drawClipArt = true;
+          sy = 0;
           img = p.loadImage("imgsrc/"+clipImg[drawMode]+"3.png", function(img) {
             // p.image(img, clip_x, clip_y, clip_w, clip_h);
             drawClipArtAfterSweep = false;
@@ -1834,6 +1839,22 @@
     }, 2000);
   }
 
+  function setMode(a,b){ // a=0,1,2 b=true,false
+    drawMode = a;
+    isTalktive = b;
+    //model
+    if(drawMode==0) modelNames = 'palm_tree';
+    else if(drawMode==1) modelNames = 'strawberry';
+    else if(drawMode==2) modelNames = 'eye';
+    //hashtag
+    if(isTalktive) document.getElementById('button_sel3').innerText = '#Talktive';
+    else document.getElementById('button_sel3').innerText = '#Silent';
+
+    if(drawMode == 0) document.getElementById('button_sel2').innerText = '#Landscape';
+    else if(drawMode == 1) document.getElementById('button_sel2').innerText = '#Still life';
+    else if(drawMode == 2) document.getElementById('button_sel2').innerText = '#Portrait';
+  }
+
   var screen_width, screen_height, temperature_slider;
   //for css setting
   document.body.onload = function(){
@@ -1858,13 +1879,6 @@
         else palVal.style.display ='none';
       });
     });
-    //hashtag
-    if(isTalktive) document.getElementById('button_sel3').innerText = '#Talktive';
-    else document.getElementById('button_sel3').innerText = '#Silent';
-
-    if(drawMode == 0) document.getElementById('button_sel2').innerText = '#Landscape';
-    else if(drawMode == 1) document.getElementById('button_sel2').innerText = '#Still life';
-    else if(drawMode == 2) document.getElementById('button_sel2').innerText = '#Portrait';
   }
 
 </script>
