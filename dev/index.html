@@ -710,15 +710,7 @@
       canvas = p.createCanvas(screen_width, screen_height);
       p.frameRate(30);
       clear_screen();
-      last_time = +new Date()
-      //------for server
-      // settings = document.getElementById("settings").childNodes[0].data.split(',');
-      // selection2 = settings[1].replace('\'','');
-      // selection2 = selection2.replace(/ /gi,'');
-      // selection2 = selection2.replace(/\'/gi,'');
-      // selection3 = settings[2].replace(/\'/gi,'');
-      // selection3 = selection3.replace(']','');
-      // selection3 = selection3.replace(/ /gi,'');
+      last_time = +new Date();
 
     }
 
@@ -869,7 +861,7 @@
       }
       //클립아트 스윕
       if(drawClipArt){
-        var frame = 3;
+        var frame = 5; //30이 적절
         clear_screen();
         if(drawMode == 1){ // for dish
           p.image(img, clip_x, (clip_y-clip_h)+clip_h/img.height*sy, clip_w, clip_h, 0, sy-img.height);
@@ -881,9 +873,10 @@
           p.image(img, clip_x, (clip_y-clip_h)+clip_h/img.height*sy, clip_w, clip_h, 0, sy-img.height);
           sy += img.height/frame; //30frame
         }
-        if(sy>img.height*(frame+1)/frame){
+        if(sy>img.height){
           drawClipArtAfterSweep = true;
           drawClipArt = false;
+          clear_screen();
           draw_example(strokes, start_x , start_y, line_color);
         }
       }
@@ -1852,9 +1845,25 @@
     }, 2000);
   }
 
-  function setMode(a,b){ // a=0,1,2 b=true,false
-    drawMode = a;
-    isTalkative = b;
+  function setMode(){
+    drawMode = 0;
+    isTalkative = true;
+    //------parsing from settings dom
+    // settings = document.getElementById("settings").childNodes[0].data.split(',');
+    // selection2 = settings[1].replace('\'','');
+    // selection2 = selection2.replace(/ /gi,'');
+    // selection2 = selection2.replace(/\'/gi,''); //drawmode
+    // selection3 = settings[2].replace(/\'/gi,'');
+    // selection3 = selection3.replace(']','');
+    // selection3 = selection3.replace(/ /gi,''); //istalkative
+    
+    // for jango sever
+    // if(selection2 == 'landscape') drawMode = 0
+    // else if(selection2 == 'portrait') drawMode = 2;
+    // else drawMode = 1;
+    // if(selection3 == 'istalkative') isTalkative = true;    
+    // else isTalkative = false;    
+    
     //model
     if(drawMode==0) modelNames = 'palm_tree';
     else if(drawMode==1) modelNames = 'strawberry';
