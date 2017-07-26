@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 
@@ -68,13 +68,16 @@ def selection3(request):
     return HttpResponse(html)
 
 @csrf_exempt
-def draw(request):
+def mode(request):
     if request.method == "POST":
         pk = request.POST.get('pk', None)
         print(pk)
         settings.addSettings(pk)
-
-    html = render_to_string('app/draw.html', {'settings': settings.getSettings()})
+    mode = settings.getSettings()
+    if mode[0] == 'draw':
+        html = render_to_string('app/draw.html', {'settings': mode})
+    elif mode[0] == 'help':
+        html = render_to_string('app/help_noAI.html', {'settings': mode})
     return HttpResponse(html)
 
 @csrf_exempt

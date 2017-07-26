@@ -8,18 +8,104 @@
   <title>selection2</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/selection.css' %}">
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/selection.css' %}"> -->
   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    #container {
+      background-color: rgb(77, 76, 76);
+      text-align: center;
+      /*vertical-align: middle;
+      display: table-cell;*/
+    }
+
+    #title {
+      /*display: inline-block;*/
+      position: relative;
+      font-family: sans-serif;
+      font-size: 100px;
+      font-weight: bold;
+      color: white;
+    }
+
+    #description {
+      /*display: inline-block;*/
+      position: relative;
+      font-family: sans-serif;
+      font-size: 50px;
+      color: white;
+    }
+
+    .myButton {
+      position: relative;
+      background-color: rgb(100,100,100);
+      border-radius: 40px;
+      display: inline-block;
+      cursor: pointer;
+      color: #ffffff;
+      font-family: Arial;
+      font-size: 50px;
+      font-weight: bold;
+      padding: 80px 80px;
+      margin:0px 30px;
+      text-decoration: none;
+    }
+
+    .myButton:active {
+      position: relative;
+      top: 1px;
+      background-color: gray;
+    }
+
+    #backButton {
+      position: relative;
+      display: block;
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      background: url('/static/imgsrc/left.png') center center no-repeat;
+      background-color: rgb(100,100,100);
+      background-size: 60px 60px;
+    }
+    #backButton:active {
+      position: relative;
+        top: 1px;
+      background-color: gray;
+    }
+    #landscape{
+      height: 100px;
+      background: url('/static/imgsrc/landscape.png') center center no-repeat;
+      background-color: rgb(100,100,100);
+      background-size: 80px 80px;
+    }
+    #stillLife{
+      height: 100px;
+      background: url('/static/imgsrc/stilllife.png') center center no-repeat;
+      background-color: rgb(100,100,100);
+      background-size: 80px 80px;
+    }
+    #portrait{
+      height: 100px;
+      background: url('/static/imgsrc/portrait.png') center center no-repeat;
+      background-color: rgb(100,100,100);
+      background-size: 80px 80px;
+    }
+  </style>
 </head>
 
 <body>
   <div id="container">
     <div id="title">Co-Creation!</div>
     <div id="description">어떤 종류의 그림을 그릴 건가요?</div>
-    <div class="myButton" id="landButton" value="land" onclick="page_transition(this)">Landscape</div>
-    <div class="myButton" id="stillButton" value="still" onclick="page_transition(this)">Still Life</div>
-    <div class="myButton" id="portButton" value="portrait" onclick="page_transition(this)">Portrait</div>
-    <button class="w3-button w3-xlarge w3-circle w3-black" id="backButton" onclick="goBack()"><-</button>
+    <div class="myButton" id="landButton" value="land" onclick="page_transition(this)">  <div id='landscape'></div>
+      Landscape</div>
+    <div class="myButton" id="stillButton" value="still" onclick="page_transition(this)"><div id='stillLife'></div>Still Life</div>
+    <div class="myButton" id="portButton" value="portrait" onclick="page_transition(this)"><div id='portrait'></div>Portrait</div>
+    <div id="backButton" onclick="goBack()"></div>
   </div>
 </body>
 <script language="javascript" type="text/javascript">
@@ -36,13 +122,13 @@
   var backButton = document.getElementById('backButton'); //backButton DOM
   container.style.width = screen_width + 'px';
   container.style.height = screen_height + 'px';
-  title.style.top = screen_height / 5 + 'px';
-  description.style.top = screen_height / 3.5 + 'px';
+  title.style.top = screen_height / 6 + 'px';
+  description.style.top = screen_height / 4.5 + 'px';
   // myButton.style.top = (screen_height / 2) * 1 + 'px';
-  landButton.style.top = (screen_height / 2) * 1 + 'px';
-  stillButton.style.top = (screen_height / 2) * 1 + 'px';
-  portButton.style.top = (screen_height / 2) * 1 + 'px';
-  backButton.style.top = (screen_height / 2) + 'px';
+  landButton.style.top =  (screen_height / 3.3) * 1 + 'px';
+  stillButton.style.top =  (screen_height / 3.3) * 1 + 'px';
+  portButton.style.top = (screen_height / 3.3) * 1 + 'px';
+  backButton.style.top = (screen_height / 2.8) + 'px';
   backButton.style.left = (screen_width - 200) + 'px';
 
   function get_window_width() {

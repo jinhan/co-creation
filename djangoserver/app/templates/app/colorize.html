@@ -8,8 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{% static 'paintschainer/images/favicon.ico' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'paintschainer/images/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" href="https://paintschainer-cdn.preferred.tech/images/paintschainer-64x64.png" sizes="64x64">
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static 'paintschainer/images/apple-touch-icon.png' %}"> -->
+    <!-- <link rel="icon" type="image/png" href="https://paintschainer-cdn.preferred.tech/images/paintschainer-64x64.png" sizes="64x64"> -->
     <link rel="manifest" href="{% static 'paintschainer/manifest.json' %}">
     <link rel="mask-icon" href="{% static 'paintschainer/images/safari-pinned-tab.svg' %}" color="#c90000">
     <meta name="apple-mobile-web-app-title" content="PaintsChainer">
@@ -67,10 +67,33 @@
       .footer a {
         color: #727272;
       }
+      #header{
+        display: block;
+        background-color: rgba(0,0,0,0.8);
+        /*height: 110px;*/
+        height: 55px;
+      }
+      #title{
+        position: relative;
+        display: inline-block;
+        font-family: sans-serif;
+        /*font-size: 80px;*/
+        font-size: 40px;
+        color: white;
+        font-weight: bold;
+        /*left: 50px;*/
+        left: 25px;
+      }
     </style>
   </head>
   <body>
     <!-- {{ img_src }} -->
+    <div id="header">
+      <div id ="title">Co-Creation!</div>
+      <!-- <div id ="button_sel3" class = "hashtag">#Talkative</div>
+      <div id ="button_sel2" class = "hashtag">#Landscape</div>
+      <div id ="button_sel1" class = "hashtag">#Draw</div> -->
+    </div>
     <div class="container">
       <!-- <span class="label label label-info">Auto Sketch Colorization</span> -->
       <div class="well" style="background-color: aliceblue">
@@ -135,7 +158,7 @@
 
       $('#img_pane').show(); // for $.fn.wPaint
       $('#wPaint').wPaint({
-        path: '/wPaint/',
+        path: '',
         menuOffsetLeft: 0,
         menuOffsetTop: -45
       });

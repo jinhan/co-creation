@@ -2,7 +2,7 @@
 
   // setup menu
   $.fn.wPaint.menus.main = {
-    img: 'plugins/main/img/icons-menu-main.png',
+    img: '/static/paintschainer/wPaint/plugins/main/img/icons-menu-main.png',
     items: {
       undo: {
         icon: 'generic',
@@ -51,26 +51,26 @@
         icon: 'colorPicker',
         title: 'Stroke Color',
         callback: function (color) { this.setStrokeStyle(color); }
-      }      
+      }
     }
   };
 
   // extend cursors
   $.extend($.fn.wPaint.cursors, {
-    'default': {path: 'plugins/main/img/cursor-crosshair.png', left: 7, top: 7},
-    dropper:   {path: 'plugins/main/img/cursor-dropper.png', left: 0, top: 12},
-    pencil:    {path: 'plugins/main/img/cursor-pencil.png', left: 0, top: 11.99},
-    bucket:    {path: 'plugins/main/img/cursor-bucket.png', left: 0, top: 10},
-    eraser1:   {path: 'plugins/main/img/cursor-eraser1.png', left: 1, top: 1},
-    eraser2:   {path: 'plugins/main/img/cursor-eraser2.png', left: 2, top: 2},
-    eraser3:   {path: 'plugins/main/img/cursor-eraser3.png', left: 2, top: 2},
-    eraser4:   {path: 'plugins/main/img/cursor-eraser4.png', left: 3, top: 3},
-    eraser5:   {path: 'plugins/main/img/cursor-eraser5.png', left: 3, top: 3},
-    eraser6:   {path: 'plugins/main/img/cursor-eraser6.png', left: 4, top: 4},
-    eraser7:   {path: 'plugins/main/img/cursor-eraser7.png', left: 4, top: 4},
-    eraser8:   {path: 'plugins/main/img/cursor-eraser8.png', left: 5, top: 5 },
-    eraser9:   {path: 'plugins/main/img/cursor-eraser9.png', left: 5, top: 5},
-    eraser10:  {path: 'plugins/main/img/cursor-eraser10.png', left: 6, top: 6}
+    'default': {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-crosshair.png', left: 7, top: 7},
+    dropper:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-dropper.png', left: 0, top: 12},
+    pencil:    {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-pencil.png', left: 0, top: 11.99},
+    bucket:    {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-bucket.png', left: 0, top: 10},
+    eraser1:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser1.png', left: 1, top: 1},
+    eraser2:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser2.png', left: 2, top: 2},
+    eraser3:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser3.png', left: 2, top: 2},
+    eraser4:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser4.png', left: 3, top: 3},
+    eraser5:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser5.png', left: 3, top: 3},
+    eraser6:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser6.png', left: 4, top: 4},
+    eraser7:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser7.png', left: 4, top: 4},
+    eraser8:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser8.png', left: 5, top: 5 },
+    eraser9:   {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser9.png', left: 5, top: 5},
+    eraser10:  {path: '/static/paintschainer/wPaint/plugins/main/img/cursor-eraser10.png', left: 6, top: 6}
   });
 
   // extend defaults
@@ -238,10 +238,10 @@
 
       var xo = this.canvasTempLeftOriginal;
       var yo = this.canvasTempTopOriginal;
-      
+
       if (e.pageX < xo) { e.x = e.x + e.w; e.w = e.w * - 1; }
       if (e.pageY < yo) { e.y = e.y + e.h; e.h = e.h * - 1; }
-      
+
       this.ctxTemp.lineJoin = 'round';
       this.ctxTemp.beginPath();
       this.ctxTemp.moveTo(e.x, e.y);
@@ -264,23 +264,23 @@
       this.ctx.strokeStyle = this.options.strokeStyle;
       this.ctx.fillStyle = this.options.strokeStyle;
       this.ctx.lineWidth = this.options.lineWidth;
-      
+
       //draw single dot in case of a click without a move
       this.ctx.beginPath();
       this.ctx.arc(e.pageX, e.pageY, this.options.lineWidth / 2, 0, Math.PI * 2, true);
       this.ctx.closePath();
       this.ctx.fill();
-      
+
       //start the path for a drag
       this.ctx.beginPath();
       this.ctx.moveTo(e.pageX, e.pageY);
     },
-    
+
     _drawPencilMove: function (e) {
       this.ctx.lineTo(e.pageX, e.pageY);
       this.ctx.stroke();
     },
-    
+
     _drawPencilUp: function () {
       this.ctx.closePath();
       this._addUndo();
@@ -294,11 +294,11 @@
       this.ctx.globalCompositeOperation = 'destination-out';
       this._drawPencilDown(e);
     },
-    
+
     _drawEraserMove: function (e) {
       this._drawPencilMove(e);
     },
-    
+
     _drawEraserUp: function (e) {
       this._drawPencilUp(e);
       this.ctx.restore();
