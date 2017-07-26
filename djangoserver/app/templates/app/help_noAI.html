@@ -104,7 +104,7 @@
     #button_cntr{
       position: relative;
       float: right;
-      display: none;
+      /*display: none;*/
     }
     .buttons{
       position: relative;
@@ -168,9 +168,9 @@
       width: 980px;
       height: 689px;
       z-index: 999;
-      background: url('/static/imgsrc/Penicon_red.png') center center no-repeat;
+      background: url('/static/imgsrc/MagnifyingGlassicon_red.png') center center no-repeat;
       /*background-color: rgba(0,0,0,.5);*/
-      background-size: 45px 150px;
+      background-size: 144px 240px;
     }
     #colorchart{
       width: 120px;
@@ -190,7 +190,7 @@
   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> -->
 </head>
 
-<body style="background-color:white">
+<body style="background-color:white" onload="bodyOnLoad()">
   <div id="header">
     <div id ="title">Co-Creation!</div>
     <div id ="button_sel3" class = "hashtag">#Talkative</div>
@@ -330,8 +330,8 @@
     // var mode = "silent";
     // var mode = "talk";
     // var pictureType = 2;
-    var mode;
-    var pictureType;
+    // var mode;
+    // var pictureType;
 
     // var taskSixLineDrew = 0;
     var myInterval;
@@ -797,8 +797,10 @@
     };
 
     p.preload = function(){
-      setMode('{{ settings.1 }}','{{ settings.2 }}');
+      // setMode('{{ settings.1 }}','{{ settings.2 }}');
       console.log(settings);
+      console.log(mode);
+      console.log(pictureType);
       settings[pictureType]['presetImg'][0] = p.loadImage(settings[pictureType]['presetSrc'][0]);
       settings[pictureType]['presetImg'][1] = p.loadImage(settings[pictureType]['presetSrc'][1]);
       settings[pictureType]['presetImg'][2] = p.loadImage(settings[pictureType]['presetSrc'][2]);
@@ -989,6 +991,7 @@
       }
       else{
         button_yes.style.display = "initial";
+        // button_yes.style.display = "block";
         button_no.style.display = "none";
         button_yes.innerText = "Ok";
       }
@@ -997,6 +1000,8 @@
         button_no.style.display = "none";
         ticker.style.display = "none";
       }
+      // console.log(button_yes.style.display)
+      // console.log(button_no.style.display)
       // if(silentAlertExist){
       //   p.ellipse(settings[pictureType]['silentAlertPos'][tick][0],settings[pictureType]['silentAlertPos'][tick][1],settings[pictureType]['silentAlertPos'][tick][2],settings[pictureType]['silentAlertPos'][tick][3]);
       //   silentAlert = 1;
@@ -1596,6 +1601,8 @@
   var strokes;
   var raw_lines;
   var extStrokesLength;
+  var mode;
+  var pictureType;
 
   //---------------------팔레트 아이콘
   var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
@@ -1683,7 +1690,9 @@
   //   canvas.getContext("2d").drawImage(image, 0, 0);
   //   return canvas;
   // }
-  document.body.onload = function(){
+  function bodyOnLoad(){
+    console.log("body onload start")
+    setMode('{{ settings.1 }}','{{ settings.2 }}');
     var iconEle = document.getElementsByClassName('icons');
     for(var i=0; i<iconEle.length-1; i++){
       iconEle[i].style.backgroundColor = 'rgb(200,200,200)';
@@ -1705,15 +1714,34 @@
       });
     });
   }
+  // document.body.onload = function(){
+  //   console.log("body onload start")
+  //   setMode('{{ settings.1 }}','{{ settings.2 }}');
+  //   var iconEle = document.getElementsByClassName('icons');
+  //   for(var i=0; i<iconEle.length-1; i++){
+  //     iconEle[i].style.backgroundColor = 'rgb(200,200,200)';
+  //   }
+  //   document.getElementById('twinkle').addEventListener('click', function(e){
+  //     e.preventDefault();
+  //     return;
+  //   });
+  //   var tdArr = document.querySelectorAll('td');
+  //   tdArr.forEach(function(item){
+  //     item.addEventListener('click', function(e){
+  //       curCol = e.target.getAttribute('bgcolor');
+  //       console.log(curCol);
+  //       pallet.style.backgroundColor = curCol;
+  //       if(palVal.style.display == 'none'){
+  //         palVal.style.display ='initial';
+  //       }
+  //       else palVal.style.display ='none';
+  //     });
+  //   });
+  // }
 
   function setMode(a,b){ // a=landsacpe, stilllife, portrait b=talkative, silent
     pictureType = a;
     mode = b;
-    //model
-    // if(drawMode==0) modelNames = 'palm_tree';
-    // else if(drawMode==1) modelNames = 'strawberry';
-    // else if(drawMode==2) modelNames = 'eye';
-    //hashtag
     if(mode == "talk") document.getElementById('button_sel3').innerText = '#Talktive';
     else document.getElementById('button_sel3').innerText = '#Silent';
 
@@ -1730,6 +1758,7 @@
       document.getElementById('button_sel2').innerText = '#Portrait';
     }
     console.log(pictureType)
+    console.log(mode)
   }
 
   function colorToRGBA(color) {
