@@ -11,4 +11,5 @@ urlpatterns = [
 	url(r'^colorize/', views.colorize, name='colorize'),
 	url(r'^colorize_post/', views.colorize_post, name='colorize_post'),
 	url(r'^colorize_paint/', views.colorize_paint, name='colorize_paint'),
+	url(r'^practice/', views.practice, name='practice'),
 ]

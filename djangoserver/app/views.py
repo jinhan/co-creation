@@ -156,3 +156,7 @@ def colorize_paint(request):
 
     html = render_to_string('app/colorize.html', {})
     return HttpResponse(html)
+
+def practice(request):
+    html = render_to_string('app/practice.html', {})
+    return HttpResponse(html)

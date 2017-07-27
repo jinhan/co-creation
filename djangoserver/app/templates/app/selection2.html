@@ -27,7 +27,8 @@
       /*display: inline-block;*/
       position: relative;
       font-family: sans-serif;
-      font-size: 100px;
+      /*font-size: 100px;*/
+      font-size: 64px;
       font-weight: bold;
       color: white;
     }
@@ -36,7 +37,7 @@
       /*display: inline-block;*/
       position: relative;
       font-family: sans-serif;
-      font-size: 50px;
+      font-size: 40px;
       color: white;
     }
 
@@ -48,10 +49,10 @@
       cursor: pointer;
       color: #ffffff;
       font-family: Arial;
-      font-size: 50px;
+      font-size: 32px;
       font-weight: bold;
-      padding: 80px 80px;
-      margin:0px 30px;
+      padding: 30px 30px;
+      margin:0px 15px;
       text-decoration: none;
     }
 
@@ -64,12 +65,12 @@
     #backButton {
       position: relative;
       display: block;
-      width: 100px;
-      height: 100px;
+      width: 60px;
+      height: 60px;
       border-radius: 100%;
       background: url('/static/imgsrc/left.png') center center no-repeat;
       background-color: rgb(100,100,100);
-      background-size: 60px 60px;
+      background-size: 40px 40px;
     }
     #backButton:active {
       position: relative;
@@ -77,22 +78,24 @@
       background-color: gray;
     }
     #landscape{
-      height: 100px;
+      /*height: 100px;*/
+      height: 60px;
       background: url('/static/imgsrc/landscape.png') center center no-repeat;
       background-color: rgb(100,100,100);
-      background-size: 80px 80px;
+      /*background-size: 80px 80px;*/
+      background-size: 50px 50px;
     }
     #stillLife{
-      height: 100px;
+      height: 60px;
       background: url('/static/imgsrc/stilllife.png') center center no-repeat;
       background-color: rgb(100,100,100);
-      background-size: 80px 80px;
+      background-size: 50px 50px;
     }
     #portrait{
-      height: 100px;
+      height: 60px;
       background: url('/static/imgsrc/portrait.png') center center no-repeat;
       background-color: rgb(100,100,100);
-      background-size: 80px 80px;
+      background-size: 50px 50px;
     }
   </style>
 </head>
@@ -129,7 +132,7 @@
   stillButton.style.top =  (screen_height / 3.3) * 1 + 'px';
   portButton.style.top = (screen_height / 3.3) * 1 + 'px';
   backButton.style.top = (screen_height / 2.8) + 'px';
-  backButton.style.left = (screen_width - 200) + 'px';
+  backButton.style.left = (screen_width - 130) + 'px';
 
   function get_window_width() {
     // return p.windowWidth;

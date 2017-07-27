@@ -17,7 +17,7 @@
     <meta name="theme-color" content="#ffffff">
     <title>PaintsChainer</title>
     <!-- Canvas toBlob polyfill -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.6.0/js/canvas-to-blob.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.6.0/js/canvas-to-blob.min.js"></script> -->
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <!-- jQuery Cookie -->
@@ -25,6 +25,9 @@
     <!-- jQuery UI -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Canvas toBlob polyfill -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.6.0/js/canvas-to-blob.min.js"></script> -->
+    <script src="{% static 'js/canvas-to-blob.min.js' %}"></script>
     <!-- wColorPicker -->
     <link rel="stylesheet" href="{% static 'paintschainer/wPaint/lib/wColorPicker.min.css' %}">
     <script src="{% static 'paintschainer/wPaint/lib/paletteGenerator.js' %}"></script>
@@ -294,7 +297,7 @@
       function resetOrigin() {
         if (location.hostname === 'paintschainer.preferred.tech') {
           if (location.protocol === 'https:') {
-            origin = '//paintschainer-api.preferred.tech';
+            origin = '//paintschainer-api.ajaxDatapreferred.tech';
           } else {
             origin = 'http://paint20' + (Math.floor(Math.random() * 4) + 1) + '.preferred.tech'; // 1 ~ 4
           }

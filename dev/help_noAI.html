@@ -182,7 +182,7 @@
     width: 980px;
     height: 689px;
     z-index: 999;
-    background: url('imgsrc/Penicon_red.png') center center no-repeat;
+    background: url('imgsrc/MagnifyingGlassicon_red.png') center center no-repeat;
     /*background-color: rgba(0,0,0,.5);*/
     background-size: 144px 240px;
   }
@@ -807,6 +807,7 @@
     };
 
     p.preload = function(){
+      console.log(settings[pictureType]['presetSrc'][0]);
       settings[pictureType]['presetImg'][0] = p.loadImage(settings[pictureType]['presetSrc'][0]);
       settings[pictureType]['presetImg'][1] = p.loadImage(settings[pictureType]['presetSrc'][1]);
       settings[pictureType]['presetImg'][2] = p.loadImage(settings[pictureType]['presetSrc'][2]);

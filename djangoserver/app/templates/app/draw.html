@@ -156,6 +156,8 @@
       left: 0px;
       width: 980px;
       height: 689px;
+      /*width: 1280px;
+      height: 679px;*/
       z-index: 999;
       background: url('/static/imgsrc/AIicon.png') center center no-repeat;
       background-color: rgba(0,0,0,.5);
@@ -227,7 +229,7 @@
       <div id ="button_no" class = "buttons">no</div>
       <div id ="button_yes" class = "buttons">yes</div>
     </div>
-    <div id ="ticker">그림을 그려주세요!</div>
+    <div id ="ticker">잠시만 기다려 주세요</div>
   </div>
   <div id='spaceAlert' style='display:none'></div>
   <div id='cover' style='display:none'></div>
@@ -507,7 +509,7 @@
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
-          drawMode<=1? p.fill(254) : p.noFill();
+          drawMode <= 1? p.fill(254) : p.noFill();
           // p.stroke('black');
           p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
@@ -532,7 +534,7 @@
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
-          drawMode==1? p.fill(254) : p.noFill();
+          p.noFill();
           // p.stroke('black');
           p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
@@ -571,6 +573,8 @@
         changing_model_lock = false;
         set_title_text('draw a shape, any shape.');
         model_loaded = true;
+        canvas = p.createCanvas(screen_width, screen_height);
+        isCreateCanvas = true;
       }, true);
 
       header = document.getElementById("header");
@@ -707,13 +711,13 @@
 
     p.setup = function() {
       //Mode setting
-      setMode(1,!true);
+      setMode();
       init(function() {
         console.log('ready.');
         // draw_random_example();
       });
       restart();
-      canvas = p.createCanvas(screen_width, screen_height);
+      // canvas = p.createCanvas(screen_width, screen_height);
       p.frameRate(30);
       clear_screen();
       last_time = +new Date();
@@ -732,11 +736,9 @@
 
     p.draw = function() {
       //ticker show here & silentMode setting init.;
-      if(task>=0 && task<taskText[drawMode].length){
+      if(task>=0 && task<taskText[drawMode].length && isCreateCanvas){
         isTalkative? set_ticker_text(taskText[drawMode][task]) : set_ticker_text('SILENT AI');
-        //gen 시작전 raw_lines의 인덱스 저장
-        if(task == 5) length_obj1 = raw_lines.length;
-        //vae 시작전 raw_lines의 인덱스 저장
+        //ClipArt 시작전 raw_lines의 인덱스 저장
         if(task == 7) length_obj2 = raw_lines.length;
       }
 
@@ -750,9 +752,9 @@
             task = 12; //task12
             setTimeout(function() {
               task = 13; //task13
-              button_cntr.style.display = 'inline-block';
-              button_no.style.display = 'inline-block';
-              button_yes.innerText = 'yes';
+              button_cntr.style.display = 'none';
+              // button_no.style.display = 'inline-block';
+              // button_yes.innerText = 'yes';
               checkWhiteSpace();
               checkAreaByArray();
               isTimeCntStart = false;
@@ -786,6 +788,7 @@
           }, 3000);
         }
         if(task == 5 && !isTimeCntStart){ //또 다른 야자나무를 하나 더 그려볼게요!
+          length_obj1 = raw_lines.length;
           isTimeCntStart = true;
           console.log('------settimeout_s2 start------');
           mySetTime = setTimeout(function() {
@@ -853,9 +856,21 @@
                 if(intCnt > 5){
                   clearInterval(myInterval);
                   isTimeCntStart = false;
+                  header.style.visibility = 'hidden';
+                  footer.style.visibility = 'hidden';
+                  var iconEle = document.getElementsByClassName('icons');
+                  for(var i=0; i<iconEle.length-1; i++){
+                    iconEle[i].style.visibility = 'hidden';
+                  }
+                  var p_cntr = document.getElementById('p_cntr');
+                  var pallet = document.getElementById('pallet');
+                  // var palVal = document.getElementsByClassName('palVal');
+                  p_cntr.style.display = 'none';
+                  pallet.style.display = 'none';
+
                   // p.saveCanvas
                   // p.saveCanvas(p.canvas,"canvasImage","png"); //save image
-                  page_transition(p);
+                  // page_transition(p);
 
                 }
                 var twinkle = document.getElementById('twinkle');
@@ -868,7 +883,7 @@
       }
       //클립아트 스윕
       if(drawClipArt){
-        var frame = 5; //30이 적절
+        var frame = 15; //30이 적절
         clear_screen();
         if(drawMode == 1){ // for dish
           p.image(img, clip_x, (clip_y-clip_h)+clip_h/img.height*sy, clip_w, clip_h, 0, sy-img.height);
@@ -975,8 +990,13 @@
         if (just_finished_line) {
           //
           if(task==1){
-            task++;
-            if(isTalkative) button_cntr.style.display = 'inline-block';
+            // task++;
+            task = 2;
+            if(isTalkative){
+              button_cntr.style.display = 'inline-block';
+              button_no.style.display = 'none';
+              button_yes.innerText = 'OK';
+            }
           }
 
           //라인좌표를 curveVertex곡선으로 변환
@@ -1083,9 +1103,13 @@
             restarting_model_lock = true;
             restarting_model_lock_count = restarting_model_lock_frames;
             isModelDrawn = true;
-
-            task = 3;
-            if(!isTalkative){
+            if(isTalkative){
+              task = 3;
+              button_cntr.style.display = 'initial'
+              button_no.style.display = 'initial';
+              button_yes.innerText = 'yes';
+              }
+            else{
               task = 5;
               isTimeCntStart = false;
             }
@@ -1241,6 +1265,7 @@
               //task control
               if(isTalkative){
                 task++;
+                button_cntr.style.display = 'initial';
                 button_no.style.display = 'none';
                 button_yes.innerText = 'OK';
               }
@@ -1448,7 +1473,7 @@
       else if(p.keyCode===p.ENTER){
         console.log('ENTER PRESSED...save canvas to jpg file');
         // p.saveCanvas(p.canvas,"canvasImage","png"); //save image
-        page_transition(p);
+        // page_transition(p);
       }
       else if(p.keyCode===48){ //'0'
           console.log('previouse isModelDrawn is',isModelDrawn);
@@ -1621,13 +1646,18 @@
         if(task==2){ //나머지는 내가 그려볼게요
           run_encode_strokes = false;
           isModelDrawn = false;
+          button_cntr.style.display = 'none'
         }
 
         else if(task==3){ //헤헤, 맘에 드시나요?
+          button_no.style.display = 'none';
+          button_yes.innerText = 'OK';
           task = 5;
         }
 
         else if(task==5){ //또 다른 야자나무를 하나 더 그려볼게요!
+          length_obj1 = raw_lines.length;
+          button_cntr.style.display = 'none';
           findObjCoordinate(0, length_obj1);
           toggleCover();
           ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
@@ -1644,12 +1674,14 @@
 
         else if(task==6){ //헤헤, 맘에 드시나요?
           task++;
-          button_no.style.display = 'inline-block';
-          button_yes.innerText = 'yes';
+          // button_no.style.display = 'inline-block';
+          button_yes.innerText = 'OK';
         }
 
         else if(task==7){ //야자나무와 어울리는 코코넛을 그려볼게요!
           setClipArtLoc();
+          button_no.style.display = 'inline-block';
+          button_yes.innerText = 'yes';
         }
 
         else if(task==8){
@@ -1686,10 +1718,24 @@
         }
 
         else if(task==15){
-          console.log('ENTER PRESSED...save canvas to jpg file');
+          header.style.visibility = 'hidden';
+          footer.style.visibility = 'hidden';
+          var iconEle = document.getElementsByClassName('icons');
+          for(var i=0; i<iconEle.length-1; i++){
+            iconEle[i].style.visibility = 'hidden';
+          }
+          var p_cntr = document.getElementById('p_cntr');
+          var pallet = document.getElementById('pallet');
+          // var palVal = document.getElementsByClassName('palVal');
+          p_cntr.style.display = 'none';
+          pallet.style.display = 'none';
+          // console.log('ENTER PRESSED...save canvas to jpg file');
+          // p.saveCanvas(p.canvas,"canvasImage","png");
+
           // p.saveCanvas(p.canvas,"canvasImage","png"); //save image
-          page_transition(p);
+          // page_transition(p);
         }
+
 
       }
     });
@@ -1715,6 +1761,7 @@
       }
 
       else if(task==5){
+        length_obj1 = raw_lines.length;
         task += 2; //task 7
       }
 
@@ -1770,6 +1817,7 @@
   var max_xy = new Array(2); //야자수 오브젝트 위치저장
   var modelNames;
   var sy = 0;
+  var isCreateCanvas = false;
   var selection2; //(drawmode)
   var selection3; //(istalkative)
   // var settings;
