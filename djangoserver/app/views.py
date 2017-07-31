@@ -13,6 +13,8 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
 # Create your views here.
+painter = cgi_exe.Painter(gpu=0)
+
 class Settings:
     settings = []
     def __init__(self):
@@ -114,6 +116,8 @@ def colorize(request):
 
 @csrf_exempt
 def colorize_post(request):
+    print(request.POST)
+    print(request.FILES)
     if "id" in request.POST.keys():
         id_str = request.POST.get("id", None)
         print(id_str)
@@ -137,9 +141,13 @@ def colorize_post(request):
 
 @csrf_exempt
 def colorize_paint(request):
+    print(request.POST)
+    print(request.FILES)
     if "id" in request.POST.keys():
         id_str = request.POST.get("id", None)
         print("id_str:"+id_str)
+    else:
+        print("no id_str")
 
     blur = 0
     if "blur" in request.POST.keys():
@@ -149,10 +157,10 @@ def colorize_paint(request):
         except ValueError:
             blur = 0
         print("blur:" + blur)
+    print(request.POST.get("step", None))
 
-    painter = cgi_exe.Painter(gpu=0)
-    # painter.colorize(id_str, request.POST.get("step", None) if "step" in request.POST.keys() else "C", blur=blur)
-    painter.colorize(id_str, 'C', blur=blur)
+    painter.colorize(id_str, request.POST.get("step", None) if "step" in request.POST.keys() else "C", blur=blur)
+    # painter.colorize(id_str, 'C', blur=blur)
 
     html = render_to_string('app/colorize.html', {})
     return HttpResponse(html)

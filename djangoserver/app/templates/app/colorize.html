@@ -17,7 +17,7 @@
     <meta name="theme-color" content="#ffffff">
     <title>PaintsChainer</title>
     <!-- Canvas toBlob polyfill -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.6.0/js/canvas-to-blob.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.6.0/js/canvas-to-blob.min.js"></script>
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <!-- jQuery Cookie -->
@@ -26,8 +26,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <!-- Canvas toBlob polyfill -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.6.0/js/canvas-to-blob.min.js"></script> -->
-    <script src="{% static 'js/canvas-to-blob.min.js' %}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.6.0/js/canvas-to-blob.min.js"></script>
+    <script src="{% static 'js/canvas-to-blob.min.js' %}"></script> -->
     <!-- wColorPicker -->
     <link rel="stylesheet" href="{% static 'paintschainer/wPaint/lib/wColorPicker.min.css' %}">
     <script src="{% static 'paintschainer/wPaint/lib/paletteGenerator.js' %}"></script>
@@ -42,7 +42,6 @@
     <!-- font-awesome -->
     <link rel="stylesheet" href="{% static 'paintschainer/css/font-awesome.css' %}">
     <!-- main -->
-    <!-- <script src="{% static 'paintschainer/paints_chainer.js' %}"></script> -->
     <!-- fileend -->
     <style>
       .wColorPicker-palettes-holder { white-space: nowrap; } /* wColorPicker workaround for Firefox */
@@ -92,7 +91,7 @@
   <body>
     <!-- {{ img_src }} -->
     <div id="header">
-      <div id ="title">HCCL!</div>
+      <div id ="title">HCCL</div>
       <!-- <div id ="button_sel3" class = "hashtag">#Talkative</div>
       <div id ="button_sel2" class = "hashtag">#Landscape</div>
       <div id ="button_sel1" class = "hashtag">#Draw</div> -->
@@ -227,10 +226,12 @@
             console.log('coloring start');
           },
           success: function () {
+            // document.getElementById('title').innerHTML = "success";
             console.log('uploaded');
-            paint(data.get('id'));
+            paint(data.id);
           },
           error: function (request, status, error) {
+            // document.getElementById('title').innerHTML = "error";
             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             console.log("post failed");
             $('#painting_status').attr('class', 'text-error').text('UPLOAD ERROR').show();
@@ -247,7 +248,7 @@
 
 
       function paint(id) {
-        var image_id = id;
+        // var image_id = id;
         console.log(image_id);
         var ajaxData = new FormData();
         ajaxData.append('id', image_id);
@@ -327,9 +328,6 @@
                return;
             }
             post(ajaxData);
-            console.log(line_blob);
-            console.log(ajaxData.get('id'));
-            console.log(ajaxData.get('line'));
           });
         });
       };

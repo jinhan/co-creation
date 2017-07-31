@@ -195,7 +195,7 @@
 <body style="background-color:white" onLoad=bodyOnload()>
   <div id="header">
     <!-- <div id ="title">Co-Creation!</div> -->
-    <div id ="title">HCCL</div>
+    <div id ="title">Bot Ross</div>
     <div id ="button_sel3" class = "hashtag">#Talkative</div>
     <div id ="button_sel2" class = "hashtag">#Landscape</div>
     <div id ="button_sel1" class = "hashtag">#Draw</div>
@@ -745,13 +745,14 @@
 
       //-------here for TalkativeMode------
       if(isTalkative){
-        if(task == 11 && !isTimeCntStart){
+        if(task == 11 && !isTimeCntStart && isSetTimeStarted){
           isTimeCntStart = true;
           console.log('------settimeout start------');
           mySetTime = setTimeout(function() {
             console.log('------settimeout operate------');
             task = 12; //task12
             setTimeout(function() {
+              isSetTimeStarted = false;
               task = 13; //task13
               button_cntr.style.display = 'none';
               // button_no.style.display = 'inline-block';
@@ -762,7 +763,7 @@
             }, 2000);
           }, 5000);
         }
-        if(task == 13 && !isTimeCntStart){
+        if(task == 13 && !isTimeCntStart  && isSetTimeStarted){
           isTimeCntStart = true;
           console.log('------settimeout2 start------');
           mySetTime = setTimeout(function() {
@@ -833,18 +834,19 @@
             }, 3000); // 3초후 실행 반짝이 실행
           }, 1000); // 1초후 클립아트 그리기
         }
-        if(task == 13 && !isTimeCntStart){
+        if(task == 13 && !isTimeCntStart  && isSetTimeStarted){
           isTimeCntStart = true;
           console.log('------settimeout_s4 start------');
           mySetTime = setTimeout(function() {
             console.log('------settimeout_s4 operate------');
+            isSetTimeStarted = false;
             checkWhiteSpace();
             checkAreaByArray();
             isTimeCntStart = false;
             task+=2; //task15 - toss to paintchainer
           }, 5000); //5sec후 빈곳 알려줌
         }
-        if(task == 15 && !isTimeCntStart){
+        if(task == 15 && !isTimeCntStart  && isSetTimeStarted){
           isTimeCntStart = true;
           console.log('------settimeout_s5 start------');
           mySetTime = setTimeout(function() {
@@ -925,6 +927,9 @@
       random_text_background = false;
       // if (tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
       if (model_loaded && tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
+        if (task >= 11){
+          isSetTimeStarted = true;
+        }
         if (userPen.prevState == 1) {
           clear_screen();
           //내가 마우스 누르는동안 이전 오브젝트 그리기
@@ -1364,15 +1369,17 @@
     function checkWhiteSpace(){
       //안보이는 외곽선 만들기
       p.stroke(254,254,254,255);
-      p.line(0,0,0,screen_height);
-      p.line(0,0,screen_width,0);
-      p.line(0,screen_height,screen_width,screen_height);
-      p.line(screen_width,0,screen_width,screen_height);
+      p.noFill();
+      p.rect(0,0,screen_width, screen_height);
+      // p.line(0,0,0,screen_height);
+      // p.line(0,0,screen_width,0);
+      // p.line(0,screen_height,screen_width,screen_height);
+      // p.line(screen_width,0,screen_width,screen_height);
       //특정 좌표에서 그림과 간섭없는 가장 큰 원 그리기
       var x=0, y=0; //중심좌표
       var x2, y2_p, y2_n //검색할 좌표
       var r=1 //거리, 원의 반지름
-      var del_r = 10; //몇픽셀 단위로 측정할지
+      var del_r = 1; //몇픽셀 단위로 측정할지
       var del_x = 1; //몇픽셀 단위로 x좌표 이동할지, 증가시 캔버스 외곽선 통가할 가능성있음
       var del_xy = 50; //몇픽셀 단위로 측정점 설정할지
       var isStopped = false;
@@ -1412,9 +1419,12 @@
             //캔버스 바깥범위는 탐색 안하도록. 최적화
             //p5 메소드 콜시에 시간오래 걸림. 중복반복문에선 안쓰는게 좋음
 
-            if(x2<0 || x2>screen_width) continue;
-            else if(y2_p>screen_height) checkCoordinate(x2, y2_n);
-            else if(y2_n<0) checkCoordinate(x2, y2_p);
+            if(x2<0 || x2>screen_width || y+r>screen_height || y-r<0) continue;
+            // else if(y2_p>screen_height) checkCoordinate(x2, y2_n);
+            // else if(y2_p>screen_height) checkCoordinate(x2, 0);
+            else if(y2_p>screen_height) continue;
+            // else if(y2_n<0) checkCoordinate(x2, y2_p);
+            else if(y2_n<0) continue;
             else{
               checkCoordinate(x2, y2_p);
               checkCoordinate(x2, y2_n);
@@ -1474,7 +1484,7 @@
       else if(p.keyCode===p.ENTER){
         console.log('ENTER PRESSED...save canvas to jpg file');
         // p.saveCanvas(p.canvas,"canvasImage","png"); //save image
-        // page_transition(p);
+        // nsition(p);
       }
       else if(p.keyCode===48){ //'0'
           console.log('previouse isModelDrawn is',isModelDrawn);
@@ -1606,12 +1616,20 @@
             clip_w = clip_h*2;
             clip_x = min_xy[0] + w*0.1;
             clip_y = max_xy[1] - clip_h*0.5;
+            if(clip_y + clip_h*2/3 > screen_height){
+              console.log('clip_y modified...')
+              clip_y = screen_height - clip_h*2/3;
+            }
           }
           else if(drawMode == 1){ //dish
             clip_w = w*1.5;
             clip_h = clip_w*0.35;
             clip_x = min_xy[0] - (clip_w - w)/2;
             clip_y = min_xy[1] + h*0.7;
+            if(clip_y + clip_h*2/3 > screen_height){
+              console.log('clip_y modified...')
+              clip_y = screen_height - clip_h*2/3;
+            }
           }
           else if(drawMode == 2){ //nose
             clip_w = w*1/3;
@@ -1821,6 +1839,7 @@
   var isCreateCanvas = false;
   var selection2; //(drawmode)
   var selection3; //(istalkative)
+  var isSetTimeStarted = false;
   // var settings;
 
   //---------------------팔레트 아이콘
@@ -1886,7 +1905,7 @@
     var hgt = r*mapVal*2;
     var circle = document.getElementById('spaceAlert');
     circle.style.left = x+'px';
-    circle.style.top = y+'px';
+    circle.style.top = y+document.getElementById("header").clientHeight+'px';
     circle.style.display = 'initial';
     circle.style.width = '0px';
     circle.style.height = '0px';
@@ -1896,7 +1915,7 @@
       circle.style.width = wdt+'px';
       circle.style.height = hgt+'px';
       circle.style.left = x-wdt/2+'px';
-      circle.style.top = y-hgt/2+'px';
+      circle.style.top = y-hgt/2+document.getElementById("header").clientHeight+'px';
     }, 10);
     setTimeout(function(){
       circle.style.display = 'none';
