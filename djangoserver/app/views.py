@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 
@@ -13,6 +13,8 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
 # Create your views here.
+painter = cgi_exe.Painter(gpu=0)
+
 class Settings:
     settings = []
     def __init__(self):
@@ -68,13 +70,16 @@ def selection3(request):
     return HttpResponse(html)
 
 @csrf_exempt
-def draw(request):
+def mode(request):
     if request.method == "POST":
         pk = request.POST.get('pk', None)
         print(pk)
         settings.addSettings(pk)
-
-    html = render_to_string('app/draw.html', {'settings': settings.getSettings()})
+    mode = settings.getSettings()
+    if mode[0] == 'draw':
+        html = render_to_string('app/draw.html', {'settings': mode})
+    elif mode[0] == 'help':
+        html = render_to_string('app/help_noAI.html', {'settings': mode})
     return HttpResponse(html)
 
 @csrf_exempt
@@ -111,6 +116,8 @@ def colorize(request):
 
 @csrf_exempt
 def colorize_post(request):
+    print(request.POST)
+    print(request.FILES)
     if "id" in request.POST.keys():
         id_str = request.POST.get("id", None)
         print(id_str)
@@ -134,9 +141,13 @@ def colorize_post(request):
 
 @csrf_exempt
 def colorize_paint(request):
+    print(request.POST)
+    print(request.FILES)
     if "id" in request.POST.keys():
         id_str = request.POST.get("id", None)
         print("id_str:"+id_str)
+    else:
+        print("no id_str")
 
     blur = 0
     if "blur" in request.POST.keys():
@@ -146,10 +157,14 @@ def colorize_paint(request):
         except ValueError:
             blur = 0
         print("blur:" + blur)
+    print(request.POST.get("step", None))
 
-    painter = cgi_exe.Painter(gpu=0)
-    # painter.colorize(id_str, request.POST.get("step", None) if "step" in request.POST.keys() else "C", blur=blur)
-    painter.colorize(id_str, 'C', blur=blur)
+    painter.colorize(id_str, request.POST.get("step", None) if "step" in request.POST.keys() else "C", blur=blur)
+    # painter.colorize(id_str, 'C', blur=blur)
 
     html = render_to_string('app/colorize.html', {})
+    return HttpResponse(html)
+
+def practice(request):
+    html = render_to_string('app/practice.html', {})
     return HttpResponse(html)
