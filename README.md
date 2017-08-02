@@ -1,13 +1,13 @@
-# Project Title
+# Bot Ross
 
-Co-Creation
-
+**Requirements**
 * python 3.5.3
 * Django 1.11.3
 * chainer 2.0.1
 * opencv 3.1.0
 
-```
+**Installation & Execution**
+```console
 conda create --name cocreation python=3.5 anaconda
 source activate cocreation
 conda install -c menpo opencv3
