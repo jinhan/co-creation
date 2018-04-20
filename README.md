@@ -11,11 +11,3 @@ Code for the paper ["I Lead, You Help But Only with Enough Details: Understandin
 ### Acknowledgements
 * [SketchRNN](https://magenta.tensorflow.org/sketch_rnn)
 * [PaintsChainer](https://paintschainer.preferred.tech/)
-
-<!-- ```
-conda create --name cocreation python=3.5 anaconda
-source activate cocreation
-conda install -c menpo opencv3
-pip install chainer --no-cache-dir -vvvv
-python manage.py runserver
-``` -->
