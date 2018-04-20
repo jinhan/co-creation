@@ -1,0 +1,105 @@
+﻿Lead(Draw) x Basic(Silent) x Landscape (djangoserver/app/static/js/drawMode.js)
+
+taskText[0] = [‘Hello! Could you draw a picture?’,
+'You're painting a palm tree!',
+'Let me draw the rest of this palm tree!', //2
+'Do you like it?',
+'If so, I'll try it again.',
+'Then I'll try another palm tree!', //5 - check for gen
+'Do you like it?',
+'Then I'll try to draw coconuts that match these palm trees!', //7 - check for vae
+'Do you like it?', //8
+'Let me try it again.',
+'This is the last time!',
+'Please draw more objects freely on the canvas!', //11
+'Nice picture!',
+'I think it's empty here. Could you draw something more here?',
+‘Awesome! I think the sketch is now complete!',
+'Now, please recommend the colors that match the objects in the picture!']; //15
+
+Assist(Help) x Detailed(Talkative) x Still Life
+
+settings[1]['tickerText'][0] = ’I’m drawing a throw pillow. Could you draw the rest of this object?';
+settings[1]['tickerText'][1] = 'Thank you very much! It's a really cool throw pillow:)';
+settings[1]['tickerText'][2] = 'Can you draw another throw pillow on the right side of this throw pillow?';
+settings[1]['tickerText'][3] = 'Thank you very much. It's really cool throw pillows:)';
+settings[1]['tickerText'][4] = 'Can you draw a couch to match these throw pillows on the back of them?’;
+settings[1]['tickerText'][5] = 'Thank you very much. It's a really nice sofa:)';
+settings[1]['tickerText'][6] = 'I'll draw more objects to match this picture!';
+settings[1]['tickerText'][7] = 'Voila! Do you like it?';
+settings[1]['tickerText'][8] = 'Could you please mark the empty space on the canvas?';
+settings[1]['tickerText'][9] = 'Thank you very much :)';
+settings[1]['tickerText'][10] = ‘I have drawn a frame in the empty space. Do you like it?’;
+settings[1]['tickerText'][11] = ‘Would you please colorize the objects with the marked colors?’;
+settings[1]['tickerText'][12] = 'Thank you so much for your help! It's a wonderful picture :)';
+
+practice.html
+<div id="footer">
+  <div id="button_cntr">
+    <div id ="button_no" class = "buttons">no</div>
+    <div id ="button_yes" class = "buttons">yes</div>
+  </div>
+  <div id ="ticker">Please draw a picture!</div>
+</div>
+
+help_noAI.html
+<div id="footer">
+  <div id="button_cntr">
+    <div id ="button_no" class = "buttons">no</div>
+    <div id ="button_yes" class = "buttons">yes</div>
+  </div>
+  <div id ="ticker">Please draw a picture!</div>
+</div>
+
+draw.html
+<div id="footer">
+  <div id="button_cntr">
+    <div id ="button_no" class = "buttons">no</div>
+    <div id ="button_yes" class = "buttons">yes</div>
+  </div>
+  <div id ="ticker">Please wait.</div>
+</div>
+
+intro.html
+<body>
+  <div id="container">
+    <div id="title">Duet Draw</div>
+    <div id="description">Let’s draw together!♪</div>
+    <div class="myButton" id="myButton" value="test" onclick=page_transition(this)>Let's Draw!</div>
+  </div>
+</body>
+
+selection1.html
+<body>
+  <div id="container">
+    <div id="title">Duet Draw</div>
+    <div id="description">Which one do you want to be? Leader or Assistant?</div>
+    <div class="myButton" id="drawButton" value="draw" onclick="page_transition(this)">Lead!</div>
+    <div class="myButton" id="helpButton" value="help" onclick="page_transition(this)">Assist!</div>
+    <div id="backButton" onclick="goBack()"></div>
+  </div>
+</body>
+
+selection2.html
+<body>
+  <div id="container">
+    <div id="title">Duet Draw</div>
+    <div id="description">What kind of picture would you like to draw?</div>
+    <div class="myButton" id="landButton" value="land" onclick="page_transition(this)">  <div id='landscape'></div>
+      Landscape</div>
+    <div class="myButton" id="stillButton" value="still" onclick="page_transition(this)"><div id='stillLife'></div>Still Life</div>
+    <div class="myButton" id="portButton" value="portrait" onclick="page_transition(this)"><div id='portrait'></div>Portrait</div>
+    <div id="backButton" onclick="goBack()"></div>
+  </div>
+</body>
+
+selection3.html
+<body>
+  <div id="container">
+    <div id="title">Duet Draw</div>
+    <div id="description">Which is better? Detailed Instruction or Basic Instruction?</div>
+    <div class="myButton" id="talkButton" value="talk" onclick="page_transition(this)"><div id="talkative"></div>Detailed</div>
+    <div class="myButton" id="silentButton" value="silent" onclick="page_transition(this)"><div id='silent'></div>Basic</div>
+    <div id="backButton" onclick="goBack()"></div>
+  </div>
+</body>

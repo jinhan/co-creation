@@ -195,10 +195,10 @@
 <body style="background-color:white" onLoad=bodyOnload()>
   <div id="header">
     <!-- <div id ="title">Co-Creation!</div> -->
-    <div id ="title">Bot Ross</div>
-    <div id ="button_sel3" class = "hashtag">#Talkative</div>
+    <div id ="title">Duet Draw</div>
+    <div id ="button_sel3" class = "hashtag">#Detailed</div>
     <div id ="button_sel2" class = "hashtag">#Landscape</div>
-    <div id ="button_sel1" class = "hashtag">#Draw</div>
+    <div id ="button_sel1" class = "hashtag">#Lead</div>
   </div>
   <div id="sketch"></div>
   <div id="penWeight" class="icons"></div>
@@ -230,7 +230,8 @@
       <div id ="button_no" class = "buttons">no</div>
       <div id ="button_yes" class = "buttons">yes</div>
     </div>
-    <div id ="ticker">잠시만 기다려 주세요</div>
+    <!-- <div id ="ticker">잠시만 기다려 주세요</div> -->
+    <div id ="ticker">Please wait.</div>
   </div>
   <div id='spaceAlert' style='display:none'></div>
   <div id='cover' style='display:none'></div>
@@ -738,7 +739,7 @@
     p.draw = function() {
       //ticker show here & silentMode setting init.;
       if(task>=0 && task<taskText[drawMode].length && isCreateCanvas){
-        isTalkative? set_ticker_text(taskText[drawMode][task]) : set_ticker_text('SILENT AI');
+        isTalkative? set_ticker_text(taskText[drawMode][task]) : set_ticker_text('Basic AI');
         //ClipArt 시작전 raw_lines의 인덱스 저장
         if(task == 7) length_obj2 = raw_lines.length;
       }
@@ -873,7 +874,7 @@
 
                   // p.saveCanvas
                   // p.saveCanvas(p.canvas,"canvasImage","png"); //save image
-                  // page_transition(p);
+                  page_transition(p);
 
                 }
                 var twinkle = document.getElementById('twinkle');
@@ -1752,7 +1753,7 @@
           // p.saveCanvas(p.canvas,"canvasImage","png");
 
           // p.saveCanvas(p.canvas,"canvasImage","png"); //save image
-          // page_transition(p);
+          page_transition(p);
         }
 
 
@@ -1951,8 +1952,8 @@
     else if(drawMode==1) modelNames = 'strawberry';
     else if(drawMode==2) modelNames = 'eye';
     //hashtag
-    if(isTalkative) document.getElementById('button_sel3').innerText = '#Talkative';
-    else document.getElementById('button_sel3').innerText = '#Silent';
+    if(isTalkative) document.getElementById('button_sel3').innerText = '#Detailed';
+    else document.getElementById('button_sel3').innerText = '#Basic';
 
     if(drawMode == 0) document.getElementById('button_sel2').innerText = '#Landscape';
     else if(drawMode == 1) document.getElementById('button_sel2').innerText = '#Still life';

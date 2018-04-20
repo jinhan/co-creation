@@ -1,1 +1,11 @@
 dev/
+experiments_example/
+p5/
+.DS_Store
+db.sqlite3
+.dropbox
+images.zip
+app/static/paintschainer/images/line/*
+app/static/paintschainer/images/out/*
+app/static/paintschainer/images/out_min/*
+*.pyc

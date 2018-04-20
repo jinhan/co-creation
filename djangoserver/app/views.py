@@ -160,7 +160,7 @@ def colorize_paint(request):
     print(request.POST.get("step", None))
 
     painter.colorize(id_str, request.POST.get("step", None) if "step" in request.POST.keys() else "C", blur=blur)
-    # painter.colorize(id_str, 'C', blur=blur)
+    # painter.colorize(id_str, 'S', blur=blur)
 
     html = render_to_string('app/colorize.html', {})
     return HttpResponse(html)

@@ -8,8 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{% static 'paintschainer/images/favicon.ico' %}">
-    <!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static 'paintschainer/images/apple-touch-icon.png' %}"> -->
-    <!-- <link rel="icon" type="image/png" href="https://paintschainer-cdn.preferred.tech/images/paintschainer-64x64.png" sizes="64x64"> -->
     <link rel="manifest" href="{% static 'paintschainer/manifest.json' %}">
     <link rel="mask-icon" href="{% static 'paintschainer/images/safari-pinned-tab.svg' %}" color="#c90000">
     <meta name="apple-mobile-web-app-title" content="PaintsChainer">
@@ -25,9 +23,6 @@
     <!-- jQuery UI -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <!-- Canvas toBlob polyfill -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.6.0/js/canvas-to-blob.min.js"></script>
-    <script src="{% static 'js/canvas-to-blob.min.js' %}"></script> -->
     <!-- wColorPicker -->
     <link rel="stylesheet" href="{% static 'paintschainer/wPaint/lib/wColorPicker.min.css' %}">
     <script src="{% static 'paintschainer/wPaint/lib/paletteGenerator.js' %}"></script>
@@ -195,7 +190,6 @@
         $('#img_pane .span6').width(wPaintOuterWidth);
         $('#img_pane').width(wPaintOuterWidth * 2 + 30);
         colorize(uniqueid()); // update image_id
-        // colorize("{{ img_src }}");
       });
 
       //--- functions
@@ -248,7 +242,6 @@
 
 
       function paint(id) {
-        // var image_id = id;
         console.log(image_id);
         var ajaxData = new FormData();
         ajaxData.append('id', image_id);
@@ -339,15 +332,7 @@
           $('#background').attr('src', window.URL.createObjectURL(file));
         });
       };
-      function set_file2(file) {
-        console.log(file);
-        img_src = "/static/paintschainer/images/draw/" + file + ".png";
-        console.log('set file');
-        $('#img_pane').show('fast', function () {
-          $('#background').attr('src', img_src);
-        });
-      };
-      //
+
       function dataURItoBlob(dataURI) {
         // convert base64/URLEncoded data component to raw binary data held in a string
         var byteString;

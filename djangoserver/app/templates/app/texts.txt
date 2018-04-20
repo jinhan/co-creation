@@ -1,0 +1,105 @@
+Lead(Draw) x Basic(Silent) x Landscape (djangoserver/app/static/js/drawMode.js)
+
+taskText[0] = ['안녕하세요. 그림을 그려주실래요?',
+'야자나무를 그리는 중이군요!',
+'나머지 부분은 제가 그려볼게요!', //2
+'헤헤, 맘에 드시나요?',
+'그럼 다시 한 번 그려볼게요',
+'그럼 또 다른 야자나무를 하나 더 그려볼게요!', //5 - check for gen
+'헤헤, 맘에 드시나요?',
+'야자나무와 어울리는 코코넛을 그려볼게요!', //7 - check for vae
+'헤헤, 맘에 드시나요?', //8
+'그럼 다시 한 번 그려볼게요',
+'이번이 마지막이에요!',
+'빈 공간에 그림을 더 그려주세요!', //11
+'멋진 그림이네요!',
+'여기 빈 공간이 큰 것 같아요. 뭘 좀 그리는게 어떨까요?',
+'멋지네요! 이제 그림이 꽉 찬것 같아요.',
+'이제 그림에 어울리는 색을 추천해 주세요!']; //15
+
+Assist(Help) x Detailed(Talkative) x Still Life
+
+settings[1]['tickerText'][0] = '쿠션을 그리고 있는데 나머지 부분을 좀 그려 주실래요?';
+settings[1]['tickerText'][1] = '감사합니다. 멋진 쿠션이 완성되었네요 :)';
+settings[1]['tickerText'][2] = '쿠션 오른쪽에 비슷한 쿠션 하나를 그려주실래요?';
+settings[1]['tickerText'][3] = '감사합니다. 멋진 쿠션이 하나 더 완성되었네요 :)';
+settings[1]['tickerText'][4] = '쿠션과 어울릴만한 소파를 쿠션 뒤에 그려 주실래요?';
+settings[1]['tickerText'][5] = '감사합니다. 멋진 소파네요 :)';
+settings[1]['tickerText'][6] = '쿠션과 소파에 어울리도록 그림을 좀 더 그려볼게요.';
+settings[1]['tickerText'][7] = '짜잔! 마음에 드시나요?';
+settings[1]['tickerText'][8] = '빈 공간이 있는 곳을 알려 주실래요?';
+settings[1]['tickerText'][9] = '감사합니다. :)';
+settings[1]['tickerText'][10] = '알려주신 빈 공간에 액자를 그려 보았어요! 마음에 드시나요?';
+settings[1]['tickerText'][11] = '표시된 색으로 그림을 색칠 해 주시겠어요?';
+settings[1]['tickerText'][12] = '도와주셔서 감사합니다! 멋진 그림이 완성 되었어요 :)';
+
+practice.html
+<div id="footer">
+  <div id="button_cntr">
+    <div id ="button_no" class = "buttons">no</div>
+    <div id ="button_yes" class = "buttons">yes</div>
+  </div>
+  <div id ="ticker">그림을 그려주세요!</div>
+</div>
+
+help_noAI.html
+<div id="footer">
+  <div id="button_cntr">
+    <div id ="button_no" class = "buttons">no</div>
+    <div id ="button_yes" class = "buttons">yes</div>
+  </div>
+  <div id ="ticker">그림을 그려주세요!</div>
+</div>
+
+draw.html
+<div id="footer">
+  <div id="button_cntr">
+    <div id ="button_no" class = "buttons">no</div>
+    <div id ="button_yes" class = "buttons">yes</div>
+  </div>
+  <div id ="ticker">잠시만 기다려 주세요</div>
+</div>
+
+intro.html
+<body>
+  <div id="container">
+    <div id="title">Duet Draw</div>
+    <div id="description">우리 같이 그려요~♪</div>
+    <div class="myButton" id="myButton" value="test" onclick=page_transition(this)>Let's Draw!</div>
+  </div>
+</body>
+
+selection1.html
+<body>
+  <div id="container">
+    <div id="title">Duet Draw</div>
+    <div id="description">어떤 역할을 하고 싶으신가요?</div>
+    <div class="myButton" id="drawButton" value="draw" onclick="page_transition(this)">Lead!</div>
+    <div class="myButton" id="helpButton" value="help" onclick="page_transition(this)">Assist!</div>
+    <div id="backButton" onclick="goBack()"></div>
+  </div>
+</body>
+
+selection2.html
+<body>
+  <div id="container">
+    <div id="title">Duet Draw</div>
+    <div id="description">어떤 종류의 그림을 그릴 건가요?</div>
+    <div class="myButton" id="landButton" value="land" onclick="page_transition(this)">  <div id='landscape'></div>
+      Landscape</div>
+    <div class="myButton" id="stillButton" value="still" onclick="page_transition(this)"><div id='stillLife'></div>Still Life</div>
+    <div class="myButton" id="portButton" value="portrait" onclick="page_transition(this)"><div id='portrait'></div>Portrait</div>
+    <div id="backButton" onclick="goBack()"></div>
+  </div>
+</body>
+
+selection3.html
+<body>
+  <div id="container">
+    <div id="title">Duet Draw</div>
+    <div id="description">수다쟁이 AI가 좋은가요? 조용한 AI가 좋은가요?</div>
+    <div class="myButton" id="talkButton" value="talk" onclick="page_transition(this)"><div id="talkative"></div>Detailed</div>
+    <div class="myButton" id="silentButton" value="silent" onclick="page_transition(this)"><div id='silent'></div>Basic</div>
+    <div id="backButton" onclick="goBack()"></div>
+  </div>
+</body>
