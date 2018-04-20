@@ -138,8 +138,8 @@ class Painter:
             del link  # release memory
 
         image_out_path = {
-            'S': self.outdir_min + id_str + ".png",
-            'L': self.outdir + id_str + ".jpg",
+            'S': self.outdir_min + id_str + ".png", #_0 add
+            'L': self.outdir + id_str + ".jpg", # _0 add
             'C': self.outdir + id_str + "_0." + colorize_format}
         self.save_as_img(image_conv2d_layer.data[0], image_out_path[step])
         del image_conv2d_layer

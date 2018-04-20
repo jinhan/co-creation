@@ -192,10 +192,10 @@
 
 <body style="background-color:white" onload="bodyOnLoad()">
   <div id="header">
-    <div id ="title">Bot Ross</div>
-    <div id ="button_sel3" class = "hashtag">#Talkative</div>
+    <div id ="title">Duet Draw</div>
+    <div id ="button_sel3" class = "hashtag">#Detailed</div>
     <div id ="button_sel2" class = "hashtag">#Landscape</div>
-    <div id ="button_sel1" class = "hashtag">#Help</div>
+    <div id ="button_sel1" class = "hashtag">#Assist</div>
   </div>
   <div id="sketch"></div>
   <div id="penWeight" class="icons"></div>
@@ -227,7 +227,8 @@
       <div id ="button_no" class = "buttons">no</div>
       <div id ="button_yes" class = "buttons">yes</div>
     </div>
-    <div id ="ticker">그림을 그려주세요!</div>
+    <!-- <div id ="ticker">그림을 그려주세요!</div> -->
+    <div id ="ticker">Please draw a picture!</div>
   </div>
   <div id='spaceAlert' style='display:none'></div>
   <div id='twinkle' style='display:none'></div>
@@ -481,19 +482,32 @@
     // settings[1]['userColorLastIndex'] = new Array(4);
     settings[1]['taskChangerTicker'] = [1, 3, 5, 7, 10];
     settings[1]['tickerText'] = new Array(13);
-    settings[1]['tickerText'][0] = '쿠션을 그리고 있는데 나머지 부분을 좀 그려 주실래요?';
-    settings[1]['tickerText'][1] = '감사합니다. 멋진 쿠션이 완성되었네요 :)';
-    settings[1]['tickerText'][2] = '쿠션 오른쪽에 비슷한 쿠션 하나를 그려주실래요?';
-    settings[1]['tickerText'][3] = '감사합니다. 멋진 쿠션이 하나 더 완성되었네요 :)';
-    settings[1]['tickerText'][4] = '쿠션과 어울릴만한 소파를 쿠션 뒤에 그려 주실래요?';
-    settings[1]['tickerText'][5] = '감사합니다. 멋진 소파네요 :)';
-    settings[1]['tickerText'][6] = '쿠션과 소파에 어울리도록 그림을 좀 더 그려볼게요.';
-    settings[1]['tickerText'][7] = '짜잔! 마음에 드시나요?';
-    settings[1]['tickerText'][8] = '빈 공간이 있는 곳을 알려 주실래요?';
-    settings[1]['tickerText'][9] = '감사합니다. :)';
-    settings[1]['tickerText'][10] = '알려주신 빈 공간에 액자를 그려 보았어요! 마음에 드시나요?';
-    settings[1]['tickerText'][11] = '표시된 색으로 그림을 색칠 해 주시겠어요?';
-    settings[1]['tickerText'][12] = '도와주셔서 감사합니다! 멋진 그림이 완성 되었어요 :)';
+    // settings[1]['tickerText'][0] = '쿠션을 그리고 있는데 나머지 부분을 좀 그려 주실래요?';
+    // settings[1]['tickerText'][1] = '감사합니다. 멋진 쿠션이 완성되었네요 :)';
+    // settings[1]['tickerText'][2] = '쿠션 오른쪽에 비슷한 쿠션 하나를 그려주실래요?';
+    // settings[1]['tickerText'][3] = '감사합니다. 멋진 쿠션이 하나 더 완성되었네요 :)';
+    // settings[1]['tickerText'][4] = '쿠션과 어울릴만한 소파를 쿠션 뒤에 그려 주실래요?';
+    // settings[1]['tickerText'][5] = '감사합니다. 멋진 소파네요 :)';
+    // settings[1]['tickerText'][6] = '쿠션과 소파에 어울리도록 그림을 좀 더 그려볼게요.';
+    // settings[1]['tickerText'][7] = '짜잔! 마음에 드시나요?';
+    // settings[1]['tickerText'][8] = '빈 공간이 있는 곳을 알려 주실래요?';
+    // settings[1]['tickerText'][9] = '감사합니다. :)';
+    // settings[1]['tickerText'][10] = '알려주신 빈 공간에 액자를 그려 보았어요! 마음에 드시나요?';
+    // settings[1]['tickerText'][11] = '표시된 색으로 그림을 색칠 해 주시겠어요?';
+    // settings[1]['tickerText'][12] = '도와주셔서 감사합니다! 멋진 그림이 완성 되었어요 :)';
+    settings[1]['tickerText'][0] = "I’m drawing a throw pillow. Could you draw the rest of this object?";
+    settings[1]['tickerText'][1] = "Thank you very much! It's a really cool throw pillow:)";
+    settings[1]['tickerText'][2] = "Can you draw another throw pillow on the right side of this throw pillow?";
+    settings[1]['tickerText'][3] = "Thank you very much. It's really cool throw pillows:)";
+    settings[1]['tickerText'][4] = "Can you draw a couch to match these throw pillows on the back of them?";
+    settings[1]['tickerText'][5] = "Thank you very much. It's a really nice sofa:)";
+    settings[1]['tickerText'][6] = "I'll draw more objects to match this picture!";
+    settings[1]['tickerText'][7] = "Voila! Do you like it?";
+    settings[1]['tickerText'][8] = "Could you please mark the empty space on the canvas?";
+    settings[1]['tickerText'][9] = "Thank you very much :)";
+    settings[1]['tickerText'][10] = "I have drawn a frame in the empty space. Do you like it?";
+    settings[1]['tickerText'][11] = "Would you please colorize the objects with the marked colors?";
+    settings[1]['tickerText'][12] = "Thank you so much for your help! It's a wonderful picture :)";
     settings[1]['timerTickerNums'] = [0, 2, 4, 8, 11];
     settings[1]['buttonHiddenNums'] = [0, 2, 4, 8, 11];
     settings[1]['silentAlertNums'] = [0, 2, 4, 8];
@@ -1763,8 +1777,8 @@
   function setMode(a,b){ // a=landsacpe, stilllife, portrait b=talkative, silent
     pictureType = a;
     mode = b;
-    if(mode == "talk") document.getElementById('button_sel3').innerText = '#Talktive';
-    else document.getElementById('button_sel3').innerText = '#Silent';
+    if(mode == "talk") document.getElementById('button_sel3').innerText = '#Detailed';
+    else document.getElementById('button_sel3').innerText = '#Basic';
 
     if(pictureType == "land") {
       pictureType = 0;
