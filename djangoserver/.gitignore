@@ -5,7 +5,7 @@ p5/
 db.sqlite3
 .dropbox
 images.zip
-paintschainer/images/line/*
-paintschainer/images/out/*
-paintschainer/images/out_min/*
+app/static/paintschainer/images/line/*
+app/static/paintschainer/images/out/*
+app/static/paintschainer/images/out_min/*
 *.pyc
